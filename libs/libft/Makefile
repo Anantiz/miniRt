@@ -6,15 +6,17 @@
 #    By: aurban <aurban@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 06:06:39 by aurban            #+#    #+#              #
-#    Updated: 2024/02/15 00:29:24 by aurban           ###   ########.fr        #
+#    Updated: 2024/02/15 00:49:13 by aurban           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT_NAME:=libft.a
 
 CC:=gcc -g3
-INCLUDE_PATH= ../includes
+INCLUDE_PATH= ../../includes
 CFLAGS:=-Wall -Werror -Wextra -I$(INCLUDE_PATH)
+
+OBJ_PATH:=./objs
 
 FT_FILES=
 
@@ -83,9 +85,10 @@ FT_FILES+=$(FT_GNL_FILES)
 FT_FILES+=$(FT_MEM_MANAGER_FILES)
 FT_FILES+=$(FT_SORTING_FILES)
 
-FT_PATH:=./
-FT_FILES:= $(addprefix $(FT_PATH)/,$(FT_FILES))
-FT_OBJECTS:= $(patsubst %.c,%.o,$(FT_FILES))
+# FT_PATH:=./
+# FT_FILES:= $(addprefix $(FT_PATH)/,$(FT_FILES))
+FT_OBJECTS= $(patsubst %.c,%.o,$(FT_FILES))
+# FT_OBJECTS:= $(addprefix $(OBJ_PATH)/,$(FT_OBJECTS))
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@

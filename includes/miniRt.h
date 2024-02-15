@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 00:24:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/15 00:24:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/15 01:02:49 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <math.h>
 
-# include "../MLX42/include/MLX42/MLX42_Int.h"
+# include "../libs/MLX42/include/MLX42/MLX42_Int.h"
 # include "libft.h"
 
 #endif

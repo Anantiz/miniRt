@@ -1,6 +1,6 @@
-CC:=gcc -g3
+CC:=gcc
 INCLUDE_PATH=./includes
-CFLAGS:=-Wall -Wextra -Werror -I$(INCLUDE_PATH)
+CFLAGS:=-Wall -Wextra -Werror -g3 -I$(INCLUDE_PATH)
 RM:=rm -rf
 
 
@@ -17,8 +17,8 @@ BIN_LIBFT		:=./libs/libft.a
 
 SRC_FILES:=main.c
 
-# SRC_FILES:= $(addprefix $(SRC_PATH)/,$(SRC_FILES))
-# SRC_OBJ:= $(patsubst %.c,$(OBJ_PATH)/%.o, $(SRC_FILES))
+SRC_FILES:= $(addprefix $(SRC_PATH)/,$(SRC_FILES))
+SRC_OBJ:= $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC_FILES))
 
 all: $(NAME)
 
@@ -27,8 +27,8 @@ $(BIN_LIBMLX):
 	@mv $(LIBMLX_PATH)/build/libmlx42.a $(BIN_LIBMLX)
 
 $(BIN_LIBFT):
-	@make -C $(LIBFT_PATH)
-	@mv $(LIBFT_PATH)/libft.a $(BIN_LIBMLX)
+	@make -C $(LIBFT_PATH) all
+	@mv $(LIBFT_PATH)/libft.a $(BIN_LIBFT)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir -p $(OBJ_PATH)
