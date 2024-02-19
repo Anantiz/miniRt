@@ -15,7 +15,8 @@ BIN_LIBMLX		:=./libs/libmlx42.a
 LIBFT_PATH		:=./libs/libft
 BIN_LIBFT		:=./libs/libft.a
 
-SRC_FILES:=main.c
+SRC_FILES:=main.c math_op/vector_op.c
+
 
 SRC_FILES:= $(addprefix $(SRC_PATH)/,$(SRC_FILES))
 SRC_OBJ:= $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC_FILES))
