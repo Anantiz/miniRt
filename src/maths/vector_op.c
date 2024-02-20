@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/19 13:50:31 by loris            ###   ########.fr       */
+/*   Updated: 2024/02/20 14:09:51 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRt.h"
+#include "vector.h"
 
 t_vector    *new_vector(float x, float y, float z)
 {
