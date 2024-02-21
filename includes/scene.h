@@ -1,33 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.h                                           :+:      :+:    :+:   */
+/*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 14:07:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 11:53:06 by aurban           ###   ########.fr       */
+/*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
+/*   Updated: 2024/02/21 11:48:42 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_H
-# define VECTOR_H
+#ifndef SCENE_H
+# define SCENE_H
 
-#include "libft.h"
+# include "./vector.h"
+# include "./color_texture.h"
 
-typedef	struct	s_vector
+/*
+	Filler data, much more complex in the future
+*/
+typedef struct s_shape
 {
-	float	x;
-	float	y;
-	float	z;
-}				t_vector;
+	float	radius;
+	float	height;
+	float	width;
+	float	depth;
+}t_shape;
 
-/* VECTOR OPERATOR */
+typedef struct s_object
+{
+	t_vector	origin;
+	t_shape		shape;
+	t_mp		properties;
+	t_texture	texture;
+	t_rgb		color;
+	bool		is_light_source;
+	int			lumen;
+}t_object;
 
-t_vector			*new_vector(float x, float y, float z);
-t_vector			*addition(t_vector *v1, t_vector *v2);
-float				vector_length(t_vector *vector);
-void				vector_normalizer(t_vector *vector);
-float				vec_dot_product(t_vector *v1, t_vector *v2);
 
 #endif

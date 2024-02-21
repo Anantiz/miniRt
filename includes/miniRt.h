@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 00:24:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 09:28:40 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:49:10 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,5 @@ typedef	struct s_ray
 	t_vector	*origin;
 	t_vector	*direction;
 }				t_ray;
-
-
-/* VECTOR OPERATOR */
-
-t_vector    *new_vector(float x, float y, float z);
-t_vector	*addition(t_vector *v1, t_vector *v2);
-float		vector_length(t_vector *vector);
-void		vector_normalizer(t_vector *vector);
-float		vec_dot_product(t_vector *v1, t_vector *v2);
-
 
 #endif

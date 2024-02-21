@@ -15,8 +15,15 @@ BIN_LIBMLX		:=./libs/libmlx42.a
 LIBFT_PATH		:=./libs/libft
 BIN_LIBFT		:=./libs/libft.a
 
+#	####	####	####	####	####	####
+#		####	####	SRC 	####	####	####
+#	####	####	####	####	####	####
+
 SRC_FILES:=main.c math_op/vector_op.c
 
+SCENE_PATH:=./scene
+SCENE_FILES:=cube.c sphere.c plane.c cylinder.c cone.c
+SRC_FILES+= $(addprefix $(SCENE_PATH)/,$(SCENE_FILES))
 
 SRC_FILES:= $(addprefix $(SRC_PATH)/,$(SRC_FILES))
 SRC_OBJ:= $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC_FILES))
