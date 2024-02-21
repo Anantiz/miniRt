@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/21 12:45:21 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 13:56:22 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_vector    *new_vector(float x, float y, float z)
 	return (vector);
 }
 
-t_vector	*addition(t_vector *v1, t_vector *v2)
+t_vector	*add_vector(t_vector *v1, t_vector *v2)
 {
 	t_vector	*result;
 
