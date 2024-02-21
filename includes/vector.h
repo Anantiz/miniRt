@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:07:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 16:19:01 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:39:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <math.h>
 # include "libft.h"
 
+// Cuz floats are faster than doubles
 typedef	struct	s_vector
 {
 	float	x;
@@ -33,5 +34,6 @@ t_vector			*add_vector(t_vector *v1, t_vector *v2);
 float				vector_length(t_vector *vector);
 void				vector_normalizer(t_vector *vector);
 float				vec_dot_product(t_vector *v1, t_vector *v2);
+float				dist_vector(const t_vector *v1, const t_vector *v2);
 
 #endif

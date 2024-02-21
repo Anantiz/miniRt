@@ -1,4 +1,3 @@
-#include "miniRt.h"
 #include "scene.h"
 
 /*

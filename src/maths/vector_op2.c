@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_utils.c                                     :+:      :+:    :+:   */
+/*   vector_op2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:49:46 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 13:56:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:31:07 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,16 @@ void	rea_v(t_vector **old_addr, t_vector *new_ptr)
 {
 	our_free(*old_addr);
 	*old_addr = new_ptr;
+}
+
+float	dist_vector(const t_vector *v1, const t_vector *v2)
+{
+	float	x;
+	float	y;
+	float	z;
+
+	x = v1->x - v2->x;
+	y = v1->y - v2->y;
+	z = v1->z - v2->z;
+	return (sqrtf(x * x + y * y + z * z));
 }

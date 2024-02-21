@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 09:24:47 by lkary-po          #+#    #+#             */
-/*   Updated: 2024/02/21 16:19:12 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:30:44 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ float	projection_plane_dist(float teta, int h)
 	float	d;
 	(float)h;
 
-	d = h \ (2 * tan(teta / 2));
+	d = h / (2 * tan(teta / 2));
 	return (d);
 }

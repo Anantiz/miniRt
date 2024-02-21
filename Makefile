@@ -16,18 +16,18 @@ BIN_LIBFT		:=./libs/libft.a
 
 ###############################################################
 #	####	####	####	####	####	####	####	####
-#		####	####	####	SRC 	####	####	####	###############
+#		####	####	####	SRC 	####	####	####	#
 #	####	####	####	####	####	####	####	####
 ###############################################################
 
 SRC_FILES:=main.c
 
 MATHS_PATH:=maths
-MATHS_FILES:=vector_op.c vector_op2.c
+MATHS_FILES:=vector_op.c vector_op2.c light_op.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene
-SCENE_FILES:=cube.c sphere.c plane.c cylinder.c cone.c
+SCENE_FILES:=cube.c sphere.c plane.c cylinder.c cone.c scene.c scene_services.c
 SRC_FILES+=			$(addprefix $(SCENE_PATH)/,$(SCENE_FILES))
 
 SRC_FILES:=			$(addprefix $(SRC_PATH)/,$(SRC_FILES))
@@ -35,7 +35,7 @@ SRC_OBJ:=			$(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o,$(SRC_FILES))
 
 ###############################################################
 #	####	####	####	####	####	####	####	####
-#		####	####	####	Rules 	####	####	####	###############
+#		####	####	####	Rules 	####	####	####	#
 #	####	####	####	####	####	####	####	####
 ###############################################################
 
