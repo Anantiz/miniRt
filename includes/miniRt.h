@@ -6,7 +6,7 @@
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 00:24:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 09:28:40 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:07:37 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef	struct s_ray
 	t_vector	*origin;
 	t_vector	*direction;
 }				t_ray;
-
 
 /* VECTOR OPERATOR */
 

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   vector.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:07:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/20 14:10:04 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 12:09:07 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_H
 # define VECTOR_H
 
-#include "libft.h"
+# include <math.h>
+# include "libft.h"
 
 typedef	struct s_vector
 {
