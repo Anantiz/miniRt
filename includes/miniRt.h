@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 00:24:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 13:33:44 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 16:18:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ typedef struct s_glob
 	mlx_image_t		*mlx_img;
 	t_scene			*scene;
 }t_glob;
+
 
 #endif
