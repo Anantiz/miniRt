@@ -50,7 +50,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(SRC_OBJ) $(BIN_LIBMLX) $(BIN_LIBFT)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -lm -Llibs -lft -lmlx42 $^ -o $@
 
 clean:
 	@$(RM) $(OBJ_PATH)
