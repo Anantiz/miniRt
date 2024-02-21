@@ -6,14 +6,15 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:07:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 11:53:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 12:08:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_H
 # define VECTOR_H
 
-#include "libft.h"
+# include <math.h>
+# include "libft.h"
 
 typedef	struct	s_vector
 {

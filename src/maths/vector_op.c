@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/21 09:12:03 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:45:21 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
+#include <math.h>
 
 t_vector    *new_vector(float x, float y, float z)
 {
@@ -35,7 +36,7 @@ float	vector_length(t_vector *vector)
 {
 	float	ret;
 
-	ret = sqrt((vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
+	ret = sqrt((float)(vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
 	return (ret);
 }
 

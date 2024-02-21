@@ -1,8 +1,7 @@
-CC:=gcc
+CC:=cc
 INCLUDE_PATH=./includes
 CFLAGS:=-Wall -Wextra -Werror -g3 -I$(INCLUDE_PATH)
 RM:=rm -rf
-
 
 NAME:=miniRt
 
@@ -15,22 +14,26 @@ BIN_LIBMLX		:=./libs/libmlx42.a
 LIBFT_PATH		:=./libs/libft
 BIN_LIBFT		:=./libs/libft.a
 
-#	####	####	####	####	####	####
-#		####	####	SRC 	####	####	####
-#	####	####	####	####	####	####
+#########################################################
+#	####	####	####	####	####	####		#
+#		####	####	SRCS 	####	####	####	#
+#	####	####	####	####	####	####		#
+#########################################################
 
-SRC_FILES:=main.c math_op/vector_op.c
+SRC_FILES:=main.c maths/vector_op.c
 
-SCENE_PATH:=./scene
+SCENE_PATH:=scene
 SCENE_FILES:=cube.c sphere.c plane.c cylinder.c cone.c
-SRC_FILES+= $(addprefix $(SCENE_PATH)/,$(SCENE_FILES))
+SRC_FILES+=			$(addprefix $(SCENE_PATH)/,$(SCENE_FILES))
 
-SRC_FILES:= $(addprefix $(SRC_PATH)/,$(SRC_FILES))
-SRC_OBJ:= $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC_FILES))
+SRC_FILES:=			$(addprefix $(SRC_PATH)/,$(SRC_FILES))
+SRC_OBJ:=			$(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o,$(SRC_FILES))
 
-#	####	####	####	####	####	####
-#		####	####	Rules 	####	####	####
-#	####	####	####	####	####	####
+#########################################################
+#	####	####	####	####	####	####		#
+#		####	####	Rules 	####	####	####	#
+#	####	####	####	####	####	####		#
+#########################################################
 
 all: $(NAME)
 
@@ -43,11 +46,11 @@ $(BIN_LIBFT):
 	@mv $(LIBFT_PATH)/libft.a $(BIN_LIBFT)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-	@mkdir -p $(OBJ_PATH)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(SRC_OBJ) $(BIN_LIBMLX) $(BIN_LIBFT)
-	$(CC) $(CFLAGS) -lm -o $@ $^
+	$(CC) $(CFLAGS) -lm -Llibs -lft -lmlx42 $^ -o $@
 
 clean:
 	@$(RM) $(OBJ_PATH)
