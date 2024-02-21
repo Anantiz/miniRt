@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 00:24:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 08:17:52 by loris            ###   ########.fr       */
+/*   Updated: 2024/02/21 09:28:40 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,19 @@
 
 typedef	struct	s_camera
 {
-	t_vector	pos;
-	t_vector	direction;
-	t_vector	right;
-	t_vector	up;
+	t_vector	*pos;
+	t_vector	*direction;
+	t_vector	*right;
+	t_vector	*up;
 	double		fov;
 }				t_camera;
+
+typedef	struct s_ray
+{
+	t_vector	*origin;
+	t_vector	*direction;
+}				t_ray;
+
 
 /* VECTOR OPERATOR */
 

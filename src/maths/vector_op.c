@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/20 14:09:51 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 09:12:03 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_vector	*addition(t_vector *v1, t_vector *v2)
 {
 	t_vector	*result;
 
-	result = new_vector(v1->x - v2->x, v1->y - v2->y, v1->z - v2->z);
+	result = new_vector(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z);
 	return (result);
 }
 
