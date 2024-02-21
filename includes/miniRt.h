@@ -6,7 +6,7 @@
 /*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 00:24:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 08:16:50 by loris            ###   ########.fr       */
+/*   Updated: 2024/02/21 08:17:52 by loris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@
 # include "libft.h"
 # include "vector.h"
 # include "pair.h"
-
-typedef	struct s_vector
-{
-	float	x;
-	float	y;
-	float	z;
-}           t_vector;
 
 typedef	struct	s_camera
 {
