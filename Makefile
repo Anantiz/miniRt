@@ -28,6 +28,10 @@ SRC_FILES+= $(addprefix $(SCENE_PATH)/,$(SCENE_FILES))
 SRC_FILES:= $(addprefix $(SRC_PATH)/,$(SRC_FILES))
 SRC_OBJ:= $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC_FILES))
 
+#	####	####	####	####	####	####
+#		####	####	Rules 	####	####	####
+#	####	####	####	####	####	####
+
 all: $(NAME)
 
 $(BIN_LIBMLX):
@@ -43,7 +47,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(SRC_OBJ) $(BIN_LIBMLX) $(BIN_LIBFT)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -lm -o $@ $^
 
 clean:
 	@$(RM) $(OBJ_PATH)
