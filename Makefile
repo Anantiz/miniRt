@@ -22,6 +22,10 @@ BIN_LIBFT		:=./libs/libft.a
 
 SRC_FILES:=main.c
 
+PARSE_PATH:=maths
+PARSE_FILES:=parsing.c parsing2.c
+SRC_FILES+=			$(addprefix $(PARSE_PATH)/,$(PARSE_FILES))
+
 MATHS_PATH:=maths
 MATHS_FILES:=vector_op.c vector_op2.c light_op.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))

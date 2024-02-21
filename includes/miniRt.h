@@ -2,6 +2,7 @@
 # define MINIRT_H
 
 # include <math.h>
+# include "errno.h"
 # include "fcntl.h"
 # include "pair.h"
 # include "scene.h"
@@ -57,6 +58,19 @@ typedef struct s_glob
 	t_scene			*scene;
 }t_glob;
 
+
+/* Parsing : Public*/
+
+int					parse_map(t_scene *scene, char *path);
+
+/* Parsing : Private*/
+
+int					parse_ambiant(t_scene *scene, char **tokens);
+int					parse_camera(t_scene *scene, char **tokens);
+int					parse_light(t_scene *scene, char **tokens);
+int					parse_cylinder(t_scene *scene, char **tokens);
+int					parse_sphere(t_scene *scene, char **tokens);
+int					parse_plane(t_scene *scene, char **tokens);
 
 
 #endif

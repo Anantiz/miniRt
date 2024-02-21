@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 18:49:19 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 20:04:04 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,32 @@
 
 #include "miniRt.h"
 
-/*
+typedef int	(*t_parse_token)(t_scene *, char **);
 
-Parsing strategy:
+// Calls sub-functions to handle
+static int	parse_line(t_scene *scene, const char *line)
+{
+	static const char			*token_types[] = \
+	{"A", "C", "L", "cl", "sp", "pl", NULL};
+	static const t_parse_token	parsing_func[] = \
+	{parse_ambiant, parse_camera, parse_light, parse_cylinder, parse_sphere, \
+	parse_plane, NULL};
+	char						**tokens;
+	int							i;
 
-	-Isolate the token Identifier:
-		"A" is for Ambiant light "C" is for Camera etc...
-	-
-
-
-*/
+	ft_split_spaces(line);
+	if (!line || !*line)
+		return (0);
+	i = -1;
+	while (token_types[++i])
+	{
+		if (ft_strcmp(*line, token_types[i]))
+			continue ;
+		else
+			return ((parsing_func[i])(scene, tokens));
+	}
+	return (GO_FUCK_YOURSELF);
+}
 
 static int	open_file(char *path)
 {
@@ -39,10 +55,14 @@ static int	open_file(char *path)
 	extension = ft_strrchr(path, '.');
 	if (ft_strcmp(extension, ".rt"))
 	{
-		printf("\033[41mInvalid File, scenes must have `.rt' as an extension\033[0m\n");
+		printf("\033[41mInvalid File, scenes must have `.rt' "\
+		"as an extension\033[0m\n");
 		return (GO_FUCK_YOURSELF);
 	}
 	fd = open(path, R_OK);
+	if (fd == -1)
+		printf("\033[41mInvalid File: \033[0m%s\n", strerror(errno));
+	return (fd);
 }
 
 int	parse_map(t_scene *scene, char *path)
@@ -55,11 +75,29 @@ int	parse_map(t_scene *scene, char *path)
 		return (GO_FUCK_YOURSELF);
 	while (true)
 	{
-		line = get_next_line(fd);
+		line = get_next_line(fd, false);
 		if (!line)
 			break ;
-
+		if (*line == '#' || ft_is_blank_str(line))
+			continue ;
+		if (parse_line(scene, line) == GO_FUCK_YOURSELF)
+		{
+			printf("\033[41mInvalid Token found in scene parsing\n\033[0m");
+			return (GO_FUCK_YOURSELF);
+		}
+		our_free(line);
 	}
 	close(fd);
 	return (SUCCESS);
 }
+
+/*
+x, y ecrans
+get_pixel_color(start= y, x ,0)
+{
+	objet[], colide_point[] = get_colision(start, direction)
+	if (colide_point)
+		get_colision(colide_point, diretion(du coup tu la change en focntion de refraction et bullshit comme ca))
+	ray.color = moyenne (des trucs, leurs couler + intensite)
+}
+*/
