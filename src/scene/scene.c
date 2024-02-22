@@ -12,8 +12,10 @@ t_scene	*scene_new(void)
 	scene = our_malloc(sizeof(t_scene));
 	scene->objects = NULL;
 	scene->objects_count = 0;
+	scene->lights = NULL;
+	scene->lights_count = 0;
 	scene->ambiant_rgb = (t_rgb){0, 0, 0};
-	scene->al_intensity = -1.0f;
+	scene->amb_intensity = -1.0f;
 	return (scene);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 11:47:47 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:40:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct s_shape
 	float	depth;
 }t_shape;
 
+// Polymorphque function pointer for collision
+typedef struct	s_collision t_colision;
+typedef struct	s_ray t_ray;
 typedef t_colision *(*t_get_colision)\
 (t_vector origin, t_shape shape, t_ray *ray);
 
@@ -72,6 +75,35 @@ typedef struct s_object
 	t_get_colision		get_colision;
 }t_object;
 
+typedef struct s_spot_light
+{
+	t_vector		pos;
+	t_rgb			rgb;
+	float			intensity;
+}t_spot_light;
+
+// Either a light or an object, no need to make two structs
+// They won't be in the same list anyway
+typedef struct s_ll_obj
+{
+	const t_object			*o;
+	const t_spot_light		*l;
+	struct s_ll_obj			*next;
+}t_ll_obj;
+
+/*	Will hold a list of object, there won't be many
+	so an unoptimized linked list will do the job
+*/
+typedef struct s_scene
+{
+	t_ll_obj		*objects;
+	t_ll_obj		*lights;
+	t_rgb			ambiant_rgb;
+	int				objects_count;
+	int				lights_count;
+	float			amb_intensity;
+}t_scene;
+
 /*
 	Returned by a collision query
 	Contains the object and the point of collision for the given ray
@@ -82,23 +114,6 @@ typedef struct	s_collision
 	const t_object	*object;
 }t_colision;
 
-typedef struct s_ll_obj
-{
-	const t_object		*o;
-	struct s_ll_obj		*next;
-}t_ll_obj;
-
-/*	Will hold a list of object, there won't be many
-	so an unoptimized linked list will do the job
-*/
-typedef struct s_scene
-{
-	t_ll_obj		*objects;
-	t_rgb			ambiant_rgb;
-	int				objects_count;
-	float			al_intensity;
-}t_scene;
-
 /* CORE : public */
 
 t_scene				*scene_new(void);
@@ -107,15 +122,18 @@ t_colision			*scene_collision_query(t_scene *scene, t_ray *ray);
 /* Shapes : private */
 
 
-/* Mico-service funcionts : public */
+/* Mico-services functions : public */
 
 void				scene_add_object(t_scene *scene, t_object *object);
+void				scene_add_light(t_scene *scene, t_spot_light *light);
 int					update_lumen_distance(t_ray *ray, t_vector *point);
 
 /* Trash : private */
 
-t_ll_obj			*tll_add_back(t_ll_obj **head_, t_ll_obj *node);
 t_ll_obj			*tll_new_node(t_object *object);
+t_ll_obj			*tll_new_spot_node(t_spot_light *light);
+t_ll_obj			*tll_add_back(t_ll_obj **head_, t_ll_obj *node);
+
 void				tll_del_node(t_ll_obj **root, t_ll_obj *node_);
 void				tll_del_list(t_ll_obj **root);
 

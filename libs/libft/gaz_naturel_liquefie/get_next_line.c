@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:42:06 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/12 21:20:14 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 20:04:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char	*get_next_line(int fd, int reset)
 	{
 		our_free(buffers_list[fd]);
 		buffers_list[fd] = NULL;
+		return (NULL);
 	}
 	return (str_nulltrim(line));
 }

@@ -14,13 +14,26 @@
 #define FAILURE				1
 #define GO_FUCK_YOURSELF	-1
 
+#define ERROR_PARSE_RGB 1
+#define ERROR_PARSE_POS 2
+#define ERROR_PARSE_ROT 3
+#define ERROR_PARSE_TOO_MANY 4
+#define ERROR_DUPLICATE_AMBIANT 5
+#define ERROR_DUPLICATE_CAM 6
+#define ERROR_PARSE_FOV 7
+#define ERROR_PARSE_LINTESITY 8
+
+/*
+	La direction devra etre calculer depuis rotatio et pos
+*/
 typedef	struct	s_camera
 {
-	t_vector	*pos;
-	t_vector	*direction;
-	t_vector	*right;
-	t_vector	*up;
-	double		fov;
+	t_vector	pos;
+	t_vector	rotation;
+	t_vector	direction;
+	t_vector	right;
+	t_vector	up;
+	int			fov;
 }t_camera;
 
 /*
@@ -44,6 +57,8 @@ typedef	struct s_ray
 	t_vector	*direction;
 }t_ray;
 
+// Pls don't ask why
+typedef struct s_scene t_scene;
 /*
 	Ambient light is a fraud to simulate the sun light :(
 		constrained between 0 and 1
@@ -64,12 +79,18 @@ int					parse_map(t_glob *glob, char *path);
 
 /* Parsing : Private*/
 
-int					parse_ambiant(t_glob *glob, char **line_tokens);
-int					parse_camera(t_glob *glob, char **line_tokens);
-int					parse_light(t_glob *glob, char **line_tokens);
-int					parse_cylinder(t_glob *glob, char **line_tokens);
-int					parse_sphere(t_glob *glob, char **line_tokens);
-int					parse_plane(t_glob *glob, char **line_tokens);
+void				parse_error_msg(int error);
+void				parse_rgb(t_rgb *color, char *str_color);
+void				parse_position(t_vector *vector, char *str_pos);
+void				parse_rotation(t_vector *vector, char *str_rot);
+
+void				parse_ambiant(t_glob *glob, char **line_tokens);
+void				parse_camera(t_glob *glob, char **line_tokens);
+void				parse_light(t_glob *glob, char **line_tokens);
+
+void				parse_cylinder(t_glob *glob, char **line_tokens);
+void				parse_sphere(t_glob *glob, char **line_tokens);
+void				parse_plane(t_glob *glob, char **line_tokens);
 
 /* Captain Hook : Public */
 

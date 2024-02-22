@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:44:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 11:53:40 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:58:45 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ size_t		ft_strlen(const char *s);
 size_t		ft_strslen(char **strs);
 char		*ft_strtrim(char const *s1, char const *set);
 
+void		ft_replace_ptr(void **old, void *new);
 void		ft_replace_str(char **old, char *new);
 void		ft_replace_dupstr(char **old, char *new);
 
