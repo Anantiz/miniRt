@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 18:48:14 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 10:19:06 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ Note:
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "./color_texture.h"
-# include "./vector.h"
+# include "color_texture.h"
+# include "vector.h"
 # include <stdbool.h>
 
 // Ugly to put this one here, but we do not have a ray.h
-# include "./miniRt.h"
+# include "miniRt.h"
 
 /*
 	Filler data, much more complex in the future
