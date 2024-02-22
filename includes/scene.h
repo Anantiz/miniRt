@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 10:40:04 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:47:47 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_scene
 	t_ll_obj		*objects;
 	t_rgb			ambiant_rgb;
 	int				objects_count;
-	float			ambient_light_intensity;
+	float			al_intensity;
 }t_scene;
 
 /* CORE : public */

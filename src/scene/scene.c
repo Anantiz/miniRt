@@ -13,7 +13,7 @@ t_scene	*scene_new(void)
 	scene->objects = NULL;
 	scene->objects_count = 0;
 	scene->ambiant_rgb = (t_rgb){0, 0, 0};
-	scene->ambient_light_intensity = -1.0f;
+	scene->al_intensity = -1.0f;
 	return (scene);
 }
 

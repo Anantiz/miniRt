@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 11:01:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:47:47 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ static int	open_file(char *path)
 
 static int	validate_parsing(t_glob *glob)
 {
-	if (glob->scene->ambient_light_intensity < 0)
+	if (glob->scene->al_intensity < 0)
 	{
 		printf("\033[32mAmbiant light not set, make sure it is intentional"\
 		" do so.\033[0m\n");
-		glob->scene->ambient_light_intensity = 0.0f;
+		glob->scene->al_intensity = 0.0f;
 
 		return (FAILURE);
 	}
