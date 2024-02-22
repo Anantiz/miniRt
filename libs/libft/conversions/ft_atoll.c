@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 15:03:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/07 10:47:58 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 12:02:07 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ long long max_value, int *valid)
 	If the number is bigger than max_value:
 		-`valid` is set to 0.
 		- The (largest_value ± 9) reached before overflow is returned.
+	Valid must be given.
 */
 long long	ft_atoll_safe(char *s, long long max_value, int *valid)
 {

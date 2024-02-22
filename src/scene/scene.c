@@ -1,5 +1,10 @@
 #include "scene.h"
 
+/*
+For error handling, the light intensity is set to -1.0f
+if after parsing, the ambiant light intensity is still -1.0f
+then the program will exit with an error message
+*/
 t_scene	*scene_new(void)
 {
 	t_scene	*scene;
@@ -7,6 +12,8 @@ t_scene	*scene_new(void)
 	scene = our_malloc(sizeof(t_scene));
 	scene->objects = NULL;
 	scene->objects_count = 0;
+	scene->ambiant_rgb = (t_rgb){0, 0, 0};
+	scene->al_intensity = -1.0f;
 	return (scene);
 }
 

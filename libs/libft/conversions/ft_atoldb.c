@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:25:28 by aurban            #+#    #+#             */
-/*   Updated: 2023/11/23 17:05:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:47:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ long double	ft_atoldb(char *str)
 	long double	n;
 	long long	left;
 
+	if (!str)
+		return (0.0);
 	n = 0.0;
 	left = ft_atoll(str);
 	n += (long double)left;

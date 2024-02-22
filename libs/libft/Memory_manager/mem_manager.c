@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 15:04:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/01/26 11:56:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:11:41 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void	our_free(void *address)
 void	error_exit(const char *error)
 {
 	ft_fprintf(2, "\033[31m🚨%s🚨\033[31m\n", error);
+	safe_as_fuck_malloc(0, NULL, SAFE_MALLOC_FREE_ALL);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:44:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 19:05:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:53:40 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void		ft_replace_str(char **old, char *new);
 void		ft_replace_dupstr(char **old, char *new);
 
 /* CHECK */
+bool		ft_is_int_format(const char *str);
+bool		ft_is_float_format(const char *str);
 int			ft_isspace(int c);
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);

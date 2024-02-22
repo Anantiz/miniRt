@@ -51,11 +51,10 @@ typedef	struct s_ray
 */
 typedef struct s_glob
 {
-	t_rgb			ambiant_rgb;
-	float			ambient_light_intensity;
-	t_camera		*camera;
 	mlx_t			*mlx;
-	mlx_image_t		*mlx_img;
+	mlx_image_t		*img;
+	t_pair_size		win_size;
+	t_camera		*camera;
 	t_scene			*scene;
 }t_glob;
 
@@ -63,16 +62,24 @@ t_camera			*new_camera(t_vector *pos, t_vector *direction, float fov);
 
 /* Parsing : Public*/
 
-int					parse_map(t_scene *scene, char *path);
+int					parse_map(t_glob *glob, char *path);
 
 /* Parsing : Private*/
 
-int					parse_ambiant(t_scene *scene, char **tokens);
-int					parse_camera(t_scene *scene, char **tokens);
-int					parse_light(t_scene *scene, char **tokens);
-int					parse_cylinder(t_scene *scene, char **tokens);
-int					parse_sphere(t_scene *scene, char **tokens);
-int					parse_plane(t_scene *scene, char **tokens);
+int					parse_ambiant(t_glob *glob, char **line_tokens);
+int					parse_camera(t_glob *glob, char **line_tokens);
+int					parse_light(t_glob *glob, char **line_tokens);
+int					parse_cylinder(t_glob *glob, char **line_tokens);
+int					parse_sphere(t_glob *glob, char **line_tokens);
+int					parse_plane(t_glob *glob, char **line_tokens);
+
+/* Captain Hook : Public */
+
+void				cptn_hook_key(mlx_key_data_t keydata, void *glob_);
+
+/* Rendering : Public*/
+
+void				rtt_render(void *glob_);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 10:19:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:47:47 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ typedef struct s_ll_obj
 */
 typedef struct s_scene
 {
-	t_ll_obj	*objects;
-	int			objects_count;
+	t_ll_obj		*objects;
+	t_rgb			ambiant_rgb;
+	int				objects_count;
+	float			al_intensity;
 }t_scene;
 
 /* CORE : public */
@@ -115,7 +117,6 @@ int					update_lumen_distance(t_ray *ray, t_vector *point);
 t_ll_obj			*tll_add_back(t_ll_obj **head_, t_ll_obj *node);
 t_ll_obj			*tll_new_node(t_object *object);
 void				tll_del_node(t_ll_obj **root, t_ll_obj *node_);
-void				t_env_del_list(t_ll_obj **root);
-
+void				tll_del_list(t_ll_obj **root);
 
 #endif
