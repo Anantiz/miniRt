@@ -1,4 +1,4 @@
-./objs
+objs
 ./libs/*.a
 ./libs/MLX42/build
 miniRT
