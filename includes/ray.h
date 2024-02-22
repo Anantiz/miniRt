@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_gun.c                                          :+:      :+:    :+:   */
+/*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 09:24:47 by lkary-po          #+#    #+#             */
-/*   Updated: 2024/02/22 10:23:52 by lkary-po         ###   ########.fr       */
+/*   Created: 2024/02/22 10:24:34 by lkary-po          #+#    #+#             */
+/*   Updated: 2024/02/22 10:25:48 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRt.h"
+#ifndef RAY_H
+# define RAY_H
 
-t_ray	*new_ray(t_camera *camera, float x, float y)
+typedef	struct s_ray
 {
-	t_ray		*ray;
-	t_vector	*ray_dir;
+	t_vector	*origin;
+	t_vector	*direction;
+}				t_ray;
 
-	ray_dir = our_malloc(sizeof(t_vector));
-	ray = our_malloc(sizeof(t_ray));
-	ray->origin = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
-}
+t_ray		*new_ray(t_camera *camera, float x, float y);
 
+
+#endif
