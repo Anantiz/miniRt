@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:07:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 12:55:38 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/22 09:40:05 by loris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef	struct	s_vector
 
 /* VECTOR OPERATOR */
 
+t_vector			*produit_vectoriel(t_vector *v1, t_vector *v2);
 t_vector			*new_vector(float x, float y, float z);
 t_vector			*addition(t_vector *v1, t_vector *v2);
 float				vector_length(t_vector *vector);
