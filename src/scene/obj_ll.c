@@ -55,7 +55,7 @@ void	tll_del_node(t_ll_obj **root, t_ll_obj *node_)
 	our_free(node);
 }
 
-void	t_env_del_list(t_ll_obj **root)
+void	tll_del_list(t_ll_obj **root)
 {
 	t_ll_obj	*node;
 	t_ll_obj	*temp;

@@ -20,7 +20,19 @@ BIN_LIBFT		:=./libs/libft.a
 #	####	####	####	####	####	####	####	####
 ###############################################################
 
-SRC_FILES:=main.c
+SRC_FILES:=main.c camera/camera.c
+
+PARSE_PATH:=Parsing
+PARSE_FILES:=parsing.c parsing2.c parsing3.c
+SRC_FILES+=			$(addprefix $(PARSE_PATH)/,$(PARSE_FILES))
+
+HOOK_PATH:=Hooks
+HOOK_FILES:=CaptainHook.c
+SRC_FILES+=			$(addprefix $(HOOK_PATH)/,$(HOOK_FILES))
+
+RENDER_PATH:=Reindeer
+RENDER_FILES:=RTT_render.c
+SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 
 PARSE_PATH:=maths
 PARSE_FILES:=parsing.c parsing2.c

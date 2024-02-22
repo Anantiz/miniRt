@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 20:04:04 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:01:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 #include "miniRt.h"
 
-typedef int	(*t_parse_token)(t_scene *, char **);
+typedef int	(*t_parse_token)(t_glob *, char **);
 
 // Calls sub-functions to handle
-static int	parse_line(t_scene *scene, const char *line)
+static int	parse_line(t_glob *glob, const char *line)
 {
 	static const char			*token_types[] = \
 	{"A", "C", "L", "cl", "sp", "pl", NULL};
@@ -42,7 +42,7 @@ static int	parse_line(t_scene *scene, const char *line)
 		if (ft_strcmp(*line, token_types[i]))
 			continue ;
 		else
-			return ((parsing_func[i])(scene, tokens));
+			return ((parsing_func[i])(glob, tokens));
 	}
 	return (GO_FUCK_YOURSELF);
 }
@@ -65,7 +65,25 @@ static int	open_file(char *path)
 	return (fd);
 }
 
-int	parse_map(t_scene *scene, char *path)
+static int	validate_parsing(t_glob *glob)
+{
+	if (glob->scene->ambient_light_intensity < 0)
+	{
+		printf("\033[32mAmbiant light not set, make sure it is intentional"\
+		" do so.\033[0m\n");
+		glob->scene->ambient_light_intensity = 0.0f;
+
+		return (FAILURE);
+	}
+	if (glob->camera == NULL)
+	{
+		printf("\033[101mCamera not set, please do so.\033[0m\n");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+int	parse_map(t_glob *glob, char *path)
 {
 	char	*line;
 	int		fd;
@@ -80,7 +98,7 @@ int	parse_map(t_scene *scene, char *path)
 			break ;
 		if (*line == '#' || ft_is_blank_str(line))
 			continue ;
-		if (parse_line(scene, line) == GO_FUCK_YOURSELF)
+		if (parse_line(glob, line) == GO_FUCK_YOURSELF)
 		{
 			printf("\033[41mInvalid Token found in scene parsing\n\033[0m");
 			return (GO_FUCK_YOURSELF);
@@ -88,7 +106,7 @@ int	parse_map(t_scene *scene, char *path)
 		our_free(line);
 	}
 	close(fd);
-	return (SUCCESS);
+	return (validate_parsing(glob));
 }
 
 /*
