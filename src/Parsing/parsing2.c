@@ -6,23 +6,37 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 12:04:32 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 12:36:56 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRt.h"
 
-static int	parse_ambiant2(t_glob *glob, char **rgb)
+static int	parse_ambiant_rgb(t_glob *glob, char **rgb)
 {
 	int	i;
+	int x;
 
 	i = -1;
-i = -1;
-	while (rgb[++i])
-	{
-		if (!ft_is_int_format(rgb[i]))
-			return (GO_FUCK_YOURSELF);
-	}
+	if (!ft_is_int_format(rgb[0]))
+		return (GO_FUCK_YOURSELF);
+	x = ft_atoi(rgb[0]);
+	if (x < 0 || x > 255)
+		return (GO_FUCK_YOURSELF);
+	glob->scene->ambiant_rgb.r = x;
+	if (!ft_is_int_format(rgb[1]))
+		return (GO_FUCK_YOURSELF);
+	x = ft_atoi(rgb[1]);
+	if (x < 0 || x > 255)
+		return (GO_FUCK_YOURSELF);
+	glob->scene->ambiant_rgb.g = x;
+	if (!ft_is_int_format(rgb[2]))
+		return (GO_FUCK_YOURSELF);
+	x = ft_atoi(rgb[2]);
+	if (x < 0 || x > 255)
+		return (GO_FUCK_YOURSELF);
+	glob->scene->ambiant_rgb.b = x;
+	return (SUCCESS);
 }
 
 /*
@@ -48,8 +62,10 @@ int	parse_ambiant(t_glob *glob, char **line_tokens)
 	rgb = ft_split(line_tokens[2], ',');
 	if (ft_tablen(rgb) != 3)
 		return (GO_FUCK_YOURSELF);
-
-	glob->scene->ambiant_rgb.r =
+	parse_ambiant_rgb(glob, rgb);
+	free_double_char(rgb);
+	if (line_tokens[3] && *line_tokens[3] && *line_tokens[3] != '#')
+		return (GO_FUCK_YOURSELF);
 	return (SUCCESS);
 }
 
