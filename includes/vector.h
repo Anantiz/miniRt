@@ -1,21 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vector.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 14:07:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 09:40:05 by loris            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef VECTOR_H
 # define VECTOR_H
 
 # include <math.h>
 # include "libft.h"
 
+// Cuz floats are faster than doubles
 typedef	struct	s_vector
 {
 	float	x;
@@ -25,11 +14,14 @@ typedef	struct	s_vector
 
 /* VECTOR OPERATOR */
 
-t_vector			*produit_vectoriel(t_vector *v1, t_vector *v2);
+void				rea_v(t_vector **old_addr, t_vector *new_ptr);
 t_vector			*new_vector(float x, float y, float z);
-t_vector			*addition(t_vector *v1, t_vector *v2);
+t_vector			*cpy_vector(t_vector *v);
+t_vector			*sub_vector(t_vector *v1, t_vector *v2);
+t_vector			*add_vector(t_vector *v1, t_vector *v2);
 float				vector_length(t_vector *vector);
 void				vector_normalizer(t_vector *vector);
 float				vec_dot_product(t_vector *v1, t_vector *v2);
+float				dist_vector(const t_vector *v1, const t_vector *v2);
 
 #endif

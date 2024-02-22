@@ -1,7 +1,4 @@
-objs
-*/*.o
-*/*/*.o
-*/*/*/*.o
+./objs
 ./libs/*.a
 miniRT
 .vscode

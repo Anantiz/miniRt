@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 11:51:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:44:32 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,38 +52,27 @@
 # define ONYX		0x35383900
 # define OPAL		0x9F9F9F00
 # define PEARL		0xF0EAD600
+
 # define ALPHA		0x000000FF
 
-/*
-	RGB is there to simply store the colors
-	x_lumen is there to store the "power" of the color, as in
-	If a red is 5000 lux, the color will be 5 times brighter
-	than green if it's 1000 lux
-*/
 typedef struct s_rgb
 {
 	int	r;
 	int	g;
 	int	b;
-	int	r_lumen;
-	int	g_lumen;
-	int	b_lumen;
 }t_rgb;
 
 /*
-
 	Transparency is between 0 and 1:
 		0 being fully opaque and 1 being fully transparent
 */
 typedef struct s_material_properties
 {
-	t_rgb	rgb;
-	float	reflect;
-	float	refract;
-	float	absorb;
+	float	absorbtion_index;
+	float	refraction_index;
 	float	transparency;
 }t_material_properties;
-
+// Shorter alias
 typedef t_material_properties t_mp;
 
 /*

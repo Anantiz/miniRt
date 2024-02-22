@@ -6,15 +6,15 @@
 #    By: aurban <aurban@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 06:06:39 by aurban            #+#    #+#              #
-#    Updated: 2024/02/15 00:49:13 by aurban           ###   ########.fr        #
+#    Updated: 2024/02/21 19:07:16 by aurban           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT_NAME:=libft.a
 
-CC:=gcc -g3
+CC:=gcc
 INCLUDE_PATH= ../../includes
-CFLAGS:=-Wall -Werror -Wextra -I$(INCLUDE_PATH)
+CFLAGS:=-Wall -Werror -Wextra -I$(INCLUDE_PATH) -g3
 
 OBJ_PATH:=./objs
 
@@ -72,7 +72,7 @@ FT_STRINGS_FILES=\
 	ft_strchr.c		ft_strdup.c		ft_striteri.c	ft_strjoin.c	ft_strlcat.c	\
 	ft_strlcpy.c	ft_strlen.c		ft_strmapi.c	ft_strncmp.c	ft_strnstr.c	\
 	ft_strrchr.c	ft_strtrim.c	ft_substr.c		ft_str_lists.c	ft_tablen.c		\
-	ft_strdup_double_char.c
+	ft_strdup_double_char.c			ft_split_spaces.c
 FT_STRINGS_FILES:=$(addprefix $(FT_STRINGS_PATH)/,$(FT_STRINGS_FILES))
 
 # --- LIB FT ---

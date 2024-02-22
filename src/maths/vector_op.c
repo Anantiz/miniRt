@@ -6,7 +6,11 @@
 /*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/02/22 09:39:15 by loris            ###   ########.fr       */
+=======
+/*   Updated: 2024/02/21 13:56:22 by aurban           ###   ########.fr       */
+>>>>>>> antoine
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +28,7 @@ t_vector    *new_vector(float x, float y, float z)
 	return (vector);
 }
 
-t_vector	*addition(t_vector *v1, t_vector *v2)
+t_vector	*add_vector(t_vector *v1, t_vector *v2)
 {
 	t_vector	*result;
 
@@ -67,4 +71,7 @@ float	vec_dot_product(t_vector *v1, t_vector *v2)
 	ret = ((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z));
 	return (ret);
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> antoine
