@@ -30,14 +30,26 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 	sum_vector = add_vector(mult_vector(screen->width_factor * u, camera->right), \
 							mult_vector(screen->height_factor * v, camera->up));
 	ray_direction = add_vector(camera->direction, sum_vector);
+	vector_normalizer(ray_direction);
 	return (ray_direction);
 }
 
-int	main()
+void	ray_tracing()
 {
-	t_camera	*camera = new_camera(new_vector(0, 0, 0), new_vector(0, 0, 1), 90);
-	t_ray	*ray = new_ray(camera, -1, 1);
-	ft_fprintf(1, "x = %f\n", ray->direction->x);
-	ft_fprintf(1, "y = %f\n", ray->direction->y);
-	ft_fprintf(1, "z = %f\n", ray->direction->z);
+	float	pas;
+	float	u;
+	float	v;
+	float	etendu;
+	u = -1;
+	v = -1 * (1080 / 1920);
+	pas = 2/1920;
+
+	while (u <= 1)
+	{
+		while (v <= 1080 / 1920)
+		{
+			v += pas;
+		}
+		u += pas;
+	}
 }
