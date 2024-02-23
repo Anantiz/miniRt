@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 19:29:22 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/23 14:27:42 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,5 @@ void	parse_rotation(t_vector *vector, char *str_rot)
 	if (vector->z > 1 || vector->z < -1)
 		parse_error_msg(ERROR_PARSE_ROT);
 	free_double_char(xyz);
+	vector_normalizer(vector);
 }

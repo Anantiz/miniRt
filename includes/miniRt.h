@@ -14,14 +14,14 @@
 #define FAILURE				1
 #define GO_FUCK_YOURSELF	-1
 
-#define ERROR_PARSE_RGB 1
-#define ERROR_PARSE_POS 2
-#define ERROR_PARSE_ROT 3
-#define ERROR_PARSE_TOO_MANY 4
-#define ERROR_DUPLICATE_AMBIANT 5
-#define ERROR_DUPLICATE_CAM 6
-#define ERROR_PARSE_FOV 7
-#define ERROR_PARSE_LINTESITY 8
+#define ERROR_PARSE_RGB			1
+#define ERROR_PARSE_POS 		2
+#define ERROR_PARSE_ROT			3
+#define ERROR_PARSE_TOO_MANY	4
+#define ERROR_DUPLICATE_AMBIANT	5
+#define ERROR_DUPLICATE_CAM		6
+#define ERROR_PARSE_FOV			7
+#define ERROR_PARSE_LINTESITY	8
 
 /*
 	La direction devra etre calculer depuis rotatio et pos
@@ -30,7 +30,7 @@ typedef	struct	s_camera
 {
 	t_vector	pos;
 	t_vector	rotation;
-	t_vector	direction;
+	t_vector	direction; // Kinda the same thins as rotation ...
 	t_vector	right;
 	t_vector	up;
 	int			fov;
@@ -53,6 +53,7 @@ typedef	struct s_ray
 {
 	int			lumen;
 	t_rgb		ray_color;
+
 	t_vector	*origin;
 	t_vector	*direction;
 }t_ray;
@@ -68,6 +69,7 @@ typedef struct s_glob
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	t_pair_size		win_size;
+
 	t_camera		*camera;
 	t_scene			*scene;
 }t_glob;

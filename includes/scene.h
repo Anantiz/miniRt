@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 19:40:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:06:50 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,18 @@ Note:
 # define SCENE_H
 
 # include "color_texture.h"
+# include "_3Dshapes.h"
 # include "vector.h"
 # include <stdbool.h>
 
 // Ugly to put this one here, but we do not have a ray.h
 # include "miniRt.h"
 
-/*
-	Filler data, much more complex in the future
-*/
-typedef struct s_shape
-{
-	float	radius;
-	float	height;
-	float	width;
-	float	depth;
-}t_shape;
-
 // Polymorphque function pointer for collision
-typedef struct	s_collision t_colision;
-typedef struct	s_ray t_ray;
-typedef t_colision *(*t_get_colision)\
-(t_vector origin, t_shape shape, t_ray *ray);
+typedef struct s_collision	t_colision;
+typedef struct s_ray		t_ray;
+typedef t_colision			*(*t_get_colision)\
+(t_vector origin, t_u_shape shape, t_ray *ray);
 
 /*
 	Holds all the data for an object
@@ -64,14 +54,20 @@ typedef t_colision *(*t_get_colision)\
 typedef struct s_object
 {
 	int					id;
-	bool				is_light_source;
+
 	float				light_intensity;
+	bool				is_light_source;
 	int					light_lumen;
+
 	t_vector			origin;
-	t_shape				shape;
+	t_vector			rotation;
+
 	t_rgb				color;
 	t_mp				material;
 	t_texture			texture;
+
+	t_e_shape			shape_type;
+	t_u_shape			shape_data;
 	t_get_colision		get_colision;
 }t_object;
 
@@ -98,9 +94,11 @@ typedef struct s_scene
 {
 	t_ll_obj		*objects;
 	t_ll_obj		*lights;
-	t_rgb			ambiant_rgb;
+
 	int				objects_count;
 	int				lights_count;
+
+	t_rgb			ambiant_rgb;
 	float			amb_intensity;
 }t_scene;
 
@@ -108,7 +106,7 @@ typedef struct s_scene
 	Returned by a collision query
 	Contains the object and the point of collision for the given ray
 */
-typedef struct	s_collision
+typedef struct s_collision
 {
 	t_vector		*point;
 	const t_object	*object;
@@ -120,7 +118,6 @@ t_scene				*scene_new(void);
 t_colision			*scene_collision_query(t_scene *scene, t_ray *ray);
 
 /* Shapes : private */
-
 
 /* Mico-services functions : public */
 
