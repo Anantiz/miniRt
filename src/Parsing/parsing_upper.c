@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 19:30:48 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/24 15:23:58 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,20 @@ void	parse_light(t_glob *glob, char **line_tokens)
 		parse_error_msg(ERROR_PARSE_LINTESITY);
 	parse_rgb(&light->rgb, line_tokens[3]);
 	scene_add_light(glob->scene, light);
+}
+
+// Cuz I don't wanna do an other file jjust for this
+
+int	parse_int(char *str)
+{
+	int	valid;
+	int	ret;
+
+	valid = 1;
+	if (!ft_is_int_format(str))
+		parse_error_msg(ERROR_PARSE_INT);
+	ret = ft_atoll_safe(str, INT_MAX, &valid);
+	if (!valid)
+		parse_error_msg(ERROR_PARSE_INT);
+	return (ret);
 }

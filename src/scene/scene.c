@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scene.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
+/*   Updated: 2024/02/24 16:23:35 by aurban           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scene.h"
 
 /*
@@ -39,7 +51,7 @@ t_colision	*scene_collision_query(t_scene *scene, t_ray *ray)
 	colision = NULL;
 	while (obj)
 	{
-		colision = obj->o->get_colision(obj->o->origin, obj->o->shape, ray);
+		colision = obj->o->get_colision(&obj->o->origin, &obj->o->shape, ray);
 		if (colision)
 		{
 			ray->lumen = update_lumen_distance(ray, colision->point);

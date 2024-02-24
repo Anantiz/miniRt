@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 19:28:59 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/24 15:24:35 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	parse_line(t_glob *glob, const char *line)
 	static const char			*token_types[] = \
 	{"A", "C", "L", "cl", "sp", "pl", NULL};
 	static const t_parse_token	parsing_func[] = \
-	{parse_ambiant, parse_camera, parse_light, parse_cylinder, parse_sphere, \
-	parse_plane, NULL};
+	{parse_ambiant, parse_camera, parse_light, scene_parse_cylinder, \
+	scene_parse_sphere, scene_parse_plane, NULL};
 	char						**tokens;
 	int							i;
 

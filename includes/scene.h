@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/23 15:06:50 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/24 16:02:47 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ Note:
 typedef struct s_collision	t_colision;
 typedef struct s_ray		t_ray;
 typedef t_colision			*(*t_get_colision)\
-(t_vector origin, t_u_shape shape, t_ray *ray);
+(t_vector *origin, t_u_shape *shape, t_ray *ray);
 
 /*
 	Holds all the data for an object
@@ -66,8 +66,8 @@ typedef struct s_object
 	t_mp				material;
 	t_texture			texture;
 
-	t_e_shape			shape_type;
-	t_u_shape			shape_data;
+	t_e_shape			shape_e;
+	t_u_shape			shape;
 	t_get_colision		get_colision;
 }t_object;
 
@@ -121,6 +121,7 @@ t_colision			*scene_collision_query(t_scene *scene, t_ray *ray);
 
 /* Mico-services functions : public */
 
+t_object			*scene_new_object(t_glob *glob);
 void				scene_add_object(t_scene *scene, t_object *object);
 void				scene_add_light(t_scene *scene, t_spot_light *light);
 int					update_lumen_distance(t_ray *ray, t_vector *point);
