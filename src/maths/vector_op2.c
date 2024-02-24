@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:49:46 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 17:31:07 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:17:38 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,12 @@ float	dist_vector(const t_vector *v1, const t_vector *v2)
 	y = v1->y - v2->y;
 	z = v1->z - v2->z;
 	return (sqrtf(x * x + y * y + z * z));
+}
+
+t_vector	*mult_vector(float k, t_vector *v1)
+{
+	t_vector	*ret;
+
+	ret = new_vector(v1->x * k, v1->y * k, v1->z * k);
+	return (ret);
 }

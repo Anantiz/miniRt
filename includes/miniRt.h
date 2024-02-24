@@ -8,6 +8,7 @@
 # include "scene.h"
 # include "libft.h"
 # include "vector.h"
+# include "ray.h"
 # include "../libs/MLX42/include/MLX42/MLX42_Int.h"
 
 # define SUCCESS				0
@@ -76,6 +77,7 @@ typedef struct s_glob
 	t_scene			*scene;
 }t_glob;
 
+t_camera			*new_camera(t_vector *pos, t_vector *direction, float fov);
 
 /* Parsing : Public*/
 
