@@ -23,8 +23,8 @@ BIN_LIBFT		:=./libs/libft.a
 SRC_FILES:=main.c camera/camera.c
 
 3D_OBJ_PATH:=3D_Objects
-3D_OBJ_FILES:=_3Dobj.c colider.c sphere.c plane.c cylinder.c penguin.c \
-fighter_jet.c
+3D_OBJ_FILES:=_3Dobj.c collider2.c collider.c sphere.c plane.c cylinder.c \
+penguin.c fighter_jet.c
 SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
 
 PARSE_PATH:=Parsing

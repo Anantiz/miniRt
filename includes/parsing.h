@@ -6,14 +6,14 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 03:05:37 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:17:53 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 17:29:34 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-#include "miniRt.h"
+ #include "miniRt.h"
 # include "libft.h"
 # include "vector.h"
 # include "color_texture.h"

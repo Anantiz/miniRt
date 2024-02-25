@@ -35,30 +35,32 @@ The CSG tree (Constructive Solid Geometry)
 typedef struct s_ray t_ray;
 
 // Shapes
-typedef enum e_stype
+typedef enum e_objtype
+{
+	P_SPHERE,
+	P_PLANE,
+	P_CYLINDER,
+	P_FIGHTER_JET,
+	P_PENGUIN
+
+}t_e_objt;
+
+// Shapes
+typedef enum e_primitive
 {
 	SPHERE,
 	PLANE,
 	CYLINDER,
-	FIGHTER_JET,
-	PENGUIN
-
-}t_e_stype;
+}t_e_prim;
 
 // Operations
-typedef enum e_otype
-{
-	UNION,
-	INTERSECTION,
-	DIFFERENCE,
-}t_e_otype;
-
-// CSG node type
-typedef enum e_ntype
+typedef enum e_ndtype
 {
 	LEAVE,
-	OP,
-}t_e_ntype;
+	UNION,
+	INTER,
+	DIFF,
+}t_e_ndtype;
 
 typedef union u_shape // Specific geometric parameters
 {
@@ -92,37 +94,25 @@ To come:
 */
 typedef struct s_csg_leave
 {
-	t_e_stype	type;
+	t_e_prim	type;
 
-	t_vector	pos;
-	t_vector	ort;
+	t_vector		pos;
+	t_vector		ort;
 
-	t_u_shape	shape;
+	t_u_shape		shape;
 
-	t_rgb		color;
+	t_rgb			color;
 	// more to come
 
 }t_csg_leave;
 
-typedef struct s_csg_op
-{
-	t_e_otype		type;
-
-	struct s_csg	*left;
-	struct s_csg	*right;
-}t_csg_op;
-
-// l stands for leave
-typedef union u_nd
-{
-	t_csg_leave	*l;
-	t_csg_op	*op;
-}t_u_nd;
-
 typedef struct s_csg
 {
-	t_e_ntype	type;
-	t_u_nd		nd;
+	t_e_ndtype		type;
+
+	t_csg_leave		*l;
+	struct s_csg	*left;
+	struct s_csg	*right;
 }t_csg;
 
 /*
@@ -146,8 +136,8 @@ typedef struct s_object
 	// used.
 	// This is why the parsing will mostly just parse primitives, that's why
 	// I use the e_stype here, even tho a fighter jet is not a primitive.
-	// ¯\_(ツ)_/¯
-	t_e_stype			type;
+	// ¯\_(ツ)_/¯ FIXED
+	t_e_objt			type;
 	struct s_object		*next;
 }t_object;
 
@@ -173,34 +163,42 @@ typedef struct s_collision
 
 
 /* CSG, broad constructors */
+
 t_object			*new_object(char **params);
 t_csg				*new_csg(char **params);
-
-// Operations
-
-t_csg				*new_csg_op(t_e_otype type, t_csg *left, t_csg *right);
-
-// Leaves
-
 
 // Because of the shitty norm we have to follow, I can't have more than
 //5 parameters
 // in a function, so I'll have to use a second function to add
 //the texture and bump etc...
-t_csg				*new_csg_leave(t_e_stype type, t_vector *pos, t_vector *ori, t_rgb color);
+t_csg				*new_csg_leave(t_e_prim type, t_vector *pos, \
+t_vector *ori, t_rgb color);
 void				csg_leave_add(t_csg *csg, char **params); // to come
 
+// Primitive constructors
 t_csg				*new_sphere(char **params);
-t_csg				*new_plane(char **params); // Special case ... idk how to handle it cleanly
+t_csg				*new_plane(char **params); // Special case ... idk how to handle it cleanly, i guess jsut a
 t_csg				*new_cylinder(char **params);
+
+// CSG constructors
 t_csg				*new_fighter_jet(char **params);
 t_csg				*new_penguin(char **params);
 
 /* Coliders : Public */
 
+t_collision			*collider_union(t_collision **collision);
+t_collision			*collider_inter(t_collision **collision);
+t_collision			*collider_switch(t_object *obj, t_ray *ray, t_csg *csg);
+
 t_collision			*new_collision(t_object *obj, t_csg *csg, t_ray *ray, float t);
 
-t_collision			*colider_sphere(t_object *obj, t_csg *csg, t_ray *ray);
+t_collision			*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray);
+t_collision			*collider_plane(t_object *obj, t_csg *csg, t_ray *ray);
+t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray);
+
+/* Trash :*/
+
+void				del_collision(t_collision *collision);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:25:50 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 17:22:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,12 @@ t_csg	*new_plane(char **params)
 	// plane->normal = new_vector(0, 1, 0);
 	// plane->point = new_vector(0, 0, 0);
 	return (plane);
+}
+
+t_collision			*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
+{
+	(void)obj;
+	(void)csg;
+	(void)ray;
+	return (NULL);
 }

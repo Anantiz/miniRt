@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:38:28 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 17:28:25 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef t_csg	*(*t_constructor)(char **params);
 /*
 	Pretty warper, maybe it could do more lmfaoooo....
 */
-static t_csg	*new_csg_tree(t_e_stype stypes, char **params)
+static t_csg	*new_csg_tree(t_e_objt stypes, char **params)
 {
 	static const t_constructor	constructors[] = {new_sphere, new_plane, \
 	new_cylinder, new_fighter_jet, new_penguin};
@@ -54,7 +54,7 @@ Thirdly:
 t_object	*new_object(char **params)
 {
 	static const char		*types[] = {"sp", "pl", "cy", "csg_fj", "csg_peng", NULL};
-	static const t_e_stype	stypes[] = {SPHERE, PLANE, CYLINDER, FIGHTER_JET, PENGUIN};
+	static const t_e_objt	stypes[] = {P_SPHERE, P_PLANE, P_CYLINDER,P_FIGHTER_JET, P_PENGUIN};
 	t_object				*obj;
 	int						i;
 

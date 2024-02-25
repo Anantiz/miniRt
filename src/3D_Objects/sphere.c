@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:20:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 16:50:45 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,21 @@ c=(Ox−Cx)2+(Oy−Cy)2+(Oz−Cz)2−R2c=(Ox​−Cx​)2+(Oy​−Cy​)2+(Oz�
 t_csg	*new_sphere(char **params)
 {
 	t_csg		*sphere;
-	t_csg_leave	*l;
 
 	if (ft_tablen(params) != 2)
 		error_exit("Error: Sphere: wrong number of parameters");
 	sphere = our_malloc(sizeof(t_csg));
 	sphere->type = LEAVE;
-	sphere->nd.l = our_malloc(sizeof(t_csg_leave));
-	l = sphere->nd.l;
-	l->type = SPHERE;
-	l->ort = (t_vector){0, 0, 0};
-	l->pos = (t_vector){0, 0, 0};
-	l->shape.sphere.rad = parse_float(params[0]);
-	parse_rgb(&l->color, params[1]);
+	sphere->l = our_malloc(sizeof(t_csg_leave));
+	sphere->l->type = SPHERE;
+	sphere->l->ort = (t_vector){0, 0, 0};
+	sphere->l->pos = (t_vector){0, 0, 0};
+	sphere->l->shape.sphere.rad = parse_float(params[0]);
+	parse_rgb(&sphere->l->color, params[1]);
 	return (sphere);
 }
 
-bool	colider_sphere_quadratic(t_csg *csg, t_ray *ray, t_vector *dist_oc, \
+bool	collider_sphere_quadratic(t_csg *csg, t_ray *ray, t_vector *dist_oc, \
 t_pair_float *t)
 {
 	float		a;
@@ -55,7 +53,7 @@ t_pair_float *t)
 		return (false);
 	b = 2.0 * vec_dot_product(dist_oc, ray->direction);
 	c = vec_dot_product(dist_oc, dist_oc);
-	c -= (csg->nd.l->shape.sphere.rad * csg->nd.l->shape.sphere.rad);
+	c -= (csg->l->shape.sphere.rad * csg->l->shape.sphere.rad);
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
 		return (false);
@@ -66,17 +64,17 @@ t_pair_float *t)
 	return (false);
 }
 
-t_collision	*colider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
+t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 {
 	t_vector		*dist_oc;
 	t_vector		*sphere_origin;
 	t_pair_float	t;
 	bool			ret;
 
-	sphere_origin = add_vector(&obj->pos, &csg->nd.l->pos);
+	sphere_origin = add_vector(&obj->pos, &csg->l->pos);
 	dist_oc = sub_vector(sphere_origin ,ray->origin);
 	our_free(sphere_origin);
-	ret = colider_sphere_quadratic(csg, ray, dist_oc, &t);
+	ret = collider_sphere_quadratic(csg, ray, dist_oc, &t);
 	our_free(dist_oc);
 	if (!ret)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:26:01 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 17:22:52 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,12 @@ t_csg	*new_cylinder(char **params)
 	// cylinder->diameter = 1;
 	// cylinder->height = 1;
 	return (cylinder);
+}
+
+t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
+{
+	(void)obj;
+	(void)csg;
+	(void)ray;
+	return (NULL);
 }

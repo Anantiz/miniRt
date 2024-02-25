@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:21:46 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 17:29:46 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ typedef struct s_spot_light
 // They won't be in the same list anyway
 typedef struct s_ll_obj
 {
-	const t_object			*o;
-	const t_spot_light		*l;
-	struct s_ll_obj			*next;
+	t_object			*o;
+	t_spot_light		*l;
+	struct s_ll_obj		*next;
 }t_ll_obj;
 
 /*	Will hold a list of object, there won't be many

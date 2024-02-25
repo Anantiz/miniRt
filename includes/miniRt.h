@@ -1,6 +1,8 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+#define DEBUG
+
 # include <math.h>
 # include <fcntl.h>
 # include <errno.h>
