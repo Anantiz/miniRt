@@ -22,9 +22,12 @@ BIN_LIBFT		:=./libs/libft.a
 
 SRC_FILES:=main.c camera/camera.c
 
+3D_OBJ_PATH:=3D_Objects
+3D_OBJ_FILES:=_3Dobj.c colider.c sphere.c
+SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
+
 PARSE_PATH:=Parsing
-PARSE_FILES:=parsing.c parsing_utils.c parsing_upper.c \
-	parsing_obj1.c parsing_obj2.c
+PARSE_FILES:=parsing.c parsing_utils.c parsing_upper.c
 SRC_FILES+=			$(addprefix $(PARSE_PATH)/,$(PARSE_FILES))
 
 HOOK_PATH:=Hooks

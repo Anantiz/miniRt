@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/24 15:24:35 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 07:40:46 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ typedef void	(*t_parse_token)(t_glob *, char **);
 // Calls sub-functions to handle
 static int	parse_line(t_glob *glob, const char *line)
 {
-	static const char			*token_types[] = \
-	{"A", "C", "L", "cl", "sp", "pl", NULL};
+	static const char			*token_types[] = {"A", "C", "L", NULL}; // Only non-object tokens
 	static const t_parse_token	parsing_func[] = \
-	{parse_ambiant, parse_camera, parse_light, scene_parse_cylinder, \
-	scene_parse_sphere, scene_parse_plane, NULL};
+	{parse_ambiant, parse_camera, parse_light,NULL};
 	char						**tokens;
+	t_object 					*obj;
 	int							i;
 
 	tokens = ft_split_spaces(line);
@@ -44,7 +43,11 @@ static int	parse_line(t_glob *glob, const char *line)
 		if (!ft_strcmp(*tokens, token_types[i]))
 			return ((parsing_func[i])(glob, tokens), SUCCESS);
 	}
-	return (GO_FUCK_YOURSELF);
+	obj = new_object(tokens);
+	// if (!obj) // It exits anyway
+	// 	return (GO_FUCK_YOURSELF);
+	scene_add_object(glob->scene, obj);
+	return (SUCCESS);
 }
 
 static int	open_file(char *path)

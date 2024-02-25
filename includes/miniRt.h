@@ -10,21 +10,11 @@
 # include "vector.h"
 # include "ray.h"
 # include "../libs/MLX42/include/MLX42/MLX42_Int.h"
+# include "parsing.h"
 
 # define SUCCESS				0
 # define FAILURE				1
 # define GO_FUCK_YOURSELF		-1
-
-# define ERROR_PARSE_RGB			1
-# define ERROR_PARSE_POS 			2
-# define ERROR_PARSE_ROT			3
-# define ERROR_PARSE_TOO_MANY		4
-# define ERROR_DUPLICATE_AMBIANT	5
-# define ERROR_DUPLICATE_CAM		6
-# define ERROR_PARSE_FOV			7
-# define ERROR_PARSE_LINTESITY		8
-# define ERROR_PARSE_INT			9
-# define ERROR_PARSE_FLOAT			10
 
 /*
 	La direction devra etre calculer depuis rotatio et pos
@@ -52,14 +42,6 @@ The ray_color is dynamic and is updated at each collision.
 
 TO BE updated at each collision !!!
 */
-typedef	struct s_ray
-{
-	int			lumen;
-	t_rgb		ray_color;
-
-	t_vector	*origin;
-	t_vector	*direction;
-}t_ray;
 
 // Pls don't ask why
 typedef struct s_scene t_scene;
@@ -79,38 +61,6 @@ typedef struct s_glob
 
 t_camera			*new_camera(t_vector *pos, t_vector *direction, float fov);
 
-/* Parsing : Public*/
-
-int					parse_map(t_glob *glob, char *path);
-
-/* Parsing : Private*/
-
-float				parse_float(char *str);
-int					parse_int(char *str);
-
-void				parse_error_msg(int error);
-void				parse_rgb(t_rgb *color, char *str_color);
-void				parse_position(t_vector *vector, char *str_pos);
-void				parse_rotation(t_vector *vector, char *str_rot);
-
-void				parse_ambiant(t_glob *glob, char **line_tokens);
-void				parse_camera(t_glob *glob, char **line_tokens);
-void				parse_light(t_glob *glob, char **line_tokens);
-
-/*
-These functions add the object to the scene
-For errors in parsing, they exit the program
-*/
-void				scene_parse_sphere(t_glob *glob, char **line_tokens);
-void				scene_parse_plane(t_glob *glob, char **line_tokens);
-void				scene_parse_cylinder(t_glob *glob, char **line_tokens);
-void				scene_parse_cuboid(t_glob *glob, char **line_tokens);
-void				scene_parse_cone(t_glob *glob, char **line_tokens);
-void				scene_parse_pyramid(t_glob *glob, char **line_tokens);
-void				scene_parse_prism(t_glob *glob, char **line_tokens);
-void				scene_parse_ellipsoid(t_glob *glob, char **line_tokens);
-void				scene_parse_paraboloid(t_glob *glob, char **line_tokens);
-void				scene_parse_torus(t_glob *glob, char **line_tokens);
 
 /* Captain Hook : Public */
 
