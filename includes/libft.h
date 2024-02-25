@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:44:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 17:58:45 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:30:48 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void		ft_send_uint(char *buffer, t_bd *bd, unsigned int n);
 GAZ NATUREL LIQUEFIE
 */
 
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 128
 # define MAX_FD_HANDLE 1024
 
 char		*get_next_line(int fd, int reset);

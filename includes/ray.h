@@ -1,6 +1,8 @@
 #ifndef RAY_H
 # define RAY_H
 
+# include "vector.h"
+# include "_3Dshapes.h"
 # include "miniRt.h"
 
 /*
@@ -10,14 +12,7 @@
 	Obj is the one there is a collision with
 	Parent_obj is the group that contains the obj (if any use)
 */
-typedef struct s_collision
-{
-	float			dist;
-	t_vector		point;
-	t_csg			*obj;
-	t_object		*parent_obj;
-}t_colision;
-
+typedef struct s_camera t_camera;
 
 typedef	struct s_ray
 {

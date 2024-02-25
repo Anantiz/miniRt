@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colider.c                                          :+:      :+:    :+:   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/25 07:20:27 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:18:31 by aurban           ###   ########.fr       */
+/*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
+/*   Updated: 2024/02/25 08:26:01 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
 
-t_collision	*new_collision(t_object *obj, t_csg *csg, t_ray *ray, float t)
+t_csg	*new_cylinder(char **params)
 {
-	t_collision	*col;
+	t_csg	*cylinder;
 
-	col = our_malloc(sizeof(t_collision));
-	col->point.x = ray->origin->x + ray->direction->x * t;
-	col->point.y = ray->origin->y + ray->direction->y * t;
-	col->point.z = ray->origin->z + ray->direction->z * t;
-	col->obj = csg;
-	col->parent_obj = obj; // Not sure if we need this one, but it's here
-	col->dist = t;
-	return (col);
+	(void)params;
+	cylinder = our_malloc(sizeof(t_csg));
+	// cylinder->type = CYLINDER;
+	// cylinder->point = new_vector(0, 0, 0);
+	// cylinder->normal = new_vector(0, 1, 0);
+	// cylinder->diameter = 1;
+	// cylinder->height = 1;
+	return (cylinder);
 }

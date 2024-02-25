@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 07:40:46 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:38:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ static int	validate_parsing(t_glob *glob)
 		printf("\033[32mAmbiant light not set, make sure it is intentional"\
 		" do so.\033[0m\n");
 		glob->scene->amb_intensity = 0.0f;
-
-		return (FAILURE);
 	}
 	if (glob->camera == NULL)
 	{
@@ -97,10 +95,12 @@ int	parse_map(t_glob *glob, char *path)
 	while (true)
 	{
 		line = get_next_line(fd, false);
+		printf("Line =%s\n", line);
 		if (!line)
 			break ;
 		if (*line == '#' || ft_is_blank_str(line))
 			continue ;
+		printf("PARSING\n");
 		if (parse_line(glob, line) == GO_FUCK_YOURSELF)
 		{
 			printf("\033[41mInvalid Token found in scene parsing\n\033[0m");

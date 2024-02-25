@@ -2,15 +2,16 @@
 # define MINIRT_H
 
 # include <math.h>
-# include "errno.h"
-# include "fcntl.h"
-# include "pair.h"
-# include "scene.h"
+# include <fcntl.h>
+# include <errno.h>
 # include "libft.h"
+# include "pair.h"
 # include "vector.h"
 # include "ray.h"
-# include "../libs/MLX42/include/MLX42/MLX42_Int.h"
+# include "_3Dshapes.h"
+# include "scene.h"
 # include "parsing.h"
+# include "../libs/MLX42/include/MLX42/MLX42_Int.h"
 
 # define SUCCESS				0
 # define FAILURE				1

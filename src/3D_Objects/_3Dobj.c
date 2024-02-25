@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 04:09:02 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:38:28 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ Thirdly:
 */
 t_object	*new_object(char **params)
 {
-	static const char		*types[] = {"sp", "pl", "cy", "csg_fj", "csg_ping", NULL};
+	static const char		*types[] = {"sp", "pl", "cy", "csg_fj", "csg_peng", NULL};
 	static const t_e_stype	stypes[] = {SPHERE, PLANE, CYLINDER, FIGHTER_JET, PENGUIN};
 	t_object				*obj;
 	int						i;
 
-	i = 0;
+	i = -1;
 	while (types[++i])
 	{
 		if (!ft_strcmp(types[i], params[0]))
@@ -69,11 +69,11 @@ t_object	*new_object(char **params)
 			if (stypes[i] == SPHERE)
 			{
 				obj->ort = (t_vector){0, 0, 0};
-				obj->csg = new_csg_tree(stypes, params + 2);
+				obj->csg = new_csg_tree(stypes[i], params + 2);
 				return (obj);
 			}
 			parse_orientation(&obj->ort, params[2]);
-			obj->csg = new_csg_tree(stypes, params + 3);
+			obj->csg = new_csg_tree(stypes[i], params + 3);
 			return (obj);
 		}
 	}

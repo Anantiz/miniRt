@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/24 15:19:01 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:17:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	parse_position(t_vector *vector, char *str_pos)
 }
 
 /* Checks if the input is somewhat normalized */
-void	parse_rotation(t_vector *vector, char *str_rot)
+void	parse_orientation(t_vector *vector, char *str_rot)
 {
 	char	**xyz;
 

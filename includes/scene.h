@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 06:45:16 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:21:46 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ Note:
 # include "_3Dshapes.h"
 # include "vector.h"
 # include <stdbool.h>
+
+// What's the point for the includes above if I have to declare the structs again?
+typedef struct s_object t_object;
+typedef struct s_collision t_collision;
+typedef struct s_ray t_ray;
 
 // Ugly to put this one here, but we do not have a ray.h
 
@@ -71,9 +76,14 @@ typedef struct s_scene
 /* CORE : public */
 
 t_scene				*scene_new(void);
-t_colision			*scene_collision_query(t_scene *scene, t_ray *ray);
+t_collision			*scene_collision_query(t_scene *scene, t_ray *ray);
 
-/* Shapes : private */
+/* Warpers */
+
+void				scene_add_object(t_scene *scene, t_object *object);
+void				scene_add_light(t_scene *scene, t_spot_light *light);
+
+
 
 /* Mico-services functions : public */
 

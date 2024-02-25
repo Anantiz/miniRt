@@ -23,7 +23,8 @@ BIN_LIBFT		:=./libs/libft.a
 SRC_FILES:=main.c camera/camera.c
 
 3D_OBJ_PATH:=3D_Objects
-3D_OBJ_FILES:=_3Dobj.c colider.c sphere.c
+3D_OBJ_FILES:=_3Dobj.c colider.c sphere.c plane.c cylinder.c penguin.c \
+fighter_jet.c
 SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
 
 PARSE_PATH:=Parsing
@@ -41,10 +42,6 @@ SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 MATHS_PATH:=maths
 MATHS_FILES:=vector_op.c vector_op2.c light_op.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
-
-SHAPES_PATH:=scene/shapes
-SHAPES_FILE:=cuboid.c sphere.c plane.c cylinder.c cone.c
-SRC_FILES+=			$(addprefix $(SHAPES_PATH)/,$(SHAPES_FILE))
 
 SCENE_PATH:=scene
 SCENE_FILES:= scene.c scene_services.c obj_ll.c obj_ll2.c

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/24 15:23:58 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:37:46 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #ifdef BONUS
 #define LIGHT_PARAM_COUNT 4
 #else
-#define LIGHT_PARAM_COUNT 3
+#define LIGHT_PARAM_COUNT 4
 #endif
 
 /*
@@ -31,7 +31,7 @@ void	parse_ambiant(t_glob *g, char **line_tokens)
 
 	if (ambiant_set)
 		parse_error_msg(ERROR_DUPLICATE_AMBIANT);
-	if (ft_tablen(line_tokens) != 4)
+	if (ft_tablen(line_tokens) != 3)
 		parse_error_msg(ERROR_PARSE_TOO_MANY);
 	ambiant_set = true;
 	if (!ft_is_float_format(line_tokens[1]))
@@ -54,7 +54,7 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 		parse_error_msg(ERROR_PARSE_TOO_MANY);
 	camera = our_malloc(sizeof(t_camera));
 	parse_position(&camera->pos, line_tokens[1]);
-	parse_rotation(&camera->rotation, line_tokens[2]);
+	parse_orientation(&camera->rotation, line_tokens[2]);
 	if (!ft_is_int_format(line_tokens[3]))
 	camera->fov = ft_atoi(line_tokens[3]);
 	if (camera->fov < 0 || camera->fov > 180)
@@ -73,7 +73,7 @@ void	parse_light(t_glob *glob, char **line_tokens)
 		parse_error_msg(ERROR_PARSE_TOO_MANY);
 	light = our_malloc(sizeof(t_spot_light));
 	parse_position(&light->pos, line_tokens[1]);
-	if (!ft_is_int_format(line_tokens[2]))
+	if (!ft_is_float_format(line_tokens[2]))
 		parse_error_msg(ERROR_PARSE_LINTESITY);
 	light->intensity = ft_atoldb(line_tokens[2]);
 	if (light->intensity < 0 || light->intensity > 1)

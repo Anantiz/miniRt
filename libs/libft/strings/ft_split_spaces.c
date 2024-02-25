@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:03:10 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/21 19:06:25 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:35:04 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static size_t	count_words(char *s, long long int *i, size_t*j)
 			tail++;
 			head++;
 		}
-		while (s[head] && ft_isspace(s[head]))
+		while (s[head] && !ft_isspace(s[head]))
 			head++;
 		if (tail != head)
 			count++;

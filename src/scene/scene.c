@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/24 16:23:35 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/25 08:23:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,26 @@ Return:
 	Collision found
 		-> t_colision
 */
-t_colision	*scene_collision_query(t_scene *scene, t_ray *ray)
-{
-	t_ll_obj	*obj;
-	t_colision	*colision;
 
-	obj = scene->objects;
-	colision = NULL;
-	while (obj)
-	{
-		colision = obj->o->get_colision(&obj->o->origin, &obj->o->shape, ray);
-		if (colision)
-		{
-			ray->lumen = update_lumen_distance(ray, colision->point);
-			if (ray->lumen == 0)
-				return (our_free(colision), NULL);
-			return (colision);
-		}
-		obj = obj->next;
-	}
-	return (NULL);
-}
+// OBSOLETE
+// t_collision	*scene_collision_query(t_scene *scene, t_ray *ray)
+// {
+// 	t_ll_obj	*obj;
+// 	t_collision	*collision;
+
+// 	obj = scene->objects;
+// 	collision = NULL;
+// 	while (obj)
+// 	{
+// 		collision = obj->o->get_collision(&obj->o->origin, &obj->o->shape, ray);
+// 		if (collision)
+// 		{
+// 			ray->lumen = update_lumen_distance(ray, collision->point);
+// 			if (ray->lumen == 0)
+// 				return (our_free(collision), NULL);
+// 			return (collision);
+// 		}
+// 		obj = obj->next;
+// 	}
+// 	return (NULL);
+// }

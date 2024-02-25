@@ -32,6 +32,8 @@ The CSG tree (Constructive Solid Geometry)
 # include "pair.h"
 # include <math.h>
 
+typedef struct s_ray t_ray;
+
 // Shapes
 typedef enum e_stype
 {
@@ -149,6 +151,14 @@ typedef struct s_object
 	struct s_object		*next;
 }t_object;
 
+typedef struct s_collision
+{
+	float			dist;
+	t_vector		point;
+	t_csg			*obj;
+	t_object		*parent_obj;
+}t_collision;
+
 
 /*******************************************************************************
 
@@ -188,9 +198,9 @@ t_csg				*new_penguin(char **params);
 
 /* Coliders : Public */
 
-t_colision			*new_collision(t_object *obj, t_csg *csg, t_ray *ray, float t);
+t_collision			*new_collision(t_object *obj, t_csg *csg, t_ray *ray, float t);
 
-t_colision			*colider_sphere(t_object *obj, t_csg *csg, t_ray *ray);
+t_collision			*colider_sphere(t_object *obj, t_csg *csg, t_ray *ray);
 
 
 #endif
