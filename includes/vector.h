@@ -10,7 +10,7 @@ typedef	struct	s_vector
 	float	x;
 	float	y;
 	float	z;
-}				t_vector;
+}t_vector;
 
 /* VECTOR OPERATOR */
 

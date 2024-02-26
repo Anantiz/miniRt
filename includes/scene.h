@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 17:29:46 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 10:35:45 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ Note:
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "color_texture.h"
 # include "ray.h"
-# include "_3Dshapes.h"
 # include "vector.h"
+# include "color_texture.h"
+# include "_3Dshapes.h"
 # include <stdbool.h>
 
 // What's the point for the includes above if I have to declare the structs again?
