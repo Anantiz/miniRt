@@ -30,29 +30,29 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 	sum_vector = add_vector(mult_vector(screen->width_factor * u, camera->right), \
 							mult_vector(screen->height_factor * v, camera->up));
 	ray_direction = add_vector(camera->direction, sum_vector);
+	our_free(sum_vector);
 	vector_normalizer(ray_direction);
 	return (ray_direction);
 }
 
-void	ray_tracing(t_vector *pos, t_vector *dir, float fov)
+void	ray_tracing(t_glob *glob)
 {
+	t_ray		*ray;
+	t_collision	*collision;
 	float		pas;
 	float		u;
 	float		v;
-	float		etendu;
-	t_camera 	*camera;
-
-	camera = new_camera(pos, dir, fov);
 
 	u = -1;
 	v = -1 * (1080 / 1920);
-	pas = 2/1920;
-
+	pas = 2.0 / 1920;
 	while (u <= 1)
 	{
 		while (v <= 1080 / 1920)
 		{
-			new_ray(camera, u, v);
+			ray = new_ray(glob->camera, u, v);
+			collision = scene_collision_query(glob->scene,ray);
+			rtt_render_pixel(glob, collision, u, v);
 			v += pas;
 		}
 		u += pas;

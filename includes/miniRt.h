@@ -16,42 +16,23 @@
 # include "parsing.h"
 # include "../libs/MLX42/include/MLX42/MLX42_Int.h"
 
-
 # define SUCCESS				0
 # define FAILURE				1
 # define GO_FUCK_YOURSELF		-1
 
-
 extern const char *shape_names[]; // To remove for release
-/*
-	La direction devra etre calculer depuis rotatio et pos
-*/
+// Pls don't ask why
+typedef struct s_scene t_scene;
+
 typedef	struct	s_camera
 {
-	t_vector	pos;
-	t_vector	rotation;
-	t_vector	direction; // Kinda the same thins as rotation ...
-	t_vector	right;
-	t_vector	up;
+	t_vector	*pos;
+	t_vector	*direction;
+	t_vector	*right;
+	t_vector	*up;
 	int			fov;
 }t_camera;
 
-/*
-Lumen is the light intensity.
-	It follows the formula:
-		lumen_colision = (1 / (distance * distance) * lumen_source) \
-		* (1 - absorption_index)
-
-The ray_color is dynamic and is updated at each collision.
-	It follows the formula:
-		ray_color = ray_color * (1 - absorption_index)
-		+ object_color * absorption_index
-
-TO BE updated at each collision !!!
-*/
-
-// Pls don't ask why
-typedef struct s_scene t_scene;
 /*
 	Ambient light is a fraud to simulate the sun light :(
 		constrained between 0 and 1
@@ -66,8 +47,7 @@ typedef struct s_glob
 	t_scene			*scene;
 }t_glob;
 
-t_camera			*new_camera(t_vector *pos, t_vector *direction, float fov);
-
+void			ray_tracing(t_glob *glob);
 
 /* Captain Hook : Public */
 
@@ -81,7 +61,5 @@ void				rtt_render(void *glob_);
 
 void				print_vector(t_vector *vector);
 void				print_collision(t_collision *collision);
-
-
 
 #endif

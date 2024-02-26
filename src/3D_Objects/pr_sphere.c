@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 03:58:30 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 11:16:14 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_csg	*pr_new_sphere(char **params)
 	sphere->l->type = SPHERE;
 	sphere->l->ort = (t_vector){0, 0, 0};
 	sphere->l->shape.sphere.rad = parse_float(params[0]) / 2;
-	parse_rgb(&sphere->l->color, params[1]);
+	parse_rgb(&sphere->l->rgb, params[1]);
 	if (params[2])
 		parse_position(&sphere->l->pos, params[2]);
 	else

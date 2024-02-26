@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/24 23:37:51 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 11:06:16 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_vector	*produit_vectoriel(t_vector *v1, t_vector *v2)
 	t_vector	*ret;
 
 	ret = new_vector(v1->y * v2->z - v1->z * v2->y, \
-						-1 * (v1->x * v2->z) + v1->z * v2->x, \
-						v1->x * v2->y - v1->y * v2->x);
+					(v1->x * v2->z) + v1->z * v2->x, \
+					(v1->x * v2->y) - v1->y * v2->x);
 	return (ret);
 }
 

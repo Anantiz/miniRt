@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:37:46 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 11:04:16 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,16 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	if (ft_tablen(line_tokens) != 4)
 		parse_error_msg(ERROR_PARSE_TOO_MANY);
 	camera = our_malloc(sizeof(t_camera));
+	camera->pos = our_malloc(sizeof(t_vector));
+	camera->direction = our_malloc(sizeof(t_vector));
 	parse_position(&camera->pos, line_tokens[1]);
-	parse_orientation(&camera->rotation, line_tokens[2]);
+	parse_orientation(&camera->direction, line_tokens[2]);
 	if (!ft_is_int_format(line_tokens[3]))
 	camera->fov = ft_atoi(line_tokens[3]);
 	if (camera->fov < 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV);
+	camera->up = addition(camera->pos, new_vector(0, 1, 0));
+	camera->right = produit_vectoriel(camera->up, camera->direction);
 	glob->camera = camera;
 }
 

@@ -94,14 +94,14 @@ To come:
 */
 typedef struct s_csg_leave
 {
-	t_e_prim	type;
+	t_e_prim		type;
 
 	t_vector		pos;
 	t_vector		ort;
 
 	t_u_shape		shape;
 
-	t_rgb			color;
+	t_rgb			rgb;
 	// more to come
 
 }t_csg_leave;

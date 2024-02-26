@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 00:10:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 11:18:20 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,22 @@
 
 const char	*shape_names[] = {"Sphere", "Plane", "Cylinder", NULL, NULL, NULL, NULL, NULL};
 
-
-// static void	init_global(t_glob *glob)
-// {
-// 	glob->win_size = (t_pair_size){SMALL_WIN_X, SMALL_WIN_Y};
-// 	glob->mlx = mlx_init(glob->win_size.width, glob->win_size.height, \
-// 	"RTT", false);
-// 	if (!glob->mlx)
-// 		error_exit("Failed to initialize MLX");
-// 	glob->img = mlx_new_image(glob->mlx, glob->win_size.width , \
-// 	glob->win_size.height);
-// 	if (!glob->img)
-// 	{
-// 		mlx_terminate(glob->mlx);
-// 		error_exit("Failed to initialize MLX image");
-// 	}
-// 	mlx_key_hook(glob->mlx, cptn_hook_key, glob);
-// }
+static void	init_global(t_glob *glob)
+{
+	glob->win_size = (t_pair_size){SMALL_WIN_X, SMALL_WIN_Y};
+	glob->mlx = mlx_init(glob->win_size.width, glob->win_size.height, \
+	"RTT", false);
+	if (!glob->mlx)
+		error_exit("Failed to initialize MLX");
+	glob->img = mlx_new_image(glob->mlx, glob->win_size.width , \
+	glob->win_size.height);
+	if (!glob->img)
+	{
+		mlx_terminate(glob->mlx);
+		error_exit("Failed to initialize MLX image");
+	}
+	mlx_key_hook(glob->mlx, cptn_hook_key, glob);
+}
 void	my_test(t_glob *glob);
 
 int main(int argc, char **argv)
@@ -53,10 +52,11 @@ int main(int argc, char **argv)
 		return (FAILURE);
 	printf("\033[32mParsing done\033[0m\n");
 	my_test(&glob);
-	// init_global(&glob);
-	// mlx_loop_hook(glob.mlx, rtt_render, &glob);
-	// mlx_loop(glob.mlx);
-	// mlx_terminate(glob.mlx);
+	init_global(&glob);
+	mlx_loop_hook(glob.mlx, rtt_render, &glob);
+	ray_tracing(&glob);
+	mlx_loop(glob.mlx);
+	mlx_terminate(glob.mlx);
 	safe_as_fuck_malloc(0, NULL, SAFE_MALLOC_FREE_ALL);
 	return (0);
 }

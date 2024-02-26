@@ -20,14 +20,14 @@ BIN_LIBFT		:=./libs/libft.a
 #	####	####	####	####	####	####	####	####
 ###############################################################
 
-SRC_FILES:=main.c camera/camera.c test.c
+SRC_FILES:=main.c test.c
 
 _OBJS_PATH:=3D_Objects/Objs
 _OBJS_FILES:=obj_sphere.c obj_plane.c obj_cylinder.c obj_penguin.c obj_fighter_jet.c
 SRC_FILES+=			$(addprefix $(_OBJS_PATH)/,$(_OBJS_FILES))
 
 3D_OBJ_PATH:=3D_Objects
-3D_OBJ_FILES:=_3Dobj.c collider2.c collider.c pr_sphere.c pr_plane.c pr_cylinder.c 
+3D_OBJ_FILES:=_3Dobj.c collider2.c collider.c pr_sphere.c pr_plane.c pr_cylinder.c
 SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
 
 PARSE_PATH:=Parsing
