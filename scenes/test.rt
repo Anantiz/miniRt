@@ -4,7 +4,7 @@
 A 0.2 255,255,255
 
 # Stands for Camera, param[origin, direction, fov]
-C -50,0,20 0,0,0 70
+C -500,0,20 0,0,0 70
 
 # Stands for spot light, param[origin, intensity, color]
 L -40,0,30 0.7 255,255,255

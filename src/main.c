@@ -6,7 +6,7 @@
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 15:51:07 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:56:44 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int main(int argc, char **argv)
 	printf("\033[32mParsing done\033[0m\n");
 	// my_test(&glob);
 	init_global(&glob);
-	// mlx_loop_hook(glob.mlx, rtt_render, &glob);
-	ray_tracing(&glob);
+	mlx_loop_hook(glob.mlx, rtt_render, &glob);
 	mlx_loop(glob.mlx);
 	mlx_terminate(glob.mlx);
 	safe_as_fuck_malloc(0, NULL, SAFE_MALLOC_FREE_ALL);

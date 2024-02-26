@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 12:58:57 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:31:14 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	free_collisions_except(t_collision **collisions, t_collision *except
 	our_free(collisions);
 }
 
+extern FILE *asderlog;
 static t_collision	*get_closest_collision(t_collision **collisions, int count)
 {
 	t_collision *closest_collision;
@@ -57,15 +58,15 @@ static t_collision	*get_closest_collision(t_collision **collisions, int count)
 	{
 		if (collisions[i])
 		{
-			// printf("Collision found with Object: %d\n", i);
 			if (collisions[i]->dist < closest_dist)
 			{
+				// fprintf(asderlog, "\tCollision found with Object: %d\n", i);
 				closest_dist = collisions[i]->dist;
 				closest_collision = collisions[i];
 			}
 		}
 		// else
-			// printf("No collision with Object: %d\n", i);
+		// 	fprintf(asderlog, "\tNo collision with Object: %d\n", i);
 	}
 	free_collisions_except(collisions, closest_collision ,count);
 	return (closest_collision);
@@ -90,7 +91,7 @@ t_collision	*scene_collision_query(t_scene *scene, t_ray *ray)
 	t_collision	**collisions;
 	int			i;
 
-	collisions = ft_calloc(sizeof(t_collision *) , (scene->objects_count));
+	collisions = our_malloc(sizeof(t_collision *) * (scene->objects_count));
 	obj = scene->objects;
 	i = 0;
 	while (obj) // Get collisions with all objects

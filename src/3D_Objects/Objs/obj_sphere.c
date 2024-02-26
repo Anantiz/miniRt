@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:53 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 02:49:03 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 13:22:09 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ t_csg	*obj_new_sphere(t_object *obj, char **params)
 	printf("Sphere radius: %f\n", sphere->l->shape.sphere.rad);
 	printf("Sphere relative position: ");
 	print_vector(&sphere->l->pos);
-	printf("Sphere absoulte position: ");
+	printf("Sphere absolute position: ");
 	print_vector(add_vector(&obj->pos, &sphere->l->pos));
+	printf("Sphere color: ");
+	print_rgb(&sphere->l->rgb);
 	printf("\n\n");
 	return (sphere);
 }

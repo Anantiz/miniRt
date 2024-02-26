@@ -1,5 +1,13 @@
 #include "miniRt.h"
 
+void	print_rgb(t_rgb *color)
+{
+	if (color)
+		printf(" %3d r, %3d g, %3d b\n", color->r, color->g, color->b);
+	else
+		printf("NULL\n");
+}
+
 void	print_vector(t_vector *vector)
 {
 	if (vector)

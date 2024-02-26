@@ -5,6 +5,7 @@ void	normalize_coordinates(float *u, float *v, int x, int y)
 {
 	*u = (2 * ((x + 0.5) / WIN_SIZE_X) - 1);
 	*v = (1 - 2 * ((y + 0.5) / WIN_SIZE_Y));
+	// fprintf(asderlog, "\tUV: %f, %f\n", *u, *v);
 }
 
 t_ray	*new_ray(t_camera *camera, int x, int y)
@@ -19,7 +20,7 @@ t_ray	*new_ray(t_camera *camera, int x, int y)
 	ray->origin = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
 	ray->direction = ray_dir(camera, screen, u, v);
 	our_free(screen);
-	fprintf(asderlog, "  Direction: %f, %f, %f\n", ray->direction->x, ray->direction->y, ray->direction->z);
+	// fprintf(asderlog, "\tDir: %f, %f, %f\n", ray->direction->x, ray->direction->y, ray->direction->z);
 	return (ray);
 }
 
@@ -61,7 +62,7 @@ void	ray_tracing(t_glob *glob)
 	int			y;
 
 	x = 0;
-	asderlog = fopen("rendering.log", "w");
+	// asderlog = fopen("rendering.log", "w");
 	while (x < WIN_SIZE_X)
 	{
 		y = 0;
@@ -69,16 +70,18 @@ void	ray_tracing(t_glob *glob)
 		{
 			ray = new_ray(glob->camera, x, y);
 			// Write the ray to the log
-			fprintf(asderlog, "Ray at %d, %d\n", x, y);
-			fprintf(asderlog, "\tOrigin: %f, %f, %f\n", ray->origin->x, ray->origin->y, ray->origin->z);
-			fprintf(asderlog, "\tDirection: %f, %f, %f\n", ray->direction->x, ray->direction->y, ray->direction->z);
+			// fprintf(asderlog, "Ray at %d, %d\n", x, y);
 			collision = scene_collision_query(glob->scene, ray);
 			rtt_render_pixel(glob, collision, x, y);
 			del_collision(collision);
+			our_free(ray->origin);
+			our_free(ray->direction);
+			our_free(ray);
+			// fprintf(asderlog, "\n\n");
 			y++;
 		}
 		x++;
 	}
-	fclose(asderlog);
+	// fclose(asderlog);
 	printf("Rendering done\n");
 }
