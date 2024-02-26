@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 13:31:14 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 14:42:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	free_collisions_except(t_collision **collisions, t_collision *except
 	our_free(collisions);
 }
 
-extern FILE *asderlog;
+extern FILE *debug_log_f;
 static t_collision	*get_closest_collision(t_collision **collisions, int count)
 {
 	t_collision *closest_collision;
@@ -60,7 +60,7 @@ static t_collision	*get_closest_collision(t_collision **collisions, int count)
 		{
 			if (collisions[i]->dist < closest_dist)
 			{
-				// fprintf(asderlog, "\tCollision found with Object: %d\n", i);
+				// fprintf(debug_log_f, "\tCollision found with Object: %d\n", i);
 				closest_dist = collisions[i]->dist;
 				closest_collision = collisions[i];
 			}
