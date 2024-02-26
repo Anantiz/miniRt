@@ -32,7 +32,7 @@ void	my_test(t_glob *glob)
 
 		TEST 1:
 		- Create a sphere (already parsed)
-			-origin: 0, 0, 20
+			-origin: 0, 0, 0
 			-radius: 10
 		- Create a ray
 		- Test the collision between the sphere and the ray
@@ -42,7 +42,7 @@ void	my_test(t_glob *glob)
 
 	// Is aimed towards the origin of the sphere
 	t_ray		ray_hit;
-	t_vector	origin_hit = {0, 0, 0};
+	t_vector	origin_hit = {-10, 1, 0};
 	t_vector	direction_hit = {1, 0, 0};
 	ray_hit.origin = &origin_hit;
 	ray_hit.direction = &direction_hit;
@@ -59,7 +59,7 @@ void	my_test(t_glob *glob)
 
 	// Same as the first test, but the sphere is behind
 	t_ray		ray_miss;
-	t_vector	origin_miss = {10, 0, 0};
+	t_vector	origin_miss = {100, 0, 0};
 	t_vector	direction_miss = {1, 0, 0};
 	ray_miss.origin = &origin_miss;
 	ray_miss.direction = &direction_miss;
@@ -69,7 +69,7 @@ void	my_test(t_glob *glob)
 	our_free(collision);
 
 	// Is aimed below the sphere
-	t_vector	origin_miss2 = {-10, 0, 0};
+	t_vector	origin_miss2 = {-100, 0, 0};
 	t_vector	direction_miss2 = {1, 0, 0};
 	ray_miss.origin = &origin_miss2;
 	ray_miss.direction = &direction_miss2;

@@ -1,4 +1,7 @@
 objs
+./libs/libft/*.o
+./libs/libft/*/*.o
+./libs/libft/*/*/*.o
 ./libs/*.a
 ./libs/MLX42/build
 miniRT

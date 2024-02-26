@@ -6,24 +6,11 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 02:48:11 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 03:58:30 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
-
-
-/*
-Aint't that beautiful? (joke it's scary)
-
-a=Dx2​+Dy2​+Dz2​
-
-b=2×(Dx×(Ox−Cx)+Dy×(Oy−Cy)+Dz×(Oz−Cz))b=2×(Dx​×(Ox​−Cx​)+Dy​×(Oy​−Cy​)+Dz​×(Oz​−Cz​))
-
-c=(Ox−Cx)2+(Oy−Cy)2+(Oz−Cz)2−R2c=(Ox​−Cx​)2+(Oy​−Cy​)2+(Oz​−Cz​)2−R2
-
-*/
-
 
 /*
 Pr constructors are given correct parameters, so we don't need to check them
@@ -54,25 +41,35 @@ t_csg	*pr_new_sphere(char **params)
 	return (sphere);
 }
 
+/*
+Aint't that beautiful? (joke it's scary), quadratic formula + polynomial conversion
+
+a=Dx2​+Dy2​+Dz2​
+
+b=2×(Dx×(Ox−Cx)+Dy×(Oy−Cy)+Dz×(Oz−Cz))b=2×(Dx​×(Ox​−Cx​)+Dy​×(Oy​−Cy​)+Dz​×(Oz​−Cz​))
+
+c=(Ox−Cx)2+(Oy−Cy)2+(Oz−Cz)2−R2c=(Ox​−Cx​)2+(Oy​−Cy​)2+(Oz​−Cz​)2−R2
+
+I made a crime to fix an unknown bug:
+	We do not inverse the sign of b during the equation, otherwise
+	it gets the vector in the wrong direction, like why?
+
+*/
 bool	collider_sphere_quadratic(t_csg *csg, t_ray *ray, t_vector *dist_oc, \
 t_pair_float *t)
 {
-	float		a;
 	float		b;
 	float		c;
-	float		discriminant;
+	float		delta;
 
-	a = vec_dot_product(ray->direction, ray->direction);
-	if (a == 0)
-		return (false);
 	b = 2.0 * vec_dot_product(dist_oc, ray->direction);
-	c = vec_dot_product(dist_oc, dist_oc);
-	c -= (csg->l->shape.sphere.rad * csg->l->shape.sphere.rad);
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
+	c = vec_dot_product(dist_oc, dist_oc) - (csg->l->shape.sphere.rad \
+	* csg->l->shape.sphere.rad);
+	delta = (b * b) - (4.0 * c);
+	if (delta < 0)
 		return (false);
-	t->t1 = (-b - sqrtf(discriminant)) / (2.0 * a);
-	t->t2 = (-b + sqrtf(discriminant)) / (2.0 * a);
+	t->t1 = (b - sqrtf(delta)) / (2.0);
+	t->t2 = (b + sqrtf(delta)) / (2.0);
 	if (t->t1 > 0 || t->t2 > 0)
 		return (true);
 	return (false);
@@ -85,8 +82,8 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 	t_pair_float	t;
 	bool			ret;
 
-	sphere_origin = add_vector(&obj->pos, &csg->l->pos);
-	dist_oc = sub_vector(sphere_origin ,ray->origin);
+	sphere_origin = add_vector(&obj->pos, &csg->l->pos); // Get absolute position of the sphere
+	dist_oc = sub_vector(sphere_origin, ray->origin);
 	our_free(sphere_origin);
 	ret = collider_sphere_quadratic(csg, ray, dist_oc, &t);
 	our_free(dist_oc);
