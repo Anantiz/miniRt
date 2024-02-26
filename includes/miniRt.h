@@ -3,9 +3,9 @@
 
 #define DEBUG
 
-#define WIN_SIZE_X	960
-#define WIN_SIZE_Y	540
-
+# define WIN_SIZE_X	960
+# define WIN_SIZE_Y	540
+# define M_PI		3.14159265358979323846  /* pi */
 // #define WIN_SIZE_X	320
 //  #define WIN_SIZE_Y	180
 
