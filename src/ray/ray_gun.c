@@ -26,7 +26,7 @@ t_screen	*field_of_view(float fov, float aspect_ratio)
 	t_screen	*screen;
 
 	screen = our_malloc(sizeof(t_screen));
-	screen->width_factor = tan(fov / 2);
+	screen->width_factor = tanf(fov / 2);
 	screen->height_factor = aspect_ratio * tan(fov / 2);
 	return (screen);
 }
@@ -52,17 +52,23 @@ void	ray_tracing(t_glob *glob)
 	int			y;
 
 	x = 0;
-	y = 0;
+	FILE *log = fopen("rendering.log", "w");
 	while (x < WIN_SIZE_X)
 	{
-		while (y <= WIN_SIZE_Y)
+		y = 0;
+		while (y < WIN_SIZE_Y)
 		{
 			ray = new_ray(glob->camera, x, y);
+			// Write the ray to the log
+			fprintf(log, "Ray at %d, %d\n", x, y);
+			fprintf(log, "\tOrigin: %f, %f, %f\n", ray->origin->x, ray->origin->y, ray->origin->z);
+			fprintf(log, "\tDirection: %f, %f, %f\n", ray->direction->x, ray->direction->y, ray->direction->z);
 			collision = scene_collision_query(glob->scene,ray);
 			rtt_render_pixel(glob, collision, x, y);
 			y++;
 		}
 		x++;
 	}
+	fclose(log);
 	printf("Rendering done\n");
 }

@@ -79,7 +79,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(SRC_OBJ) $(BIN_LIBMLX) $(BIN_LIBFT)
-	@$(CC) -Llibs -lft -lmlx42 -ldl -pthread -lglfw $^ -o $@ $(CFLAGS) -lm
+	@$(CC) -Llibs -lft -lmlx42 -ldl -pthread -lglfw -lm $^ -o $@ $(CFLAGS)
 
 clean:
 	@$(RM) $(OBJ_PATH)
