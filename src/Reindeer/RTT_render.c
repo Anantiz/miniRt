@@ -6,7 +6,8 @@ void	rtt_render(void *glob_)
 	t_glob	*glob;
 
 	glob = (t_glob *)glob_;
-	(void)glob;
+	ray_tracing(glob);
+	sleep(5);
 	// Do the rendering here
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 11:49:50 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 12:58:57 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_collision	*scene_collision_query(t_scene *scene, t_ray *ray)
 	t_collision	**collisions;
 	int			i;
 
-	collisions = our_malloc(sizeof(t_collision *) * (scene->objects_count));
+	collisions = ft_calloc(sizeof(t_collision *) , (scene->objects_count));
 	obj = scene->objects;
 	i = 0;
 	while (obj) // Get collisions with all objects
