@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 02:20:11 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 12:07:07 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_object	*new_object(char **params)
 			obj = our_malloc(sizeof(t_object));
 			obj->type = stypes[i];
 			parse_position(&obj->pos, params[1]);
-			if (stypes[i] == SPHERE)
+			if (stypes[i] == P_SPHERE)
 			{
 				obj->ort = (t_vector){0, 0, 0};
 				obj->csg = new_csg_tree(obj, stypes[i], params + 2);
