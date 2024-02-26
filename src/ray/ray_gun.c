@@ -17,6 +17,7 @@ t_ray	*new_ray(t_camera *camera, int x, int y)
 	ray = our_malloc(sizeof(t_ray));
 	ray->origin = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
 	ray->direction = ray_dir(camera, screen, u, v);
+	our_free(screen);
 	return (ray);
 }
 
@@ -59,8 +60,9 @@ void	ray_tracing(t_glob *glob)
 			ray = new_ray(glob->camera, x, y);
 			collision = scene_collision_query(glob->scene,ray);
 			rtt_render_pixel(glob, collision, x, y);
-			x++;
+			y++;
 		}
-		y++;
+		x++;
 	}
+	printf("Rendering done\n");
 }

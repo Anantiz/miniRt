@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 11:50:50 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 11:55:15 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	printf("\033[32mParsing done\033[0m\n");
 	// my_test(&glob);
 	init_global(&glob);
-	mlx_loop_hook(glob.mlx, rtt_render, &glob);
+	// mlx_loop_hook(glob.mlx, rtt_render, &glob);
 	ray_tracing(&glob);
 	mlx_loop(glob.mlx);
 	mlx_terminate(glob.mlx);
