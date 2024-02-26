@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 16:43:19 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 11:02:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 11:49:17 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_collision	*collider_switch(t_object *obj, t_ray *ray, t_csg *csg)
 	static const t_collider	map[] = {collider_sphere, collider_plane, \
 	collider_cylinder, NULL};
 
-	fprintf(stderr, "\033[35mCollider switch: %s\033[0m\n", shape_names[csg->l->type]);
+	// fprintf(stderr, "\033[35mCollider switch: %s\033[0m\n", shape_names[csg->l->type]);
 	return (map[csg->l->type](obj, csg, ray));
 }
 

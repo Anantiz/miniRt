@@ -30,7 +30,7 @@ typedef struct s_screen
 
 }t_screen;
 
-t_ray		*new_ray(t_camera *camera, float x, float y);
+t_ray		*new_ray(t_camera *camera, int x, int y);
 t_screen	*field_of_view(float fov, float aspect_ratio);
 t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v);
 

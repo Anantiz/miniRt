@@ -1,11 +1,19 @@
 #include "../../includes/miniRt.h"
 
-t_ray	*new_ray(t_camera *camera, float u, float v)
+void	normalize_coordinates(float *u, float *v, int x, int y)
+{
+	*u = (2 * ((x + 0.5) / WIN_SIZE_X) - 1);
+	*v = (1 - 2 * ((y + 0.5) / WIN_SIZE_Y));
+}
+
+t_ray	*new_ray(t_camera *camera, int x, int y)
 {
 	t_ray		*ray;
 	t_screen	*screen;
+	float		u, v;
 
-	screen = field_of_view(camera->fov, 1920 / 1080);
+	normalize_coordinates(&u, &v, x, y);
+	screen = field_of_view(camera->fov, WIN_SIZE_X / WIN_SIZE_Y);
 	ray = our_malloc(sizeof(t_ray));
 	ray->origin = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
 	ray->direction = ray_dir(camera, screen, u, v);
@@ -38,23 +46,21 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 void	ray_tracing(t_glob *glob)
 {
 	t_ray		*ray;
-	t_collision	*collision;
-	float		pas;
-	float		u;
-	float		v;
+	t_collision	*collision;;
+	int			x;
+	int			y;
 
-	u = -1;
-	v = -1 * (1080 / 1920);
-	pas = 2.0 / 1920;
-	while (u <= 1)
+	x = 0;
+	y = 0;
+	while (x < WIN_SIZE_X)
 	{
-		while (v <= 1080 / 1920)
+		while (y <= WIN_SIZE_Y)
 		{
-			ray = new_ray(glob->camera, u, v);
+			ray = new_ray(glob->camera, x, y);
 			collision = scene_collision_query(glob->scene,ray);
-			rtt_render_pixel(glob, collision, u, v);
-			v += pas;
+			rtt_render_pixel(glob, collision, x, y);
+			x++;
 		}
-		u += pas;
+		y++;
 	}
 }

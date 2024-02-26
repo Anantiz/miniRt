@@ -6,20 +6,17 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 11:18:56 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 11:50:50 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRt.h"
 
-#define SMALL_WIN_X	640
-#define SMALL_WIN_Y	480
-
 const char	*shape_names[] = {"Sphere", "Plane", "Cylinder", NULL, NULL, NULL, NULL, NULL};
 
 static void	init_global(t_glob *glob)
 {
-	glob->win_size = (t_pair_size){SMALL_WIN_X, SMALL_WIN_Y};
+	glob->win_size = (t_pair_size){WIN_SIZE_X, WIN_SIZE_Y};
 	glob->mlx = mlx_init(glob->win_size.width, glob->win_size.height, \
 	"RTT", false);
 	if (!glob->mlx)
@@ -51,7 +48,7 @@ int main(int argc, char **argv)
 	if (parse_map(&glob, argv[1]))
 		return (FAILURE);
 	printf("\033[32mParsing done\033[0m\n");
-	my_test(&glob);
+	// my_test(&glob);
 	init_global(&glob);
 	mlx_loop_hook(glob.mlx, rtt_render, &glob);
 	ray_tracing(&glob);

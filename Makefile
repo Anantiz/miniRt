@@ -94,6 +94,6 @@ fclean: clean
 
 re: fclean all
 
-cldo: clean all
+redo: clean all
 
 .PHONY: all clean fclean re cldo
