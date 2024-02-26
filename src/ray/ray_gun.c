@@ -41,6 +41,7 @@ void	ray_tracing(t_glob *glob)
 	t_collision	*collision;
 	float		pas;
 	float		u;
+	
 	float		v;
 
 	u = -1;
