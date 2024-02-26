@@ -3,6 +3,7 @@
 
 # include <math.h>
 # include "libft.h"
+# include "pair.h"
 
 // Cuz floats are faster than doubles
 typedef	struct	s_vector

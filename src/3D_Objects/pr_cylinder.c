@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 15:16:43 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 16:03:32 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	t_vector		*sphere_origin;
 	t_pair_float	t;
 
-	dist_oc = vector_sub(&ray->origin, &csg->l->pos);
-	sphere_origin = vector_add(&csg->l->pos, obj->pos);
+	dist_oc = sub_vector(ray->origin, &csg->l->pos);
+	sphere_origin = add_vector(&csg->l->pos, &obj->pos);
 	if (!quadratic_solver(&t, dist_oc, ray->direction, csg->l->shape.cylinder.rad))
 		return (our_free(dist_oc), our_free(sphere_origin), NULL);
 	our_free(dist_oc);

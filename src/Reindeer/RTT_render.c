@@ -1,5 +1,7 @@
 #include "miniRt.h"
 
+extern FILE *debug_log_f;
+
 /* This one is a loop_hook, called every frame*/
 void	rtt_render(void *glob_)
 {
@@ -26,9 +28,10 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y)
 	if (x >= WIN_SIZE_X || y >= WIN_SIZE_Y || x < 0 || y < 0)
 		return ;
 	if (!collision)
-		mlx_put_pixel(glob->img, x, y, 0xAAAAAAFF);
+		mlx_put_pixel(glob->img, x, y, 0xAA00AAFF);
 	else
+	{
 		mlx_put_pixel(glob->img, x, y, get_collision_color(collision));
-		// printf("No collision at %d, %d\n", x, y);
-	// printf("Collision at %f, %f\n", u, v);
+		fprintf(debug_log_f, "   ~Collision\n");
+	}
 }
