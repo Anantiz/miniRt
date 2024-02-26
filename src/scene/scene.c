@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scene.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
+/*   Updated: 2024/02/26 00:34:23 by aurban           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scene.h"
 
 /*
@@ -12,9 +24,51 @@ t_scene	*scene_new(void)
 	scene = our_malloc(sizeof(t_scene));
 	scene->objects = NULL;
 	scene->objects_count = 0;
+	scene->lights = NULL;
+	scene->lights_count = 0;
 	scene->ambiant_rgb = (t_rgb){0, 0, 0};
-	scene->al_intensity = -1.0f;
+	scene->amb_intensity = -1.0f;
 	return (scene);
+}
+
+static void	free_collisions_except(t_collision **collisions, t_collision *except, int count)
+{
+	int	i;
+
+	i = -1;
+	while (++i < count)
+	{
+		if (collisions[i] != except)
+			our_free(collisions[i]);
+	}
+	our_free(collisions);
+}
+
+static t_collision	*get_closest_collision(t_collision **collisions, int count)
+{
+	t_collision *closest_collision;
+	float		closest_dist;
+	int			i;
+
+	closest_dist = FLT_MAX;
+	closest_collision = NULL;
+	i = -1;
+	while (++i < count)
+	{
+		if (collisions[i])
+		{
+			printf("Collision found with Object: %d\n", i);
+			if (collisions[i]->dist < closest_dist)
+			{
+				closest_dist = collisions[i]->dist;
+				closest_collision = collisions[i];
+			}
+		}
+		else
+			printf("No collision with Object: %d\n", i);
+	}
+	free_collisions_except(collisions, closest_collision ,count);
+	return (closest_collision);
 }
 
 /*
@@ -28,24 +82,22 @@ Return:
 	Collision found
 		-> t_colision
 */
-t_colision	*scene_collision_query(t_scene *scene, t_ray *ray)
+
+// OBSOLETE
+t_collision	*scene_collision_query(t_scene *scene, t_ray *ray)
 {
 	t_ll_obj	*obj;
-	t_colision	*colision;
+	t_collision	**collisions;
+	int			i;
 
+	collisions = our_malloc(sizeof(t_collision *) * (scene->objects_count));
 	obj = scene->objects;
-	colision = NULL;
-	while (obj)
+	i = 0;
+	while (obj) // Get collisions with all objects
 	{
-		colision = obj->o->get_colision(obj->o->origin, obj->o->shape, ray);
-		if (colision)
-		{
-			ray->lumen = update_lumen_distance(ray, colision->point);
-			if (ray->lumen == 0)
-				return (our_free(colision), NULL);
-			return (colision);
-		}
+		printf("Testing collisions with Object: %d, out of %d\n", i + 1, scene->objects_count);
+		collisions[i++] = hadron_collider(obj->o, ray, obj->o->csg);
 		obj = obj->next;
 	}
-	return (NULL);
+	return (get_closest_collision(collisions, scene->objects_count));
 }

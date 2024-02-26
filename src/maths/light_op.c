@@ -14,7 +14,7 @@ int	update_lumen_distance(t_ray *ray, t_vector *point)
 	float	distance;
 	float	lumen;
 
-	distance = vector_distance(ray->origin, point);
+	distance = dist_vector(ray->origin, point);
 	lumen = (1 / (distance * distance)) * ray->lumen;
 	ray->lumen = lumen;
 	return ((int)lumen);

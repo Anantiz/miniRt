@@ -1,3 +1,5 @@
+#capitals letter are used for unique identifyers
+
 # Stands for Ambiant light, param[intensity, color]
 A 0.2 255,255,255
 
@@ -12,6 +14,11 @@ L -40,0,30 0.7 255,255,255
 #sp = Sphere
 #cy = Cylinder
 
-pl 0,0,0 0,1.0,0 255,0,225
-sp 0,0,20 20 255,0,0
-cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
+# Format : [object, origin, *normal, {Appropriately : [diameter, height, width]}, color]
+# *normal is not given for sphere
+
+# pl 0,0,0 0,1.0,0 255,0,225
+
+sp 10,0,0 20 255,0,0
+
+# cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255

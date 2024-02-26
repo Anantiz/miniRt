@@ -6,13 +6,13 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 12:42:06 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/12 21:20:14 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 01:00:44 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#define RESIZE_CHUNK 3
+#define RESIZE_CHUNK SBUFSIZ * 2
 
 static void	move_index_to_front(char *buffer, size_t index)
 {
@@ -66,6 +66,7 @@ static char	*read_buffer(int fd, char *buff, char *line)
 {
 	size_t	i;
 	size_t	l_offst;
+	ssize_t nread;
 	int		status;
 
 	l_offst = 0;
@@ -74,11 +75,11 @@ static char	*read_buffer(int fd, char *buff, char *line)
 	{
 		if (!buff[0] || (i == BUFFER_SIZE))
 		{
-			if (gnl_refill_buff(fd, buff) < 0)
-			{
-				our_free (line);
-				return (NULL);
-			}
+			nread = gnl_refill_buff(fd, buff);
+			if (nread < 0)
+				return (our_free(line), NULL);
+			else if (nread == 0)
+				return (line);
 		}
 		i = 0;
 		status = gnl_copy_buffer(&buff, &line, &i, &l_offst);
@@ -110,10 +111,11 @@ char	*get_next_line(int fd, int reset)
 	if (!buff)
 		return (NULL);
 	line = read_buffer(fd, buff, NULL);
-	if (line == NULL || (buff && buff[0] == '\0'))
+	if (line == NULL)
 	{
 		our_free(buffers_list[fd]);
 		buffers_list[fd] = NULL;
+		return (NULL);
 	}
 	return (str_nulltrim(line));
 }

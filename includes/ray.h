@@ -1,22 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/22 10:24:34 by lkary-po          #+#    #+#             */
-/*   Updated: 2024/02/25 16:27:33 by loris            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef RAY_H
 # define RAY_H
 
+# include "vector.h"
+# include "_3Dshapes.h"
 # include "miniRt.h"
+
+/*
+	Returned by a collision query
+	Contains the object and the point of collision for the given ray
+
+	Obj is the one there is a collision with
+	Parent_obj is the group that contains the obj (if any use)
+*/
+typedef struct s_camera t_camera;
 
 typedef	struct s_ray
 {
+	int			lumen;
+	t_rgb		ray_color;
+
 	t_vector	*origin;
 	t_vector	*direction;
 }t_ray;
@@ -29,6 +31,5 @@ typedef struct s_screen
 }t_screen;
 
 t_ray		*new_ray(t_camera *camera, float x, float y);
-
 
 #endif

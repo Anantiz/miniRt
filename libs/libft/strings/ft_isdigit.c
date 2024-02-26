@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 09:54:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 11:53:16 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:45:07 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ bool	ft_is_float_format(const char *str)
 			return (false);
 		str++;
 	}
+	return (true);
 }
 
 /*

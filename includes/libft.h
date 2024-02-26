@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:44:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 11:53:40 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 00:45:22 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ size_t		ft_strlen(const char *s);
 size_t		ft_strslen(char **strs);
 char		*ft_strtrim(char const *s1, char const *set);
 
+void		ft_replace_ptr(void **old, void *new);
 void		ft_replace_str(char **old, char *new);
 void		ft_replace_dupstr(char **old, char *new);
 
@@ -215,7 +216,7 @@ void		ft_send_uint(char *buffer, t_bd *bd, unsigned int n);
 GAZ NATUREL LIQUEFIE
 */
 
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 4096
 # define MAX_FD_HANDLE 1024
 
 char		*get_next_line(int fd, int reset);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   obj_ll.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/24 15:09:34 by aurban            #+#    #+#             */
+/*   Updated: 2024/02/24 15:09:36 by aurban           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scene.h"
 
 /*
@@ -26,6 +38,7 @@ t_ll_obj	*tll_new_node(t_object *object)
 
 	node = our_malloc(sizeof(t_ll_obj));
 	node->o = object;
+	node->l = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -50,7 +63,7 @@ void	tll_del_node(t_ll_obj **root, t_ll_obj *node_)
 		*root = (*root)->next;
 	if (node != NULL)
 	{
-		// delete_object(node->object);
+		;// delete_object(node->object);
 	}
 	our_free(node);
 }

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/02/22 09:39:15 by loris            ###   ########.fr       */
-=======
-/*   Updated: 2024/02/21 13:56:22 by aurban           ###   ########.fr       */
->>>>>>> antoine
+/*   Updated: 2024/02/24 23:37:51 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +46,7 @@ float	vector_length(t_vector *vector)
 {
 	float	ret;
 
-	ret = sqrt((float)(vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
+	ret = sqrtf((float)(vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
 	return (ret);
 }
 
@@ -58,7 +54,9 @@ void	vector_normalizer(t_vector *vector)
 {
 	float	length;
 
-	length  = vector_length(vector);
+	length = vector_length(vector);
+	if (length == 0)
+		return ;
 	vector->x /= length;
 	vector->y /= length;
 	vector->z /= length;
