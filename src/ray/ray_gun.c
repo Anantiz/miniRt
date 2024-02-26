@@ -34,12 +34,16 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 	return (ray_direction);
 }
 
-void	ray_tracing()
+void	ray_tracing(t_vector *pos, t_vector *dir, float fov)
 {
-	float	pas;
-	float	u;
-	float	v;
-	float	etendu;
+	float		pas;
+	float		u;
+	float		v;
+	float		etendu;
+	t_camera 	*camera;
+
+	camera = new_camera(pos, dir, fov);
+
 	u = -1;
 	v = -1 * (1080 / 1920);
 	pas = 2/1920;
@@ -48,6 +52,7 @@ void	ray_tracing()
 	{
 		while (v <= 1080 / 1920)
 		{
+			new_ray(camera, u, v);
 			v += pas;
 		}
 		u += pas;
