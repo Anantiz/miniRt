@@ -14,3 +14,4 @@ objs
 ./libs/MLX42/build
 miniRT
 .vscode
+rendering.log
