@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_upper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 15:57:01 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:59:41 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #else
 #define LIGHT_PARAM_COUNT 4
 #endif
+
+#define M_PI 3.14159265358979323846
 
 /*
 Ambiant light rules:
@@ -47,8 +49,6 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	static bool	cam_set = false;
 	t_camera	*camera;
 
-	for (int i=0;line_tokens[i];i++)
-		printf("TK: %s\n",line_tokens[i]);
 	if (cam_set)
 		parse_error_msg(ERROR_DUPLICATE_CAM);
 	cam_set = true;
@@ -58,13 +58,10 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	camera->pos = our_malloc(sizeof(t_vector));
 	camera->orientation = our_malloc(sizeof(t_vector));
 	parse_position(camera->pos, line_tokens[1]);
-	parse_orientation(camera->orientation, line_tokens[2]);
+	parse_orientation(camera->direction, line_tokens[2]);
 	printf("%s\n", line_tokens[3]);
 	camera->fov = -1;
-	if (ft_is_int_format(line_tokens[3]))
-		camera->fov = ft_atoi(line_tokens[3]);
-	printf("%d\n", camera->fov);
-
+	camera->fov = parse_int(line_tokens[3]);
 	if (camera->fov <= 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV);
 	camera->direction = sub_vector(camera->pos, camera->orientation);
@@ -98,7 +95,7 @@ void	parse_light(t_glob *glob, char **line_tokens)
 	scene_add_light(glob->scene, light);
 }
 
-// Cuz I don't wanna do an other file jjust for this
+// Cuz I don't wanna do an other file just for this
 
 int	parse_int(char *str)
 {

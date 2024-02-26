@@ -12,6 +12,7 @@ typedef	struct	s_vector
 	float	z;
 }t_vector;
 
+
 /* VECTOR OPERATOR */
 
 void				rea_v(t_vector **old_addr, t_vector *new_ptr);
@@ -25,5 +26,8 @@ float				vec_dot_product(t_vector *v1, t_vector *v2);
 float				dist_vector(const t_vector *v1, const t_vector *v2);
 t_vector			*mult_vector(float k, t_vector *v1);
 t_vector			*produit_vectoriel(t_vector *v1, t_vector *v2);
+
+bool				quadratic_solver\
+(t_pair_float *t, t_vector *dist_oc, t_vector *dir, float r);
 
 #endif

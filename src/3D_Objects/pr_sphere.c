@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 11:16:14 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 15:12:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ they are already checked in the parsing process
 
 Primitive constructors take their relative position in last as they are optional
 0 if not set
-	During parsingm the diameter is given, but we use the radius
+*/
+
+/*
+If params len is not 3, segfault, please give me the right params
 	params[0] = diameter
 	params[1] = color
-	params[2] = position
+	(optional)params[2] = position
 */
 t_csg	*pr_new_sphere(char **params)
 {
@@ -55,25 +58,6 @@ I made a crime to fix an unknown bug:
 	it gets the vector in the wrong direction, like why?
 
 */
-bool	collider_sphere_quadratic(t_csg *csg, t_ray *ray, t_vector *dist_oc, \
-t_pair_float *t)
-{
-	float		b;
-	float		c;
-	float		delta;
-
-	b = 2.0 * vec_dot_product(dist_oc, ray->direction);
-	c = vec_dot_product(dist_oc, dist_oc) - (csg->l->shape.sphere.rad \
-	* csg->l->shape.sphere.rad);
-	delta = (b * b) - (4.0 * c);
-	if (delta < 0)
-		return (false);
-	t->t1 = (b - sqrtf(delta)) / (2.0);
-	t->t2 = (b + sqrtf(delta)) / (2.0);
-	if (t->t1 > 0 || t->t2 > 0)
-		return (true);
-	return (false);
-}
 
 t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 {
@@ -82,10 +66,10 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 	t_pair_float	t;
 	bool			ret;
 
-	sphere_origin = add_vector(&obj->pos, &csg->l->pos); // Get absolute position of the sphere
+	sphere_origin = add_vector(&obj->pos, &csg->l->pos);
 	dist_oc = sub_vector(sphere_origin, ray->origin);
 	our_free(sphere_origin);
-	ret = collider_sphere_quadratic(csg, ray, dist_oc, &t);
+	ret = quadratic_solver(&t, dist_oc, ray->direction, csg->l->shape.sphere.rad);
 	our_free(dist_oc);
 	if (!ret)
 		return (NULL);

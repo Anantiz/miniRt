@@ -38,6 +38,8 @@ typedef	struct	s_camera
 	t_vector	*right;
 	t_vector	*up;
 	int			fov;
+	float		rad_fov;
+	float		screen_ratio;
 }t_camera;
 
 /*
