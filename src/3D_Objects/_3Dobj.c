@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 17:28:25 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 02:20:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Firstly:
 
 Secondly:
 	The new_object() function will take care of calling the right constructor
-	(like new_sphere(), new_plane(), new_fighter_jet() etc...).
+	(like pr_new_sphere(), new_plane(), new_fighter_jet() etc...).
 
 Thirdly:
 	Each constructor will creates a t_csg tree, and returns a pointer to it.
@@ -30,17 +30,17 @@ Thirdly:
 
 #include "_3Dshapes.h"
 
-typedef t_csg	*(*t_constructor)(char **params);
+typedef t_csg	*(*t_constructor)(t_object *obj, char **params);
 
 /*
 	Pretty warper, maybe it could do more lmfaoooo....
 */
-static t_csg	*new_csg_tree(t_e_objt stypes, char **params)
+static t_csg	*new_csg_tree(t_object *obj, t_e_objt stypes, char **params)
 {
-	static const t_constructor	constructors[] = {new_sphere, new_plane, \
-	new_cylinder, new_fighter_jet, new_penguin};
+	static const t_constructor	constructors[] = {obj_new_sphere, obj_new_plane, \
+	obj_new_cylinder, obj_new_fighter_jet, obj_new_penguin};
 
-	return (constructors[stypes](params));
+	return (constructors[stypes](obj, params));
 }
 
 /*
@@ -69,13 +69,13 @@ t_object	*new_object(char **params)
 			if (stypes[i] == SPHERE)
 			{
 				obj->ort = (t_vector){0, 0, 0};
-				obj->csg = new_csg_tree(stypes[i], params + 2);
+				obj->csg = new_csg_tree(obj, stypes[i], params + 2);
 				return (obj);
 			}
 			parse_orientation(&obj->ort, params[2]);
-			obj->csg = new_csg_tree(stypes[i], params + 3);
+			obj->csg = new_csg_tree(obj, stypes[i], params + 3);
 			return (obj);
 		}
 	}
-	return (error_exit("Invalid object type, aborting."), NULL);
+	return (error_exit("Invalid object type, aborting."), NULL); // Here we leak an fd
 }

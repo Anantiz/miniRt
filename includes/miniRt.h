@@ -6,6 +6,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <float.h>
 # include "libft.h"
 # include "pair.h"
 # include "vector.h"
@@ -15,10 +16,13 @@
 # include "parsing.h"
 # include "../libs/MLX42/include/MLX42/MLX42_Int.h"
 
+
 # define SUCCESS				0
 # define FAILURE				1
 # define GO_FUCK_YOURSELF		-1
 
+
+extern const char *shape_names[]; // To remove for release
 /*
 	La direction devra etre calculer depuis rotatio et pos
 */
@@ -72,5 +76,12 @@ void				cptn_hook_key(mlx_key_data_t keydata, void *glob_);
 /* Rendering : Public*/
 
 void				rtt_render(void *glob_);
+
+/* DEBUG */
+
+void				print_vector(t_vector *vector);
+void				print_collision(t_collision *collision);
+
+
 
 #endif

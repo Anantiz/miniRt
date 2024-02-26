@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:23:23 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 00:34:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,46 @@ t_scene	*scene_new(void)
 	return (scene);
 }
 
+static void	free_collisions_except(t_collision **collisions, t_collision *except, int count)
+{
+	int	i;
+
+	i = -1;
+	while (++i < count)
+	{
+		if (collisions[i] != except)
+			our_free(collisions[i]);
+	}
+	our_free(collisions);
+}
+
+static t_collision	*get_closest_collision(t_collision **collisions, int count)
+{
+	t_collision *closest_collision;
+	float		closest_dist;
+	int			i;
+
+	closest_dist = FLT_MAX;
+	closest_collision = NULL;
+	i = -1;
+	while (++i < count)
+	{
+		if (collisions[i])
+		{
+			printf("Collision found with Object: %d\n", i);
+			if (collisions[i]->dist < closest_dist)
+			{
+				closest_dist = collisions[i]->dist;
+				closest_collision = collisions[i];
+			}
+		}
+		else
+			printf("No collision with Object: %d\n", i);
+	}
+	free_collisions_except(collisions, closest_collision ,count);
+	return (closest_collision);
+}
+
 /*
 Note:
 	This function does update the `lumen' field of the ray
@@ -44,24 +84,20 @@ Return:
 */
 
 // OBSOLETE
-// t_collision	*scene_collision_query(t_scene *scene, t_ray *ray)
-// {
-// 	t_ll_obj	*obj;
-// 	t_collision	*collision;
+t_collision	*scene_collision_query(t_scene *scene, t_ray *ray)
+{
+	t_ll_obj	*obj;
+	t_collision	**collisions;
+	int			i;
 
-// 	obj = scene->objects;
-// 	collision = NULL;
-// 	while (obj)
-// 	{
-// 		collision = obj->o->get_collision(&obj->o->origin, &obj->o->shape, ray);
-// 		if (collision)
-// 		{
-// 			ray->lumen = update_lumen_distance(ray, collision->point);
-// 			if (ray->lumen == 0)
-// 				return (our_free(collision), NULL);
-// 			return (collision);
-// 		}
-// 		obj = obj->next;
-// 	}
-// 	return (NULL);
-// }
+	collisions = our_malloc(sizeof(t_collision *) * (scene->objects_count));
+	obj = scene->objects;
+	i = 0;
+	while (obj) // Get collisions with all objects
+	{
+		printf("Testing collisions with Object: %d, out of %d\n", i + 1, scene->objects_count);
+		collisions[i++] = hadron_collider(obj->o, ray, obj->o->csg);
+		obj = obj->next;
+	}
+	return (get_closest_collision(collisions, scene->objects_count));
+}

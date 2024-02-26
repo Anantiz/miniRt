@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 03:05:37 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 17:29:34 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 01:55:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,6 @@ void				parse_ambiant(t_glob *glob, char **line_tokens);
 void				parse_camera(t_glob *glob, char **line_tokens);
 void				parse_light(t_glob *glob, char **line_tokens);
 
-/*
 
-
-// Obsolete, to be removed after testing
-
-These functions add the object to the scene
-For errors in parsing, they exit the program
-*/
-void				scene_parse_sphere(t_glob *glob, char **line_tokens);
-void				scene_parse_plane(t_glob *glob, char **line_tokens);
-void				scene_parse_cylinder(t_glob *glob, char **line_tokens);
-void				scene_parse_cuboid(t_glob *glob, char **line_tokens);
-void				scene_parse_cone(t_glob *glob, char **line_tokens);
-void				scene_parse_pyramid(t_glob *glob, char **line_tokens);
-void				scene_parse_prism(t_glob *glob, char **line_tokens);
-void				scene_parse_ellipsoid(t_glob *glob, char **line_tokens);
-void				scene_parse_paraboloid(t_glob *glob, char **line_tokens);
-void				scene_parse_torus(t_glob *glob, char **line_tokens);
 
 #endif

@@ -175,21 +175,28 @@ t_csg				*new_csg_leave(t_e_prim type, t_vector *pos, \
 t_vector *ori, t_rgb color);
 void				csg_leave_add(t_csg *csg, char **params); // to come
 
-// Primitive constructors
-t_csg				*new_sphere(char **params);
-t_csg				*new_plane(char **params); // Special case ... idk how to handle it cleanly, i guess jsut a
-t_csg				*new_cylinder(char **params);
+// Primitive constructors : Private
+// Return a single leaf
 
-// CSG constructors
-t_csg				*new_fighter_jet(char **params);
-t_csg				*new_penguin(char **params);
+t_csg				*pr_new_sphere(char **params);
+t_csg				*pr_new_plane(char **params); // Special case ... idk how to handle it cleanly, i guess just a Null shape
+t_csg				*pr_new_cylinder(char **params);
 
-/* Coliders : Public */
+// CSG constructors : Public
+// Return the root of the CSG tree
+
+t_csg				*obj_new_sphere(t_object *obj, char **params);
+t_csg				*obj_new_plane(t_object *obj, char **params); // Special case ... idk how to handle it cleanly, i guess just a Null shape
+t_csg				*obj_new_cylinder(t_object *obj, char **params);
+t_csg				*obj_new_fighter_jet(t_object *obj, char **params);
+t_csg				*obj_new_penguin(t_object *obj, char **params);
+
+/* Coliders : Private */
 
 t_collision			*collider_union(t_collision **collision);
 t_collision			*collider_inter(t_collision **collision);
 t_collision			*collider_switch(t_object *obj, t_ray *ray, t_csg *csg);
-
+t_collision			*hadron_collider(t_object *obj, t_ray *ray, t_csg *csg);
 t_collision			*new_collision(t_object *obj, t_csg *csg, t_ray *ray, float t);
 
 t_collision			*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray);

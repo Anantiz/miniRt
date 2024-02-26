@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:40:57 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 00:10:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 #define SMALL_WIN_X	640
 #define SMALL_WIN_Y	480
+
+const char	*shape_names[] = {"Sphere", "Plane", "Cylinder", NULL, NULL, NULL, NULL, NULL};
+
 
 // static void	init_global(t_glob *glob)
 // {
@@ -31,6 +34,7 @@
 // 	}
 // 	mlx_key_hook(glob->mlx, cptn_hook_key, glob);
 // }
+void	my_test(t_glob *glob);
 
 int main(int argc, char **argv)
 {
@@ -48,6 +52,7 @@ int main(int argc, char **argv)
 	if (parse_map(&glob, argv[1]))
 		return (FAILURE);
 	printf("\033[32mParsing done\033[0m\n");
+	my_test(&glob);
 	// init_global(&glob);
 	// mlx_loop_hook(glob.mlx, rtt_render, &glob);
 	// mlx_loop(glob.mlx);
