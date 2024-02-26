@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 13:41:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 15:56:44 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int main(int argc, char **argv)
 	printf("\033[32mParsing done\033[0m\n");
 	// my_test(&glob);
 	init_global(&glob);
-	ft_memset(glob.img->pixels, 0xFF, glob.win_size.width * glob.win_size.height * 4);
-	ray_tracing(&glob);
-	mlx_key_hook(glob.mlx, cptn_hook_key, &glob);
-	mlx_image_to_window(glob.mlx, glob.img, 0, 0);
+	mlx_loop_hook(glob.mlx, rtt_render, &glob);
 	mlx_loop(glob.mlx);
 	mlx_terminate(glob.mlx);
 	safe_as_fuck_malloc(0, NULL, SAFE_MALLOC_FREE_ALL);

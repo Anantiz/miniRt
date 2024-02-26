@@ -5,9 +5,9 @@
 
 // # define WIN_SIZE_X	960
 // # define WIN_SIZE_Y	540
-
-# define WIN_SIZE_X	320
-# define WIN_SIZE_Y	180
+# define M_PI		3.14159265358979323846  /* pi */
+#define WIN_SIZE_X	320
+#define WIN_SIZE_Y	180
 
 # include <math.h>
 # include <fcntl.h>
@@ -34,6 +34,7 @@ typedef	struct	s_camera
 {
 	t_vector	*pos;
 	t_vector	*direction;
+	t_vector	*orientation;
 	t_vector	*right;
 	t_vector	*up;
 	int			fov;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_upper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 13:17:52 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 15:57:01 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 		parse_error_msg(ERROR_PARSE_TOO_MANY);
 	camera = our_malloc(sizeof(t_camera));
 	camera->pos = our_malloc(sizeof(t_vector));
-	camera->direction = our_malloc(sizeof(t_vector));
+	camera->orientation = our_malloc(sizeof(t_vector));
 	parse_position(camera->pos, line_tokens[1]);
-	parse_orientation(camera->direction, line_tokens[2]);
+	parse_orientation(camera->orientation, line_tokens[2]);
 	printf("%s\n", line_tokens[3]);
 	camera->fov = -1;
 	if (ft_is_int_format(line_tokens[3]))
@@ -67,8 +67,14 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 
 	if (camera->fov <= 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV);
-	camera->up = add_vector(camera->pos, new_vector(0, 1, 0));
+	camera->direction = sub_vector(camera->pos, camera->orientation);
+	vector_normalizer(camera->direction);
+	camera->up = add_vector(camera->pos, &(t_vector){0, 1, 0});
+	vector_normalizer(camera->up);
 	camera->right = produit_vectoriel(camera->up, camera->direction);
+	vector_normalizer(camera->right);
+	print_vector(camera->up);
+	print_vector(camera->right);
 	glob->camera = camera;
 }
 
