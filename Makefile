@@ -20,7 +20,7 @@ BIN_LIBFT		:=./libs/libft.a
 #	####	####	####	####	####	####	####	####
 ###############################################################
 
-SRC_FILES:=main.c camera/camera.c test.c
+SRC_FILES:=main.c test.c
 
 _OBJS_PATH:=3D_Objects/Objs
 _OBJS_FILES:=obj_sphere.c obj_plane.c obj_cylinder.c obj_penguin.c obj_fighter_jet.c

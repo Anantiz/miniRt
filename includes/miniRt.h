@@ -28,11 +28,10 @@ extern const char *shape_names[]; // To remove for release
 */
 typedef	struct	s_camera
 {
-	t_vector	pos;
-	t_vector	rotation;
-	t_vector	direction; // Kinda the same thins as rotation ...
-	t_vector	right;
-	t_vector	up;
+	t_vector	*pos;
+	t_vector	*direction;
+	t_vector	*right;
+	t_vector	*up;
 	int			fov;
 }t_camera;
 
