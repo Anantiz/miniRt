@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_upper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 11:20:12 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/26 12:57:03 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	static bool	cam_set = false;
 	t_camera	*camera;
 
+	for (int i=0;line_tokens[i];i++)
+		printf("TK: %s\n",line_tokens[i]);
 	if (cam_set)
 		parse_error_msg(ERROR_DUPLICATE_CAM);
 	cam_set = true;
@@ -57,9 +59,13 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	camera->direction = our_malloc(sizeof(t_vector));
 	parse_position(camera->pos, line_tokens[1]);
 	parse_orientation(camera->direction, line_tokens[2]);
-	if (!ft_is_int_format(line_tokens[3]))
-	camera->fov = ft_atoi(line_tokens[3]);
-	if (camera->fov < 0 || camera->fov > 180)
+	printf("%s\n", line_tokens[3]);
+	camera->fov = -1;
+	if (ft_is_int_format(line_tokens[3]))
+		camera->fov = ft_atoi(line_tokens[3]);
+	printf("%d\n", camera->fov);
+
+	if (camera->fov <= 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV);
 	camera->up = add_vector(camera->pos, new_vector(0, 1, 0));
 	camera->right = produit_vectoriel(camera->up, camera->direction);
