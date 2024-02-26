@@ -47,7 +47,8 @@ typedef struct s_glob
 	t_scene			*scene;
 }t_glob;
 
-void			ray_tracing(t_glob *glob);
+void				ray_tracing(t_glob *glob);
+
 
 /* Captain Hook : Public */
 
@@ -56,6 +57,7 @@ void				cptn_hook_key(mlx_key_data_t keydata, void *glob_);
 /* Rendering : Public*/
 
 void				rtt_render(void *glob_);
+void				rtt_render_pixel(t_glob *glob, t_collision *collision, float u, float v);
 
 /* DEBUG */
 

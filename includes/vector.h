@@ -24,5 +24,6 @@ void				vector_normalizer(t_vector *vector);
 float				vec_dot_product(t_vector *v1, t_vector *v2);
 float				dist_vector(const t_vector *v1, const t_vector *v2);
 t_vector			*mult_vector(float k, t_vector *v1);
+t_vector			*produit_vectoriel(t_vector *v1, t_vector *v2);
 
 #endif
