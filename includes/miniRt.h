@@ -3,11 +3,11 @@
 
 #define DEBUG
 
-#define WIN_SIZE_X	960
-#define WIN_SIZE_Y	540
+// # define WIN_SIZE_X	960
+// # define WIN_SIZE_Y	540
 
-// #define WIN_SIZE_X	320
-//  #define WIN_SIZE_Y	180
+# define WIN_SIZE_X	320
+# define WIN_SIZE_Y	180
 
 # include <math.h>
 # include <fcntl.h>
@@ -60,13 +60,16 @@ void				ray_tracing(t_glob *glob);
 
 void				cptn_hook_key(mlx_key_data_t keydata, void *glob_);
 
+
 /* Rendering : Public*/
 
 void				rtt_render(void *glob_);
-void				rtt_render_pixel(t_glob *glob, t_collision *collision, float u, float v);
+void				rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y);
+
 
 /* DEBUG */
 
+void				print_rgb(t_rgb *color);
 void				print_vector(t_vector *vector);
 void				print_collision(t_collision *collision);
 
