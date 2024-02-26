@@ -14,7 +14,7 @@ t_ray	*new_ray(t_camera *camera, int x, int y)
 	float		u, v;
 
 	normalize_coordinates(&u, &v, x, y);
-	screen = field_of_view(camera->fov, WIN_SIZE_X / WIN_SIZE_Y);
+	screen = field_of_view(camera->fov, 320 / 180);
 	ray = our_malloc(sizeof(t_ray));
 	ray->origin = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
 	ray->direction = ray_dir(camera, screen, u, v);
@@ -30,8 +30,9 @@ t_screen	*field_of_view(float fov, float aspect_ratio)
 
 	fov_radian = fov * (M_PI / 180);
 
+	fprintf(asderlog, "\taspect_ratio: %f\n", aspect_ratio);
 	screen = our_malloc(sizeof(t_screen));
-	screen->width_factor = aspect_ratio * tanf(fov_radian / 2);
+	screen->width_factor = 1.777777778 * tanf(fov_radian / 2);
 	screen->height_factor = tanf(fov_radian / 2);
 	fprintf(asderlog, "\twidth height: %f, %f\n", screen->width_factor, screen->height_factor);
 	return (screen);
@@ -47,8 +48,8 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 	
 	ray_direction = add_vector(camera->direction, sum_vector);
 	our_free(sum_vector);
-	fprintf(asderlog, "  sum vector  %f, %f, %f\n", ray_direction->x, ray_direction->y, ray_direction->z);
 	vector_normalizer(ray_direction);
+	fprintf(asderlog, "  ray_direction  %f, %f, %f\n", ray_direction->x, ray_direction->y, ray_direction->z);
 	return (ray_direction);
 }
 

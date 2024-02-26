@@ -25,6 +25,6 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, float u, float v)
 {
 	if (!collision || u >= WIN_SIZE_X || v >= WIN_SIZE_Y || u < 0 || v < 0)
 		return ;
-	printf("Collision at %f, %f\n", u, v);
+	// printf("Collision at %f, %f\n", u, v);
 	mlx_put_pixel(glob->img, (int)u, (int)v, get_collision_color(collision));
 }

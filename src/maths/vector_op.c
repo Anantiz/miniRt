@@ -6,7 +6,7 @@
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/26 14:00:48 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:08:23 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ float	vector_length(t_vector *vector)
 {
 	float	ret;
 
-	ret = sqrtf((float)(vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
+	ret = sqrtf((vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
 	return (ret);
 }
 
@@ -57,9 +57,9 @@ void	vector_normalizer(t_vector *vector)
 	length = vector_length(vector);
 	if (length == 0)
 		return ;
-	vector->x /= length;
-	vector->y /= length;
-	vector->z /= length;
+	vector->x = vector->x / length;
+	vector->y = vector->y / length;
+	vector->z = vector->z / length;
 }
 
 float	vec_dot_product(t_vector *v1, t_vector *v2)
