@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 16:04:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 10:52:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,16 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	if (camera->fov <= 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV);
 
-	camera->direction = sub_vector(camera->pos, camera->orientation);
+	camera->direction = camera->orientation;//sub_vector(camera->pos, camera->orientation);
 	vector_normalizer(camera->direction);
-	camera->up = add_vector(camera->pos, &(t_vector){0, 1, 0});
-	vector_normalizer(camera->up);
-	camera->right = produit_vectoriel(camera->up, camera->direction);
+	camera->right = produit_vectoriel(&(t_vector){0, 1, 0}, camera->direction);
 	vector_normalizer(camera->right);
+	camera->up = produit_vectoriel(camera->right , camera->direction);
+	vector_normalizer(camera->up);
 
 	print_vector(camera->up);
 	print_vector(camera->right);
+	print_vector(camera->direction);
 	glob->camera = camera;
 }
 

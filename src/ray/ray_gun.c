@@ -5,7 +5,6 @@ void	normalize_coordinates(float *u, float *v, int x, int y)
 {
 	*u = (2 * ((x + 0.5) / WIN_SIZE_X) - 1);
 	*v = (1 - 2 * ((y + 0.5) / WIN_SIZE_Y));
-	// fprintf(debug_log_f, "\tUV: %f, %f\n", *u, *v);
 }
 
 t_ray	*new_ray(t_camera *camera, int x, int y)
@@ -67,16 +66,20 @@ void	ray_tracing(t_glob *glob)
 		y = 0;
 		while (y < WIN_SIZE_Y)
 		{
-			fprintf(debug_log_f, "Ray at %d, %d\n", x, y);
+			// fprintf(debug_log_f, "Ray at %d, %d\n", x, y);
 			ray = new_ray(glob->camera, x, y);
-			// Write the ray to the log
 			collision = scene_collision_query(glob->scene, ray);
+			if (collision)
+			{
+				// Bounce
+				// Then get color at the end
+			}
+
 			rtt_render_pixel(glob, collision, x, y);
-			del_collision(collision);
 			our_free(ray->origin);
 			our_free(ray->direction);
 			our_free(ray);
-			fprintf(debug_log_f, "\n");
+			// fprintf(debug_log_f, "\n");
 			y++;
 		}
 		x++;

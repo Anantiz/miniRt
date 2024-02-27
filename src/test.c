@@ -46,45 +46,53 @@ void	my_test(t_glob *glob)
 		- Test the collision between the sphere and the ray
 	*/
 	t_collision	*collision;
+	t_ray		ray;
 
 
-	// Is aimed towards the origin of the sphere
-	t_ray		ray_hit;
-	t_vector	origin_hit = {-10, 1, 0};
-	t_vector	direction_hit = {1, 0, 0};
-	ray_hit.origin = &origin_hit;
-	ray_hit.direction = &direction_hit;
-	printf("\033[32mTest 1: Sphere collision\033[0m\n");
-	/*
-		Expected :
-			Collision distance: 40
-			Collision point: x:-10.00 y:0.00, z: 0.00
-	*/
-	collision = scene_collision_query(glob->scene, &ray_hit);
+
+	printf("Test 1:\n");
+	ray.origin = new_vector(-50, 0, 0);
+	ray.direction = new_vector(1, 0, 0);
+	collision = scene_collision_query(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
+	our_free(ray.origin);
+	our_free(ray.direction);
 
-
-	// Same as the first test, but the sphere is behind
-	t_ray		ray_miss;
-	t_vector	origin_miss = {100, 0, 0};
-	t_vector	direction_miss = {1, 0, 0};
-	ray_miss.origin = &origin_miss;
-	ray_miss.direction = &direction_miss;
-	printf("\033[32mTest 2: Sphere no collision\033[0m\n");
-	collision = scene_collision_query(glob->scene, &ray_miss);
+	printf("Test 2:\n");
+	ray.origin = new_vector(-50, 20, 0);
+	ray.direction = new_vector(1, 0, 0);
+	collision = scene_collision_query(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
+	our_free(ray.origin);
+	printf("Test 2 miss:\n");
+	ray.origin = new_vector(-50, 21, 0);
+	collision = scene_collision_query(glob->scene, &ray);
+	print_collision(collision);
+	our_free(ray.origin);
+	our_free(collision);
+	our_free(ray.direction);
 
-	// Is aimed below the sphere
-	t_vector	origin_miss2 = {-100, 0, 0};
-	t_vector	direction_miss2 = {1, 0, 0};
-	ray_miss.origin = &origin_miss2;
-	ray_miss.direction = &direction_miss2;
-	printf("\033[32mTest 3: Sphere no collision\033[0m\n");
-	collision = scene_collision_query(glob->scene, &ray_miss);
+
+	printf("Test 3:\n");
+	ray.origin = new_vector(-50, 10, 10);
+	ray.direction = new_vector(1, 0, 0);
+	collision = scene_collision_query(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
+	our_free(ray.origin);
+	our_free(ray.direction);
+
+	printf("Test 4:\n");
+	ray.origin = new_vector(-50, 10, -10);
+	ray.direction = new_vector(1, 0, 0);
+	collision = scene_collision_query(glob->scene, &ray);
+	print_collision(collision);
+	our_free(collision);
+	our_free(ray.origin);
+	our_free(ray.direction);
+
 	/*
 		Result:
 

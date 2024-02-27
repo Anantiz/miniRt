@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:44:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 00:45:22 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 11:50:06 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void		mem_manager_del_list(t_mem_mng **root);
 void		mem_manager_del_node(t_mem_mng **root, void *address);
 void		mem_manager_add_front(t_mem_mng **head_, t_mem_mng *node);
 t_mem_mng	*mem_manager_new_node(size_t bytes, int *error);
+
+void		gc_add_fd(int fd);
+void		gc_close_fd(int fd);
+void		gc_close_all(void);
 
 // Core : public
 

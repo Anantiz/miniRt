@@ -9,13 +9,7 @@ Formula:
 Return:
 	The new lumen intensity at the colision point
 */
-int	update_lumen_distance(t_ray *ray, t_vector *point)
+float	update_lumen_distance(float distance, float lumen)
 {
-	float	distance;
-	float	lumen;
-
-	distance = dist_vector(ray->origin, point);
-	lumen = (1 / (distance * distance)) * ray->lumen;
-	ray->lumen = lumen;
-	return ((int)lumen);
+	return (lumen = (1 / (distance * distance)));
 }

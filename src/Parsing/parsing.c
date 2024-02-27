@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 01:01:25 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 11:54:29 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,37 +92,22 @@ int	parse_map(t_glob *glob, char *path)
 	fd = open_file(path);
 	if (fd == GO_FUCK_YOURSELF)
 		return (GO_FUCK_YOURSELF);
+	gc_add_fd(fd);
 	line = NULL;
 	while (true)
 	{
 		ft_replace_str(&line, get_next_line(fd, false));
-		// printf("%s", line);
 		if (!line)
 			break ;
 		if (*line == '#' || ft_is_blank_str(line))
 			continue ;
-		// printf("PARSING\n");
 		if (parse_line(glob, line) == GO_FUCK_YOURSELF)
 		{
+			gc_close_fd(fd);
 			printf("\033[41mInvalid Token found in scene parsing\n\033[0m");
-			// THE FD FUCKING LEAKS IF WE EXIT elsewhere in the prgram, Make
-			// something like our_malloc, but for fd's
-			close(fd);
 			return (GO_FUCK_YOURSELF);
 		}
 	}
-	// printf("__\n\n");
-	close(fd);
+	gc_close_fd(fd);
 	return (validate_parsing(glob));
 }
-
-/*
-x, y ecrans
-get_pixel_color(start= y, x ,0)
-{
-	objet[], colide_point[] = get_colision(start, direction)
-	if (colide_point)
-		get_colision(colide_point, diretion(du coup tu la change en focntion de refraction et bullshit comme ca))
-	ray.color = moyenne (des trucs, leurs couler + intensite)
-}
-*/

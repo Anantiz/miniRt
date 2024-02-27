@@ -5,9 +5,12 @@
 
 // # define WIN_SIZE_X	960
 // # define WIN_SIZE_Y	540
+#define WIN_SIZE_X	640
+#define WIN_SIZE_Y	360
+// #define WIN_SIZE_X	320
+// #define WIN_SIZE_Y	180
+
 # define M_PI		3.14159265358979323846  /* pi */
-#define WIN_SIZE_X	320
-#define WIN_SIZE_Y	180
 
 # include <math.h>
 # include <fcntl.h>
@@ -63,12 +66,10 @@ void				ray_tracing(t_glob *glob);
 
 void				cptn_hook_key(mlx_key_data_t keydata, void *glob_);
 
-
 /* Rendering : Public*/
 
 void				rtt_render(void *glob_);
 void				rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y);
-
 
 /* DEBUG */
 

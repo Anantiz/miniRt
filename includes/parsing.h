@@ -6,14 +6,14 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 03:05:37 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 01:55:23 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 11:42:46 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
- #include "miniRt.h"
+# include "miniRt.h"
 # include "libft.h"
 # include "vector.h"
 # include "color_texture.h"
@@ -50,7 +50,5 @@ void				parse_orientation(t_vector *vector, char *str_rot);
 void				parse_ambiant(t_glob *glob, char **line_tokens);
 void				parse_camera(t_glob *glob, char **line_tokens);
 void				parse_light(t_glob *glob, char **line_tokens);
-
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 15:12:11 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 12:07:47 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_csg	*pr_new_sphere(char **params)
 }
 
 /*
-Aint't that beautiful? (joke it's scary), quadratic formula + polynomial conversion
+quadratic formula + polynomial conversion
 
 a=Dx2​+Dy2​+Dz2​
 
@@ -53,12 +53,7 @@ b=2×(Dx×(Ox−Cx)+Dy×(Oy−Cy)+Dz×(Oz−Cz))b=2×(Dx​×(Ox​−Cx​)+Dy�
 
 c=(Ox−Cx)2+(Oy−Cy)2+(Oz−Cz)2−R2c=(Ox​−Cx​)2+(Oy​−Cy​)2+(Oz​−Cz​)2−R2
 
-I made a crime to fix an unknown bug:
-	We do not inverse the sign of b during the equation, otherwise
-	it gets the vector in the wrong direction, like why?
-
 */
-
 t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 {
 	t_vector		*dist_oc;

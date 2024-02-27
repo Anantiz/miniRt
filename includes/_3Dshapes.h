@@ -83,7 +83,7 @@ typedef union u_shape // Specific geometric parameters
 }t_u_shape;
 
 /*
-The CSG tree
+The CSG tree (Constructive Solid Geometry)
 
 	The position and orientation are relative to the whole object not
 	to the scnene.

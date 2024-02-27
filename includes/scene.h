@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 10:35:45 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 11:04:15 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void				scene_add_light(t_scene *scene, t_spot_light *light);
 // t_object			*scene_new_object(t_glob *glob);
 // void				scene_add_object(t_scene *scene, t_object *object);
 // void				scene_add_light(t_scene *scene, t_spot_light *light);
-int					update_lumen_distance(t_ray *ray, t_vector *point);
+float				update_lumen_distance(float distance, float lumen);
+
 
 /* Trash : private */
 

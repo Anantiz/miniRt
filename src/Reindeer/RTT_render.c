@@ -13,25 +13,26 @@ void	rtt_render(void *glob_)
 	(void)glob;
 }
 
-unsigned	get_collision_color(t_collision *collision)
+uint32_t	get_collision_color(t_rgb *rgb)
 {
 	uint32_t	color;
 
-	color = collision->obj->l->rgb.r;
-	color = (color << 8) + collision->obj->l->rgb.g;
-	color = (color << 8) + collision->obj->l->rgb.b;
+	color = rgb->g;
+	color = (color << 8) + rgb->g;
+	color = (color << 8) + rgb->b;
 	color = (color << 8) + 0xFF; // Alpha
-	return (0);
+	return (color);
 }
+
 void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y)
 {
 	if (x >= WIN_SIZE_X || y >= WIN_SIZE_Y || x < 0 || y < 0)
 		return ;
 	if (!collision)
-		mlx_put_pixel(glob->img, x, y, 0xAA00AAFF);
+		mlx_put_pixel(glob->img, x, y, 0x888888FF);
 	else
 	{
-		mlx_put_pixel(glob->img, x, y, get_collision_color(collision));
-		fprintf(debug_log_f, "   ~Collision\n");
+		mlx_put_pixel(glob->img, x, y, get_collision_color(&collision->obj->l->rgb));
+		fprintf(debug_log_f, "\t~Collision\n");
 	}
 }

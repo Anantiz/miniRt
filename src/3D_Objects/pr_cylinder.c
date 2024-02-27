@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 16:03:32 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 12:17:32 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@ t_csg	*pr_new_cylinder(char **params)
 	return (cylinder);
 }
 
+/*
+Cylinder equation:
+  (P⃗−C)⋅A⃗ = 0
+and
+ ∣∣P⃗−C−((P⃗−C)⋅A⃗)⋅A⃗∣∣ ≤ r
+
+with:
+P⃗ = point on the cylinder
+C⃗ = center of the cylinder
+A⃗ = axis of the cylinder
+r = radius of the cylinder
+
+Plane equation:
+  (P⃗−C)⋅A⃗ = 0
+  -P⃗ = x*A⃗ + O⃗ = x*A⃗ + O⃗ + P⃗ = 0
+*/
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
 	t_vector		*dist_oc;
