@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 14:42:03 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 16:22:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_scene	*scene_new(void)
 	scene->lights_count = 0;
 	scene->ambiant_rgb = (t_rgb){0, 0, 0};
 	scene->amb_intensity = -1.0f;
+	scene_getter(scene);
 	return (scene);
 }
 
@@ -83,9 +84,7 @@ Return:
 	Collision found
 		-> t_colision
 */
-
-// OBSOLETE
-t_collision	*scene_collision_query(t_scene *scene, t_ray *ray)
+t_collision	*query_collision(t_scene *scene, t_ray *ray)
 {
 	t_ll_obj	*obj;
 	t_collision	**collisions;

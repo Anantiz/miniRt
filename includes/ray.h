@@ -2,8 +2,6 @@
 # define RAY_H
 
 # include "vector.h"
-# include "_3Dshapes.h"
-# include "miniRt.h"
 
 /*
 	Returned by a collision query

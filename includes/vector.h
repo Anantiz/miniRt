@@ -1,9 +1,14 @@
 #ifndef VECTOR_H
 # define VECTOR_H
 
+// more like our own math.h
+
 # include <math.h>
 # include "libft.h"
-# include "pair.h"
+
+# define M_PI		3.14159265358979323846
+# define EPSILON	0.0001
+
 
 // Cuz floats are faster than doubles
 typedef	struct	s_vector
@@ -27,6 +32,10 @@ float				vec_dot_product(t_vector *v1, t_vector *v2);
 float				dist_vector(const t_vector *v1, const t_vector *v2);
 t_vector			*mult_vector(float k, t_vector *v1);
 t_vector			*produit_vectoriel(t_vector *v1, t_vector *v2);
+
+float				vec_get_angle_rad(t_vector *v1, t_vector *v2);
+
+float				ft_bound_float(float value, float max, float min);
 
 bool				quadratic_solver\
 (t_pair_float *t, t_vector *dist_oc, t_vector *dir, float r);

@@ -10,18 +10,25 @@
 // #define WIN_SIZE_X	320
 // #define WIN_SIZE_Y	180
 
-# define M_PI		3.14159265358979323846  /* pi */
+# define DEFAULT_LUMEN		1000
+# define DEFAULT_INTENSITY	0.6
+
 
 # include <math.h>
+
 # include <fcntl.h>
 # include <errno.h>
 # include <float.h>
+
 # include "libft.h"
-# include "pair.h"
 # include "vector.h"
+
+# include "color_texture.h"
 # include "ray.h"
 # include "_3Dshapes.h"
+# include "light.h"
 # include "scene.h"
+
 # include "parsing.h"
 # include "../libs/MLX42/include/MLX42/MLX42_Int.h"
 

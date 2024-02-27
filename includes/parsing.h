@@ -6,32 +6,31 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 03:05:37 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 11:42:46 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 14:18:43 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
+// Circular include, but parsing.h is the last one to be included, so it's fine
 # include "miniRt.h"
-# include "libft.h"
-# include "vector.h"
-# include "color_texture.h"
+
+// Not needed anymore
+// typedef struct s_glob	t_glob;
+// typedef struct s_scene	t_scene;
+// typedef struct s_camera	t_camera;
 
 # define ERROR_PARSE_RGB			1
 # define ERROR_PARSE_POS 			2
 # define ERROR_PARSE_ROT			3
-# define ERROR_PARSE_TOO_MANY		4
+# define ERROR_PARSE_WRONG_COUNT	4
 # define ERROR_DUPLICATE_AMBIANT	5
 # define ERROR_DUPLICATE_CAM		6
 # define ERROR_PARSE_FOV			7
 # define ERROR_PARSE_LINTESITY		8
 # define ERROR_PARSE_INT			9
 # define ERROR_PARSE_FLOAT			10
-
-// Hilariosly, trying to use modular headers
-// causes a lot of errors, so we have to pre-declare shit
-typedef struct s_glob t_glob;
 
 /* Parsing : Public*/
 

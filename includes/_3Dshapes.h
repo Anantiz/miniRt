@@ -29,7 +29,6 @@ The CSG tree (Constructive Solid Geometry)
 # include "vector.h"
 # include "ray.h"
 # include "color_texture.h"
-# include "pair.h"
 # include <math.h>
 
 typedef struct s_ray t_ray;

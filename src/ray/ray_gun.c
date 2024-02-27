@@ -68,7 +68,7 @@ void	ray_tracing(t_glob *glob)
 		{
 			// fprintf(debug_log_f, "Ray at %d, %d\n", x, y);
 			ray = new_ray(glob->camera, x, y);
-			collision = scene_collision_query(glob->scene, ray);
+			collision = query_collision(glob->scene, ray);
 			if (collision)
 			{
 				// Bounce

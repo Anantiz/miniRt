@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:44:18 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 11:50:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 14:22:58 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdarg.h>
+# include <float.h>
+# include "pair.h"
 
 /* MEMORY */
 

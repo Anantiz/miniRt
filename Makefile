@@ -51,7 +51,7 @@ MATHS_FILES:=vector_op.c vector_op2.c light_op.c quadratic_solver.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene
-SCENE_FILES:= scene.c scene_services.c obj_ll.c obj_ll2.c
+SCENE_FILES:= scene.c scene_services.c obj_ll.c obj_ll2.c light.c
 SRC_FILES+=			$(addprefix $(SCENE_PATH)/,$(SCENE_FILES))
 
 SRC_FILES:=			$(addprefix $(SRC_PATH)/,$(SRC_FILES))

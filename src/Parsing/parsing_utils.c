@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:17:53 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 13:52:22 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	parse_error_msg(int error)
 		error_exit("Invalid position format");
 	if (error == ERROR_PARSE_ROT)
 		error_exit("Invalid rotation format");
-	if (error == ERROR_PARSE_TOO_MANY)
-		error_exit("Too many parameters");
+	if (error == ERROR_PARSE_WRONG_COUNT)
+		error_exit("Wrong parameters count");
 	if (error == ERROR_DUPLICATE_AMBIANT)
 		error_exit("Ambiant light already set");
 	if (error == ERROR_DUPLICATE_CAM)
@@ -42,7 +42,7 @@ void	parse_rgb(t_rgb *color, char *str_color)
 
 	rgb = ft_split(str_color, ',');
 	if (ft_tablen(rgb) != 3)
-		parse_error_msg(ERROR_PARSE_TOO_MANY);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
 	color->r = parse_int(rgb[0]);
 	if (color->r < 0 || color->r > 255)
 		parse_error_msg(ERROR_PARSE_RGB);
@@ -61,7 +61,7 @@ void	parse_position(t_vector *vector, char *str_pos)
 
 	xyz = ft_split(str_pos, ',');
 	if (ft_tablen(xyz) != 3)
-		parse_error_msg(ERROR_PARSE_TOO_MANY);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
 	vector->x = parse_float(xyz[0]);
 	vector->y = parse_float(xyz[1]);
 	vector->z = parse_float(xyz[2]);
@@ -75,7 +75,7 @@ void	parse_orientation(t_vector *vector, char *str_rot)
 
 	xyz = ft_split(str_rot, ',');
 	if (ft_tablen(xyz) != 3)
-		parse_error_msg(ERROR_PARSE_TOO_MANY);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
 	vector->x = parse_float(xyz[0]);
 	if (vector->x > 1 || vector->x < -1)
 		parse_error_msg(ERROR_PARSE_ROT);

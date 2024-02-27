@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 13:36:05 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 17:27:42 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 	The Scene will store all the objects and the lights.
 
 	Public functions:	(for initailization and collision query)
-		- scene_collision_query
+		- query_obj_collision
 		- scene_add_object
 		- update_lumen_distance
 
@@ -28,26 +28,13 @@ Note:
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "ray.h"
-# include "vector.h"
-# include "color_texture.h"
-# include "_3Dshapes.h"
 # include <stdbool.h>
 
-// What's the point for the includes above if I have to declare the structs again?
-typedef struct s_object t_object;
-typedef struct s_collision t_collision;
-typedef struct s_ray t_ray;
-
-// Ugly to put this one here, but we do not have a ray.h
-
-typedef struct s_spot_light
-{
-	t_vector		pos;
-	t_rgb			rgb;
-	float			intensity_ratio;
-	float			lumen;
-}t_spot_light;
+# include "color_texture.h"
+# include "vector.h"
+# include "ray.h"
+# include "_3Dshapes.h"
+# include "light.h"
 
 // Either a light or an object, no need to make two structs
 // They won't be in the same list anyway
@@ -77,7 +64,11 @@ typedef struct s_scene
 /* CORE : public */
 
 t_scene				*scene_new(void);
-t_collision			*scene_collision_query(t_scene *scene, t_ray *ray);
+t_scene				*scene_getter(t_scene *scene);
+t_collision			*query_collision(t_scene *scene, t_ray *ray);
+t_lcol				*query_visible_light(t_csg *obj , t_vector *point, \
+t_vector *ray_dir);
+
 
 /* Warpers */
 
@@ -90,7 +81,6 @@ void				scene_add_light(t_scene *scene, t_spot_light *light);
 // void				scene_add_object(t_scene *scene, t_object *object);
 // void				scene_add_light(t_scene *scene, t_spot_light *light);
 float				update_lumen_distance(float distance, float lumen);
-
 
 /* Trash : private */
 

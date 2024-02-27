@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 10:52:53 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 14:09:56 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	parse_ambiant(t_glob *g, char **line_tokens)
 	if (ambiant_set)
 		parse_error_msg(ERROR_DUPLICATE_AMBIANT);
 	if (ft_tablen(line_tokens) != 3)
-		parse_error_msg(ERROR_PARSE_TOO_MANY);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
 	ambiant_set = true;
 	if (!ft_is_float_format(line_tokens[1]))
 		parse_error_msg(ERROR_PARSE_LINTESITY);
@@ -53,19 +53,17 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 		parse_error_msg(ERROR_DUPLICATE_CAM);
 	cam_set = true;
 	if (ft_tablen(line_tokens) != 4)
-		parse_error_msg(ERROR_PARSE_TOO_MANY);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
 	camera = our_malloc(sizeof(t_camera));
 	camera->pos = our_malloc(sizeof(t_vector));
 	camera->orientation = our_malloc(sizeof(t_vector));
 	parse_position(camera->pos, line_tokens[1]);
 	parse_orientation(camera->orientation, line_tokens[2]);
-	printf("%s\n", line_tokens[3]);
 	camera->fov = -1;
 	camera->fov = parse_int(line_tokens[3]);
 	if (camera->fov <= 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV);
-
-	camera->direction = camera->orientation;//sub_vector(camera->pos, camera->orientation);
+	camera->direction = camera->orientation;
 	vector_normalizer(camera->direction);
 	camera->right = produit_vectoriel(&(t_vector){0, 1, 0}, camera->direction);
 	vector_normalizer(camera->right);
@@ -86,16 +84,17 @@ void	parse_light(t_glob *glob, char **line_tokens)
 	t_spot_light	*light;
 
 	if (ft_tablen(line_tokens) != LIGHT_PARAM_COUNT)
-		parse_error_msg(ERROR_PARSE_TOO_MANY);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
 	light = our_malloc(sizeof(t_spot_light));
 	parse_position(&light->pos, line_tokens[1]);
 	if (!ft_is_float_format(line_tokens[2]))
 		parse_error_msg(ERROR_PARSE_LINTESITY);
-	light->intensity = ft_atoldb(line_tokens[2]);
-	if (light->intensity < 0 || light->intensity > 1)
+	light->intensity_ratio = ft_atoldb(line_tokens[2]);
+	if (light->intensity_ratio < 0 || light->intensity_ratio > 1)
 		parse_error_msg(ERROR_PARSE_LINTESITY);
 	parse_rgb(&light->rgb, line_tokens[3]);
 	scene_add_light(glob->scene, light);
+	light->lumen = DEFAULT_LUMEN;
 }
 
 // Cuz I don't wanna do an other file just for this
