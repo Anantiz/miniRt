@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 11:04:15 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 13:36:05 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ typedef struct s_spot_light
 {
 	t_vector		pos;
 	t_rgb			rgb;
-	float			intensity;
+	float			intensity_ratio;
+	float			lumen;
 }t_spot_light;
 
 // Either a light or an object, no need to make two structs
@@ -82,8 +83,6 @@ t_collision			*scene_collision_query(t_scene *scene, t_ray *ray);
 
 void				scene_add_object(t_scene *scene, t_object *object);
 void				scene_add_light(t_scene *scene, t_spot_light *light);
-
-
 
 /* Mico-services functions : public */
 

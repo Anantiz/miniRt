@@ -32,3 +32,20 @@ Separation of Concern:
 				-scene_collision_query(t_vector origin, t_vector direction);
 					returns a t_colision struct {with the collision coordinate
 					and a pointer to the object it hit}
+
+
+Theory des rebonds:
+
+LOOP:
+	RAY_GUN go pew pew
+		pew pew hit smthing
+	Call RAY_GUN again on the coordinate you hit (until MAX_recursion is REACHED)
+
+	Once you reached the return condition
+		-> Create A struct (RAY_PATH)
+		Returns the same one (RAY_PATH) along all the calls.
+	In this structure you will store all the measured collisions (as a t_collision *arr[obj_count] and ray)
+	And also some other random data.
+
+	Then once it's all returned call the put_pixel() function that will calculate the
+	pixel color accordingly (using all the data stored in the streuct)
