@@ -13,7 +13,7 @@ void	rtt_render(void *glob_)
 	(void)glob;
 }
 
-uint32_t	get_collision_color(t_rgb *rgb)
+uint32_t	rgb_to_uint(t_rgb *rgb)
 {
 	uint32_t	color;
 
@@ -32,7 +32,7 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y)
 		mlx_put_pixel(glob->img, x, y, 0x888888FF);
 	else
 	{
-		mlx_put_pixel(glob->img, x, y, get_collision_color(&collision->obj->l->rgb));
+		mlx_put_pixel(glob->img, x, y, rgb_to_uint(&collision->obj->l->rgb));
 		fprintf(debug_log_f, "\t~Collision\n");
 	}
 }

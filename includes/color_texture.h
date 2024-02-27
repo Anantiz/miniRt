@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 12:00:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/27 13:39:26 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # define RED		0xFF000000
 # define GREEN		0x00FF0000
 # define BLUE		0x0000FF00
+# define BLACK		0x000000FF
 # define WHITE		0xFFFFFF00
-# define BLACK		0x00000000
 
 # define GREY		0x80808000
 # define YELLOW		0xFFFF0000
@@ -57,9 +57,9 @@
 
 typedef struct s_rgb
 {
-	int	r;
-	int	g;
-	int	b;
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
 }t_rgb;
 
 /*
@@ -82,5 +82,7 @@ typedef struct s_texture
 {
 
 }t_texture;
+
+uint32_t			rgb_to_uint(t_rgb *rgb);
 
 #endif

@@ -92,10 +92,4 @@ void	my_test(t_glob *glob)
 	our_free(collision);
 	our_free(ray.origin);
 	our_free(ray.direction);
-
-	/*
-		Result:
-
-		It seems like it actually works fine but in the wrong direction
-	*/
 }
