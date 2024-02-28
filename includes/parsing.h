@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 03:05:37 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 14:18:43 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/28 14:44:34 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 # define PARSING_H
 
 // Circular include, but parsing.h is the last one to be included, so it's fine
+# include "forward_declaration.h"
 # include "miniRt.h"
 
 // Not needed anymore
-// typedef struct s_glob	t_glob;
-// typedef struct s_scene	t_scene;
-// typedef struct s_camera	t_camera;
 
 # define ERROR_PARSE_RGB			1
 # define ERROR_PARSE_POS 			2

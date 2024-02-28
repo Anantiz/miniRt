@@ -22,6 +22,10 @@ BIN_LIBFT		:=./libs/libft.a
 
 SRC_FILES:=main.c test.c
 
+UTILS_PATH:=utils
+UTILS_FILES:=colors.c print_shit.c
+SRC_FILES+=			$(addprefix $(UTILS_PATH)/,$(UTILS_FILES))
+
 _OBJS_PATH:=3D_Objects/Objs
 _OBJS_FILES:=obj_sphere.c obj_plane.c obj_cylinder.c obj_penguin.c obj_fighter_jet.c
 SRC_FILES+=			$(addprefix $(_OBJS_PATH)/,$(_OBJS_FILES))
@@ -47,7 +51,7 @@ RENDER_FILES:=RTT_render.c
 SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 
 MATHS_PATH:=maths
-MATHS_FILES:=vector_op.c vector_op2.c light_op.c quadratic_solver.c
+MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c light_op.c quadratic_solver.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene

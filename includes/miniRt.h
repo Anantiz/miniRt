@@ -21,8 +21,9 @@
 # include <float.h>
 
 # include "libft.h"
-# include "vector.h"
+# include "forward_declaration.h"
 
+# include "vector.h"
 # include "color_texture.h"
 # include "ray.h"
 # include "_3Dshapes.h"
@@ -80,7 +81,6 @@ void				rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y);
 
 /* DEBUG */
 
-void				print_rgb(t_rgb *color);
 void				print_vector(t_vector *vector);
 void				print_collision(t_collision *collision);
 

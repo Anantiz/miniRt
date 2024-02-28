@@ -26,9 +26,11 @@ The CSG tree (Constructive Solid Geometry)
 */
 
 # include "libft.h"
+# include "forward_declaration.h"
 # include "vector.h"
 # include "ray.h"
 # include "color_texture.h"
+# include "parsing.h"
 # include <math.h>
 
 typedef struct s_ray t_ray;
@@ -205,6 +207,7 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray);
 /* Trash :*/
 
 void				del_collision(t_collision *collision);
+void				print_collision(t_collision *collision);
 
 
 #endif

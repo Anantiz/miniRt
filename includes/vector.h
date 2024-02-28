@@ -5,6 +5,7 @@
 
 # include <math.h>
 # include "libft.h"
+# include "forward_declaration.h"
 
 # define M_PI		3.14159265358979323846
 # define EPSILON	0.0001
@@ -18,8 +19,9 @@ typedef	struct	s_vector
 	float	z;
 }t_vector;
 
-
 /* VECTOR OPERATOR */
+
+void				print_vector(t_vector *vector);
 
 void				rea_v(t_vector **old_addr, t_vector *new_ptr);
 t_vector			*new_vector(float x, float y, float z);
@@ -34,6 +36,7 @@ t_vector			*mult_vector(float k, t_vector *v1);
 t_vector			*produit_vectoriel(t_vector *v1, t_vector *v2);
 
 float				vec_get_angle_rad(t_vector *v1, t_vector *v2);
+
 
 float				ft_bound_float(float value, float max, float min);
 

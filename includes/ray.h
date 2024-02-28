@@ -1,7 +1,9 @@
 #ifndef RAY_H
 # define RAY_H
 
+# include "forward_declaration.h"
 # include "vector.h"
+# include "color_texture.h"
 
 /*
 	Returned by a collision query
@@ -10,8 +12,6 @@
 	Obj is the one there is a collision with
 	Parent_obj is the group that contains the obj (if any use)
 */
-typedef struct s_camera t_camera;
-
 typedef	struct s_ray
 {
 	int			lumen;

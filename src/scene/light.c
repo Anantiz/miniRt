@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:26 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 14:13:15 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/28 14:58:44 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_vector *point, t_vector *ray_dir)
 	t_vector	*orthogonal;
 
 	ray.origin = point;
-	ray.direction = vector_sub(&light->pos, point);
+	ray.direction = sub_vector(&light->pos, point);
 	vector_normalizer(ray.direction);
 	collision = query_collision(scene_getter(NULL), &ray);
 	our_free(ray.direction);

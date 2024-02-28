@@ -7,6 +7,7 @@
 		Given a point, the light module will return a t_light_collision struct
 		Which holds a list of all the lights that are visible from the point
 */
+# include "forward_declaration.h"
 
 # include "libft.h"
 # include "color_texture.h"
@@ -21,7 +22,7 @@ typedef struct s_spot_light
 	float			intensity_ratio;
 	float			lumen;
 }t_spot_light;
-typedef t_spot_light t_slight;
+typedef t_spot_light		t_slight;
 
 // theta is given in radian
 typedef struct s_light_collision
@@ -32,6 +33,9 @@ typedef struct s_light_collision
 
 	struct s_light_collision	*next;
 }t_light_collision;
-typedef t_light_collision t_lcol;
+typedef t_light_collision	t_lcol;
+
+t_lcol				*query_visible_light(t_csg *obj , t_vector *point, \
+t_vector *ray_dir);
 
 #endif

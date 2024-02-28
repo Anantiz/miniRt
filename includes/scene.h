@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 17:27:42 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/28 14:52:54 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ Note:
 # define SCENE_H
 
 # include <stdbool.h>
+# include "forward_declaration.h"
 
 # include "color_texture.h"
 # include "vector.h"
@@ -38,6 +39,9 @@ Note:
 
 // Either a light or an object, no need to make two structs
 // They won't be in the same list anyway
+
+
+
 typedef struct s_ll_obj
 {
 	t_object			*o;
@@ -66,9 +70,6 @@ typedef struct s_scene
 t_scene				*scene_new(void);
 t_scene				*scene_getter(t_scene *scene);
 t_collision			*query_collision(t_scene *scene, t_ray *ray);
-t_lcol				*query_visible_light(t_csg *obj , t_vector *point, \
-t_vector *ray_dir);
-
 
 /* Warpers */
 
