@@ -24,7 +24,10 @@ typedef struct s_spot_light
 }t_spot_light;
 typedef t_spot_light		t_slight;
 
-// theta is given in radian
+/*
+Tetha is the angle between the light and the point normal relative to the ray
+given in radian.
+*/
 typedef struct s_light_collision
 {
 	t_spot_light				*light;
