@@ -23,7 +23,7 @@ typedef struct s_spot_light
 }t_spot_light;
 typedef t_spot_light t_slight;
 
-// Alpha is given in radian
+// theta is given in radian
 typedef struct s_light_collision
 {
 	t_spot_light				*light;

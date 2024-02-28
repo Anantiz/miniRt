@@ -6,12 +6,22 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:26 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 17:28:04 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/28 14:13:15 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "light.h"
 
+/*
+Cast a collison ray starting from the light point towards the point of interest
+If the returned collision is the same as the object, then the light is visible
+
+We then create a t_light_collision struct and add it to the list
+-Calculate the distance (just a copy of the collision distance)
+-Calculate the angle between the light and the normal of the object initial
+ray collision (reverse light path, since we start from the camera to the light)
+
+*/
 static t_lcol	*get_light_collision(t_spot_light *light, t_csg *obj, \
 t_vector *point, t_vector *ray_dir)
 {
