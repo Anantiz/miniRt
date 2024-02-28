@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 12:17:32 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/28 16:13:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ C⃗ = center of the cylinder
 A⃗ = axis of the cylinder
 r = radius of the cylinder
 
-Plane equation:
-  (P⃗−C)⋅A⃗ = 0
-  -P⃗ = x*A⃗ + O⃗ = x*A⃗ + O⃗ + P⃗ = 0
 */
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
