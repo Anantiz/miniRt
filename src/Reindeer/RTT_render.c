@@ -1,4 +1,4 @@
-#include "miniRt.h"
+#include "../../includes/miniRt.h"
 
 extern FILE *debug_log_f;
 
@@ -13,7 +13,7 @@ void	rtt_render(void *glob_)
 	(void)glob;
 }
 
-void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y)
+void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray *ray)
 {
 	if (x >= WIN_SIZE_X || y >= WIN_SIZE_Y || x < 0 || y < 0)
 		return ;
@@ -21,7 +21,19 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y)
 		mlx_put_pixel(glob->img, x, y, 0x888888FF);
 	else
 	{
-		mlx_put_pixel(glob->img, x, y, rgb_to_uint(&collision->obj->l->rgb));
+		vector_normalizer(&(collision->point));
+		mlx_put_pixel(glob->img, x, y, vector_to_color(collision->point));
 		fprintf(debug_log_f, "\t~Collision\n");
 	}
 }
+
+// t_vector	*hit_point_to_color(t_collision *collision, t_ray *ray)
+// {
+// 	t_vector	*hitpoint;
+
+// 	// hitpoint = mult_vector(collision->dist, ray->direction);
+// 	// hitpoint = add_vector(ray->origin, hitpoint);
+// 	hitpoint = collision->point;
+// 	vector_normalizer(hitpoint);
+// 	return (hitpoint);
+// }

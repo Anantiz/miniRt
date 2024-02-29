@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:39:38 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 14:56:40 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/29 16:12:39 by loris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "color_texture.h"
+#include "miniRt.h"
 
 void	print_rgb(t_rgb *color)
 {
@@ -25,9 +26,20 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 {
 	uint32_t	color;
 
-	color = rgb->g;
+	color = rgb->r;
 	color = (color << 8) + rgb->g;
 	color = (color << 8) + rgb->b;
 	color = (color << 8) + 0xFF; // Alpha
 	return (color);
+}
+
+uint32_t vector_to_color(t_vector vec)
+{
+	uint8_t r = (uint8_t)(vec.x * 255.0f);
+	uint8_t g = (uint8_t)(vec.y * 255.0f);
+	uint8_t b = (uint8_t)(vec.z * 255.0f);
+	uint8_t a = 200;
+
+	uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;
+	return color;
 }

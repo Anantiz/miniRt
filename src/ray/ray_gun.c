@@ -69,13 +69,13 @@ void	ray_tracing(t_glob *glob)
 			// fprintf(debug_log_f, "Ray at %d, %d\n", x, y);
 			ray = new_ray(glob->camera, x, y);
 			collision = query_collision(glob->scene, ray);
-			if (collision)
-			{
-				// Bounce
-				// Then get color at the end
-			}
+			// if (collision)
+			// {
+			// 	// Bounce
+			// 	// Then get color at the end
+			// }
 
-			rtt_render_pixel(glob, collision, x, y);
+			rtt_render_pixel(glob, collision, x, y, ray);
 			our_free(ray->origin);
 			our_free(ray->direction);
 			our_free(ray);
