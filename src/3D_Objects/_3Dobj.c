@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 15:15:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:25:18 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_object	*new_object(char **params)
 	int						i;
 /*
 
-Currently not safe, as a wrong parameter count will result in a segfault.
+Currently not safe, as a wrong parameter count can result in a segfault.
 
 Cuz i ain't check that now, to do later
 
@@ -71,14 +71,14 @@ Cuz i ain't check that now, to do later
 		{
 			obj = our_malloc(sizeof(t_object));
 			obj->type = stypes[i];
-			parse_position(&obj->pos, params[1]);
+			parse_position(&obj->pos, params[1]); // Handles if no params is given (exit with error)
 			if (stypes[i] == P_SPHERE)
 			{
 				obj->ort = (t_vector){0, 0, 0};
 				obj->csg = new_csg_tree(obj, stypes[i], params + 2);
 				return (obj);
 			}
-			parse_orientation(&obj->ort, params[2]);
+			parse_orientation(&obj->ort, params[2]); // Same
 			obj->csg = new_csg_tree(obj, stypes[i], params + 3);
 			return (obj);
 		}

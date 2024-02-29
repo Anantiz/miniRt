@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 12:07:47 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:45:45 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,24 @@ Primitive constructors take their relative position in last as they are optional
 
 /*
 If params len is not 3, segfault, please give me the right params
-	params[0] = diameter
-	params[1] = color
-	(optional)params[2] = position
+	params[0] = pos
+	params[1] = diameter
+	params[2] = color
 */
 t_csg	*pr_new_sphere(char **params)
 {
 	t_csg		*sphere;
 
+	if (ft_tablen(params) != 3)
+		error_exit("Wrong parameters count : Sphere : pr_new_");
 	sphere = our_malloc(sizeof(t_csg));
 	sphere->type = LEAVE;
 	sphere->l = our_malloc(sizeof(t_csg_leave));
 	sphere->l->type = SPHERE;
 	sphere->l->ort = (t_vector){0, 0, 0};
-	sphere->l->shape.sphere.rad = parse_float(params[0]) / 2;
-	parse_rgb(&sphere->l->rgb, params[1]);
-	if (params[2])
-		parse_position(&sphere->l->pos, params[2]);
-	else
-		sphere->l->pos = (t_vector){0, 0, 0};
+	parse_position(&sphere->l->pos, params[0]);
+	sphere->l->shape.sphere.rad = parse_float(params[1]) / 2;
+	parse_rgb(&sphere->l->rgb, params[2]);
 	return (sphere);
 }
 

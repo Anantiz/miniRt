@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 17:35:44 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:49:46 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_csg	*pr_new_plane(char **params)
 {
 	t_csg	*plane;
 
-	if (ft_strslen(params) != 3)
-		return (NULL); // could also error_exit("Plane: wrong number of parameters");
+	if (ft_tablen(params) != 3)
+		error_exit("Wrong parameters count : Plane : pr_new_");
 	plane = our_malloc(sizeof(t_csg));
 	plane->type = LEAVE;
 	plane->l = our_malloc(sizeof(t_object));
@@ -29,7 +29,7 @@ t_csg	*pr_new_plane(char **params)
 	parse_position(&plane->l->pos, params[0]);
 	parse_orientation(&plane->l->ort, params[1]);
 	parse_rgb(&plane->l->rgb, params[2]);
-	return (NULL);
+	return (plane);
 }
 
 /*
@@ -44,11 +44,10 @@ If the division by the dot product of the ray and the plane axis is 0, it's a mi
 (it's parallel to the plane, so it's not going to hit it).
 
 */
-t_collision			*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
+t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 {
 	t_vector	*plane_axis;
 	t_vector	*origin;
-	t_collision	*collision;
 	float		ray_axis_dot_pl_axis;
 	float		t;
 
@@ -58,14 +57,12 @@ t_collision			*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 		return (our_free(plane_axis), NULL);
 
 	origin = add_vector(&obj->pos, &csg->l->pos);
-	rea_v(origin, add_vector(origin, ray->origin));
+	rea_v(&origin, add_vector(origin, ray->origin));
 
 	t = -vec_dot_product(origin, plane_axis) /	ray_axis_dot_pl_axis;
-	if (t > 0)
-	{
-		// new collision
-	}
 	our_free(origin);
 	our_free(plane_axis);
+	if (t > 0)
+		return (new_collision(obj, csg, ray, t));
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 16:13:11 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/29 10:25:13 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ If params len is not 5, segfault, please give me the right params
 	params[0] = diameter
 	params[1] = height
 	params[2] = color
-	(optional)params[3] = pos
-	(optional)[4] = orientation
+	(optional)params[3] = pos, else NULL
+	(optional)[4] = orientation, else NULL
 */
 t_csg	*pr_new_cylinder(char **params)
 {
 	t_csg	*cylinder;
 
+	 // Should not happen regardless of the input file (obj_cylinder should normally handle this)
+	if (ft_strslen(params) < 3)
+		error_exit("Cylinder: wrong number of parameters");
 	cylinder = our_malloc(sizeof(t_csg));
 	cylinder->type = LEAVE;
 	cylinder->l = our_malloc(sizeof(t_object));
@@ -57,17 +60,21 @@ r = radius of the cylinder
 */
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
-	t_vector		*dist_oc;
-	t_vector		*sphere_origin;
-	t_pair_float	t;
+	// t_vector		*dist_oc;
+	// t_vector		*sphere_origin;
+	// t_pair_float	t;
 
-	dist_oc = sub_vector(ray->origin, &csg->l->pos);
-	sphere_origin = add_vector(&csg->l->pos, &obj->pos);
-	if (!quadratic_solver(&t, dist_oc, ray->direction, csg->l->shape.cylinder.rad))
-		return (our_free(dist_oc), our_free(sphere_origin), NULL);
-	our_free(dist_oc);
-	our_free(sphere_origin);
-	if (t.t1 < 0 || (t.t2 < t.t1 && t.t2 > 0))
-		return (new_collision(obj, csg, ray, t.t2));
-	return (new_collision(obj, csg, ray, t.t1));
+	// dist_oc = sub_vector(ray->origin, &csg->l->pos);
+	// sphere_origin = add_vector(&csg->l->pos, &obj->pos);
+	// if (!quadratic_solver(&t, dist_oc, ray->direction, csg->l->shape.cylinder.rad))
+	// 	return (our_free(dist_oc), our_free(sphere_origin), NULL);
+	// our_free(dist_oc);
+	// our_free(sphere_origin);
+	// if (t.t1 < 0 || (t.t2 < t.t1 && t.t2 > 0))
+	// 	return (new_collision(obj, csg, ray, t.t2));
+	// return (new_collision(obj, csg, ray, t.t1));
+	(void)obj;
+	(void)csg;
+	(void)ray;
+	return (NULL);
 }
