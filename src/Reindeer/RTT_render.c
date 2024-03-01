@@ -33,10 +33,14 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 float	light_adjust(t_lcol *light_col, t_collision *col)
 {
 	float		cos_angle;
+	t_vector	*obj_center = add_vector(&col->obj->l->pos, &col->parent_obj->pos);
 
 	if (light_col)
 	{
-		cos_angle = vec_dot_product(&light_col->light->pos, &col->point);
+		t_vector	*norm;
+		norm = sub_vector(&col->point, obj_center);
+		cos_angle = vec_dot_product((&light_col->light->pos), norm);
+		// cos_angle = cos(cos_angle);
 		if (cos_angle < 0)
 			cos_angle = 0;
 		fprintf(debug_log_f, "ca c'est ma fusee encule de ta mere la pute %f\n", cos_angle);

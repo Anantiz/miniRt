@@ -40,5 +40,6 @@ typedef t_light_collision	t_lcol;
 
 t_lcol				*query_visible_light(t_csg *obj , t_vector *point, \
 t_vector *ray_dir);
-float	light_adjust(t_lcol *light_col, t_collision *col);
+float				light_adjust(t_lcol *light_col, t_collision *col);
+
 #endif
