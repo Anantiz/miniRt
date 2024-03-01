@@ -6,7 +6,7 @@
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:39:38 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 10:20:55 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:32:46 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 	return (color);
 }
 
-uint32_t vector_to_color(t_vector *vec)
+uint32_t vector_to_color(t_vector *vec, float k)
 {
 	if (!vec)
 		return (BLACK);
 	uint8_t r = (uint8_t)(vec->x * 255.0f);
 	uint8_t g = (uint8_t)(vec->y * 255.0f);
 	uint8_t b = (uint8_t)(vec->z * 255.0f);
-	uint8_t a = 255;
+	uint8_t a = 255 * k;
 
 	uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;
 	return color;
