@@ -49,3 +49,5 @@ LOOP:
 
 	Then once it's all returned call the put_pixel() function that will calculate the
 	pixel color accordingly (using all the data stored in the streuct)
+
+(m * n) ^ m*n
