@@ -14,8 +14,8 @@ L -40,0,30 0.7 255,255,255
 #sp = Sphere
 #cy = Cylinder
 
-# Format : [object, origin, *normal, {Appropriately : [diameter, height, width]}, color]
-# *normal is not given for sphere
+# Format : [object, origin, *orientation, {Appropriately : [diameter, height, width]}, color]
+# *orientation is not given for sphere
 
 # pl 0,0,0 0,1.0,0 255,0,225
 
