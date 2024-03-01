@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 12:55:39 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 13:22:36 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct s_texture
 // Utils
 uint32_t			rgb_to_uint(t_rgb *rgb);
 void				print_rgb(t_rgb *color);
-uint32_t 			vector_to_color(t_vector *vec, float k, t_rgb *color);
+uint32_t 			vector_to_color(float k, t_rgb *color);
 
 
 #endif

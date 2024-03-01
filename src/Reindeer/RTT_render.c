@@ -30,7 +30,7 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 			angle =  light_col->theta;
 		else
 			angle = 0;
-		mlx_put_pixel(glob->img, x, y, vector_to_color(&collision->point, angle, &collision->obj->l->rgb));
+		mlx_put_pixel(glob->img, x, y, vector_to_color(angle, &collision->obj->l->rgb));
 	}
 }
 
