@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-=======
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 14:39:38 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 10:56:48 by lkary-po         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
->>>>>>> loris
 #include <stdio.h>
 #include "color_texture.h"
 #include "miniRt.h"
@@ -40,9 +25,9 @@ uint32_t vector_to_color(t_vector *vec, float k)
 {
 	if (!vec)
 		return (BLACK);
-	uint8_t r = (uint8_t)(125.0f);
-	uint8_t g = (uint8_t)(50.0f);
-	uint8_t b = (uint8_t)(20.0f);
+	uint8_t r = (uint8_t)(k * 255.0f);
+	uint8_t g = (uint8_t)(k * 255.0f);
+	uint8_t b = (uint8_t)(k * 255.0f);
 	uint8_t a = 255.0f * k;
 
 	uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;

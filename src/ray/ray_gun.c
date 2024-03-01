@@ -60,7 +60,7 @@ void	ray_tracing(t_glob *glob)
 	int			y;
 
 	x = 0;
-	// debug_log_f = fopen("rendering.log", "w");
+	debug_log_f = fopen("rendering.log", "w");
 	while (x < WIN_SIZE_X)
 	{
 		y = 0;
@@ -84,6 +84,6 @@ void	ray_tracing(t_glob *glob)
 		}
 		x++;
 	}
-	// fclose(debug_log_f);
+	fclose(debug_log_f);
 	printf("Rendering done\n");
 }

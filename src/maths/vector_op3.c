@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:51:00 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 17:21:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 11:18:22 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,16 @@ float		vec_get_angle_rad(t_vector *v1, t_vector *v2)
 	return (acosf(\
 	ft_bound_float(vec_dot_product(v1, v2), 1, -1) \
 	/ (ft_bound_float(vec_dot_product(&normed1, &normed2), 1, -1) + EPSILON)));
+}
+
+bool	fcmp(float a, float b)
+{
+	return (fabs(a - b) < EPSILON);
+}
+
+bool	vec_cmp(t_vector *v1, t_vector *v2)
+{
+	if (fcmp(v1->x, v2->x) && fcmp(v1->y, v2->y) && fcmp(v1->z, v2->z))
+		return (false);
+	return (true);
 }

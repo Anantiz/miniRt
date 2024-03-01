@@ -26,6 +26,8 @@ t_vector *point, t_vector *ray_dir)
 		return (our_free(ray.direction), NULL);
 	if (collision->obj != obj)
 		return (our_free(collision), NULL);
+	if (vec_cmp(&collision->point, point) == false)
+		return (our_free(collision), NULL);
 	lcol = our_malloc(sizeof(t_lcol));
 	lcol->light = light;
 	lcol->dist = collision->dist;
@@ -56,11 +58,9 @@ t_lcol	*query_visible_light(t_csg *obj , t_vector *point, t_vector *ray_dir)
 	t_ll_obj	*light;
 	t_lcol		*collision;
 	t_lcol		*root;
-	int			i;
 
 	light = scene_getter(NULL)->lights;
 	root = NULL;
-	i = -1;
 	while (light)
 	{
 		collision = get_light_collision(light->l, obj, point, ray_dir);

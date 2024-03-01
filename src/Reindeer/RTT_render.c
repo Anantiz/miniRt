@@ -19,24 +19,24 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 	if (x >= WIN_SIZE_X || y >= WIN_SIZE_Y || x < 0 || y < 0)
 		return ;
 	if (!collision)
-		mlx_put_pixel(glob->img, x, y, PINK);
+		mlx_put_pixel(glob->img, x, y, GREY);
 	else
 	{
 		t_lcol *light_col;
 		light_col = query_visible_light(collision->obj, &collision->point, ray->direction);
 		vector_normalizer(&(collision->point));
-		mlx_put_pixel(glob->img, x, y, vector_to_color(&collision->point, light_adjust(light_col)));
+		mlx_put_pixel(glob->img, x, y, vector_to_color(&collision->point, light_adjust(light_col, collision)));
 		fprintf(debug_log_f, "\t~Collision\n");
 	}
 }
 
-float	light_adjust(t_lcol *light_col)
+float	light_adjust(t_lcol *light_col, t_collision *col)
 {
 	float		cos_angle;
 
 	if (light_col)
 	{
-		cos_angle = cos(light_col->theta);
+		cos_angle = vec_dot_product(&light_col->light->pos, &col->point);
 		if (cos_angle < 0)
 			cos_angle = 0;
 		fprintf(debug_log_f, "ca c'est ma fusee encule de ta mere la pute %f\n", cos_angle);

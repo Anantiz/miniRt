@@ -132,12 +132,6 @@ typedef struct s_object
 
 	t_csg				*csg;
 
-	// So, the assignment only asks for primitives, so even tho I handle
-	// the CSG tree, most of the time, the leaves will be the only thing
-	// used.
-	// This is why the parsing will mostly just parse primitives, that's why
-	// I use the e_stype here, even tho a fighter jet is not a primitive.
-	// ¯\_(ツ)_/¯ FIXED
 	t_e_objt			type;
 	struct s_object		*next;
 }t_object;
