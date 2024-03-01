@@ -24,7 +24,7 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 	{
 		t_lcol *light_col;
 		light_col = query_visible_light(collision->obj, &collision->point, ray->direction);
-		vector_normalizer(&(collision->point));
+		// vector_normalizer(&(collision->point));
 		float angle;
 		if (light_col)
 			angle =  light_col->theta;

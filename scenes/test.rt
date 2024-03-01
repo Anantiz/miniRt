@@ -4,10 +4,11 @@
 A 0.2 255,255,255
 
 # Stands for Camera, param[origin, direction, fov]
-C -250,0,0 1,0,0 40
+C -250,0,0 0,0,0 40
 
 # Stands for spot light, param[origin, intensity, color]
-L 0,150,0 0.7 255,255,255
+# L -100,20,-50 0.7 255,255,255
+L 10,50,-50 0.7 255,255,255
 
 #Shapes Identifyers
 #pl = Plane
@@ -17,12 +18,15 @@ L 0,150,0 0.7 255,255,255
 # Format : [object, origin, *orientation, {Appropriately : [diameter, height, width]}, color]
 # *orientation is not given for sphere
 
-# pl 0,0,0 0,1.0,0 255,0,225
 
-pl -50,0,0 0.8,1.0,0 101,254,8
-sp 0,0,-50 40 0,125,255
-sp 0,0,50 40 255,0,0
+# sp 0,0,-50 40 0,125,255
 
+
+pl 50,0,0 0,0,1 101,254,8
+
+# sp 0,0,50 40 255,0,0
 
 
 # cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
+
+# xyz = Depth, Vertical, Horizontal, Wtf ???, it should not be like this

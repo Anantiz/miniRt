@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 14:48:19 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 15:39:29 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ void	parse_rgb(t_rgb *color, char *str_color)
 	char	**rgb;
 
 	rgb = ft_split(str_color, ',');
-	printf("str_color: %s\n", str_color);
-	for (int i = 0; rgb[i]; i++)
-		printf("rgb[%d]: %s\n", i, rgb[i]);
 	if (ft_tablen(rgb) != 3)
 		error_exit("Wrong parameters count : color");
 	color->r = parse_int(rgb[0]);
