@@ -21,19 +21,27 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 		mlx_put_pixel(glob->img, x, y, 0x888888FF);
 	else
 	{
+		t_lcol *light_col;
+		light_col = query_visible_light(collision->obj, &collision->point, ray->direction);
 		vector_normalizer(&(collision->point));
-		mlx_put_pixel(glob->img, x, y, vector_to_color(collision->point));
+		mlx_put_pixel(glob->img, x, y, vector_to_color(light_adjust(light_col, &collision->point)));
 		fprintf(debug_log_f, "\t~Collision\n");
 	}
 }
 
-// t_vector	*hit_point_to_color(t_collision *collision, t_ray *ray)
-// {
-// 	t_vector	*hitpoint;
+t_vector	*light_adjust(t_lcol *light_col, t_vector *coll)
+{
+	t_vector	*ret;
+	float		cos_angle;
 
-// 	// hitpoint = mult_vector(collision->dist, ray->direction);
-// 	// hitpoint = add_vector(ray->origin, hitpoint);
-// 	hitpoint = collision->point;
-// 	vector_normalizer(hitpoint);
-// 	return (hitpoint);
-// }
+	if (light_col)
+	{
+		cos_angle = cos(light_col->theta);
+		if (cos_angle < 0)
+			cos_angle = 0;
+		ret = mult_vector(cos_angle, coll);
+	}
+	else
+		ret = NULL;
+	return (ret);
+}

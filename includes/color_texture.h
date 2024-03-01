@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_texture.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 16:12:23 by loris            ###   ########.fr       */
+/*   Updated: 2024/03/01 10:10:57 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ typedef struct s_texture
 // Utils
 uint32_t			rgb_to_uint(t_rgb *rgb);
 void				print_rgb(t_rgb *color);
-uint32_t 			vector_to_color(t_vector vec);
+uint32_t 			vector_to_color(t_vector *vec);
 
 #endif
