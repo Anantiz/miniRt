@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 13:52:22 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:48:19 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ void	parse_rgb(t_rgb *color, char *str_color)
 	char	**rgb;
 
 	rgb = ft_split(str_color, ',');
+	printf("str_color: %s\n", str_color);
+	for (int i = 0; rgb[i]; i++)
+		printf("rgb[%d]: %s\n", i, rgb[i]);
 	if (ft_tablen(rgb) != 3)
-		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
+		error_exit("Wrong parameters count : color");
 	color->r = parse_int(rgb[0]);
 	if (color->r < 0 || color->r > 255)
 		parse_error_msg(ERROR_PARSE_RGB);
@@ -61,7 +64,7 @@ void	parse_position(t_vector *vector, char *str_pos)
 
 	xyz = ft_split(str_pos, ',');
 	if (ft_tablen(xyz) != 3)
-		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
+		error_exit("Wrong parameters count : position");
 	vector->x = parse_float(xyz[0]);
 	vector->y = parse_float(xyz[1]);
 	vector->z = parse_float(xyz[2]);
@@ -75,7 +78,7 @@ void	parse_orientation(t_vector *vector, char *str_rot)
 
 	xyz = ft_split(str_rot, ',');
 	if (ft_tablen(xyz) != 3)
-		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
+		error_exit("Wrong parameters count : orientation");
 	vector->x = parse_float(xyz[0]);
 	if (vector->x > 1 || vector->x < -1)
 		parse_error_msg(ERROR_PARSE_ROT);
@@ -87,6 +90,8 @@ void	parse_orientation(t_vector *vector, char *str_rot)
 		parse_error_msg(ERROR_PARSE_ROT);
 	free_double_char(xyz);
 	vector_normalizer(vector);
+	if (vector->x == 0 && vector->y == 0 && vector->z == 0)
+		error_exit("Invalid orientation, must be non null");
 }
 
 float	parse_float(char *str)

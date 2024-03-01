@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:05:56 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 10:38:19 by aurban           ###   ########.fr       */
+/*   Updated: 2024/02/28 15:12:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ Args:
 Return:
 	True if there is a solution, false otherwise
 */
-bool	quadratic_solver\
-(t_pair_float *t, t_vector *dist_oc, t_vector *dir, float r)
+bool	quadratic_solver(t_pair_float *t, t_vector *dist_oc, \
+t_vector *dir, float r)
 {
 	float		b;
 	float		c;
 	float		delta;
 
+	// We assume that the ray is normalized, thus a = 1
+	// This might cause Doomsday if it's not the case *shrug*
 	b = 2.0 * vec_dot_product(dist_oc, dir);
 	c = vec_dot_product(dist_oc, dist_oc) - (r * r);
 	delta = (b * b) - (4.0 * c);
