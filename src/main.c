@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 11:51:57 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 12:59:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,8 @@ int main(int argc, char **argv)
 	// my_test(&glob);
 	init_global(&glob);
 	ray_tracing(&glob);
-	mlx_key_hook(glob.mlx, cptn_hook_key, &glob);
 	mlx_image_to_window(glob.mlx, glob.img, 0, 0);
-	// mlx_loop_hook(glob.mlx, rtt_render, &glob);
+	mlx_key_hook(glob.mlx, cptn_hook_key, &glob);
 	mlx_loop(glob.mlx);
 	mlx_terminate(glob.mlx);
 	safe_as_fuck_malloc(0, NULL, SAFE_MALLOC_FREE_ALL);

@@ -21,15 +21,16 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 	return (color);
 }
 
-uint32_t vector_to_color(t_vector *vec, float k)
+uint32_t vector_to_color(t_vector *vec, float k, t_rgb *color)
 {
 	if (!vec)
 		return (BLACK);
-	uint8_t r = (uint8_t)(k * 255.0f);
-	uint8_t g = (uint8_t)(k * 255.0f);
-	uint8_t b = (uint8_t)(k * 255.0f);
-	uint8_t a = 255.0f * k;
+	uint8_t r = (uint8_t)(color->r * k);
+	uint8_t g = (uint8_t)(color->g * k);
+	uint8_t b = (uint8_t)(color->b * k);
+	// uint8_t a = 255.0f * k;
+	uint8_t a = 255;
 
-	uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;
-	return color;
+	uint32_t color_ = (r << 24) | (g << 16) | (b << 8) | a;
+	return color_;
 }

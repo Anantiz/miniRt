@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 16:22:53 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 12:39:16 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,10 @@ static t_collision	*get_closest_collision(t_collision **collisions, int count)
 		{
 			if (collisions[i]->dist < closest_dist)
 			{
-				// fprintf(debug_log_f, "\tCollision found with Object: %d\n", i);
 				closest_dist = collisions[i]->dist;
 				closest_collision = collisions[i];
 			}
 		}
-		// else
-		// 	fprintf(asderlog, "\tNo collision with Object: %d\n", i);
 	}
 	free_collisions_except(collisions, closest_collision ,count);
 	return (closest_collision);
@@ -95,7 +92,6 @@ t_collision	*query_collision(t_scene *scene, t_ray *ray)
 	i = 0;
 	while (obj) // Get collisions with all objects
 	{
-		// printf("Testing collisions with Object: %d, out of %d\n", i + 1, scene->objects_count);
 		collisions[i++] = hadron_collider(obj->o, ray, obj->o->csg);
 		obj = obj->next;
 	}

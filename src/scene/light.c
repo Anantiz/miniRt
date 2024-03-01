@@ -16,24 +16,27 @@ t_vector *point, t_vector *ray_dir)
 	t_collision	*collision;
 	t_lcol		*lcol;
 	t_ray		ray;
-	t_vector	*orthogonal;
 
-	ray.origin = point;
-	ray.direction = sub_vector(&light->pos, point);
+	ray.origin = &light->pos;
+	ray.direction = sub_vector(point, &light->pos);
 	vector_normalizer(ray.direction);
+
 	collision = query_collision(scene_getter(NULL), &ray);
 	if (!collision)
 		return (our_free(ray.direction), NULL);
 	if (collision->obj != obj)
 		return (our_free(collision), NULL);
-	if (vec_cmp(&collision->point, point) == false)
-		return (our_free(collision), NULL);
+
 	lcol = our_malloc(sizeof(t_lcol));
 	lcol->light = light;
 	lcol->dist = collision->dist;
-	orthogonal = produit_vectoriel(ray_dir, ray_dir);
-	lcol->theta = vec_get_angle_rad(orthogonal, ray.direction);
-	our_free(orthogonal);
+
+
+	t_vector *norm = sub_vector(point, &obj->l->pos);
+	vector_normalizer(norm);
+	lcol->theta = vec_dot_product(ray.direction, norm);
+	if (lcol->theta < 0)
+		lcol->theta = 0;
 	our_free(ray.direction);
 	return (lcol);
 }

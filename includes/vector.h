@@ -8,7 +8,7 @@
 # include "forward_declaration.h"
 
 # define M_PI		3.14159265358979323846
-# define EPSILON	0.001
+# define EPSILON	0.00001
 
 
 // Cuz floats are faster than doubles
