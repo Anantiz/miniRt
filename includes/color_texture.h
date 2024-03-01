@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_texture.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 16:12:23 by loris            ###   ########.fr       */
+/*   Updated: 2024/03/01 10:13:27 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,47 @@
 # include <stdint.h>
 # include "forward_declaration.h"
 
-# define RED		0xFF000000
-# define GREEN		0x00FF0000
-# define BLUE		0x0000FF00
+# define RED		0xFF0000FF
+# define GREEN		0x00FF00FF
+# define BLUE		0x0000FFFF
 # define BLACK		0x000000FF
-# define WHITE		0xFFFFFF00
+# define WHITE		0xFFFFFFFF
 
 # define ALPHA		0x000000FF
 
-# define GREY		0x80808000
-# define YELLOW		0xFFFF0000
-# define CYAN		0x00FFFF00
-# define MAGENTA	0xFF00FF00
-# define PINK		0xFFC0CB00
-# define ORANGE		0xFFA50000
-# define PURPLE		0x80008000
-# define BROWN		0xA52A2A00
-# define LIME		0x00FF0000
-# define OLIVE		0x80800000
-# define TEAL		0x00808000
-# define NAVY		0x00008000
-# define MAROON		0x80000000
-# define SILVER		0xC0C0C000
-# define GOLD		0xFFD70000
-# define BRONZE		0xCD7F32
-# define COPPER		0xB8733300
-# define PLATINUM	0xE5E4E200
-# define TURQUOISE	0x40E0D000
-# define EMERALD	0x50C87800
-# define SAPPHIRE	0x08256700
-# define RUBY		0xE0115F00
-# define DIAMOND	0xB9F2FF00
-# define AMETHYST	0x9966CC00
-# define AQUAMARINE	0x7FFFD400
-# define TOPAZ		0x19A97400
-# define PERIDOT	0xE6E20000
-# define GARNET		0x73363500
-# define CITRINE	0xE4D00A00
-# define JADE		0x00A86B00
-# define ONYX		0x35383900
-# define OPAL		0x9F9F9F00
-# define PEARL		0xF0EAD600
+# define GREY		0x808080FF
+# define YELLOW		0xFFFF00FF
+# define CYAN		0x00FFFFFF
+# define MAGENTA	0xFF00FFFF
+# define PINK		0xFFC0CBFF
+# define ORANGE		0xFFA500FF
+# define PURPLE		0x800080FF
+# define BROWN		0xA52A2AFF
+# define LIME		0x00FF00FF
+# define OLIVE		0x808000FF
+# define TEAL		0x008080FF
+# define NAVY		0x000080FF
+# define MAROON		0x800000FF
+# define SILVER		0xC0C0C0FF
+# define GOLD		0xFFD700FF
+# define BRONZE		0xCD7F32FF
+# define COPPER		0xB87333FF
+# define PLATINUM	0xE5E4E2FF
+# define TURQUOISE	0x40E0D0FF
+# define EMERALD	0x50C878FF
+# define SAPPHIRE	0x082567FF
+# define RUBY		0xE0115FFF
+# define DIAMOND	0xB9F2FFFF
+# define AMETHYST	0x9966CCFF
+# define AQUAMARINE	0x7FFFD4FF
+# define TOPAZ		0x19A974FF
+# define PERIDOT	0xE6E200FF
+# define GARNET		0x733635FF
+# define CITRINE	0xE4D00AFF
+# define JADE		0x00A86BFF
+# define ONYX		0x353839FF
+# define OPAL		0x9F9F9FFF
+# define PEARL		0xF0EAD6FF
 
 
 

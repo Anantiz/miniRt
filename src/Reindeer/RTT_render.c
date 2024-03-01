@@ -15,6 +15,7 @@ void	rtt_render(void *glob_)
 
 void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray *ray)
 {
+	(void)ray;
 	if (x >= WIN_SIZE_X || y >= WIN_SIZE_Y || x < 0 || y < 0)
 		return ;
 	if (!collision)
@@ -23,7 +24,7 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 	{
 		vector_normalizer(&(collision->point));
 		mlx_put_pixel(glob->img, x, y, vector_to_color(collision->point));
-		fprintf(debug_log_f, "\t~Collision\n");
+		// fprintf(debug_log_f, "\t~Collision\n");
 	}
 }
 

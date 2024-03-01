@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:04:26 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 14:58:44 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 10:17:59 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ t_vector *point, t_vector *ray_dir)
 	ray.direction = sub_vector(&light->pos, point);
 	vector_normalizer(ray.direction);
 	collision = query_collision(scene_getter(NULL), &ray);
-	our_free(ray.direction);
 	if (!collision)
-		return (NULL);
+		return (our_free(ray.direction), NULL);
 	if (collision->obj != obj)
 		return (our_free(collision), NULL);
 	lcol = our_malloc(sizeof(t_lcol));
@@ -45,6 +44,7 @@ t_vector *point, t_vector *ray_dir)
 	orthogonal = produit_vectoriel(ray_dir, ray_dir);
 	lcol->theta = vec_get_angle_rad(orthogonal, ray.direction);
 	our_free(orthogonal);
+	our_free(ray.direction);
 	return (lcol);
 }
 

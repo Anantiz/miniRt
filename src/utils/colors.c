@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:39:38 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 16:12:39 by loris            ###   ########.fr       */
+/*   Updated: 2024/03/01 10:12:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 {
 	uint32_t	color;
 
-	color = rgb->r;
-	color = (color << 8) + rgb->g;
-	color = (color << 8) + rgb->b;
-	color = (color << 8) + 0xFF; // Alpha
+	color = (uint8_t)rgb->r;
+	color = (color << 8) + (uint8_t)rgb->g;
+	color = (color << 8) + (uint8_t)rgb->b;
+	color = (color << 8) + (uint8_t)0xFF; // Alpha
 	return (color);
 }
 

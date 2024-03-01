@@ -19,7 +19,7 @@ t_ray	*new_ray(t_camera *camera, int x, int y)
 	ray->origin = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
 	ray->direction = ray_dir(camera, screen, u, v);
 	our_free(screen);
-	fprintf(debug_log_f, "\tDir: %f, %f, %f\n", ray->direction->x, ray->direction->y, ray->direction->z);
+	// fprintf(debug_log_f, "\tDir: %f, %f, %f\n", ray->direction->x, ray->direction->y, ray->direction->z);
 	return (ray);
 }
 
@@ -30,11 +30,11 @@ t_screen	*field_of_view(float fov, float aspect_ratio)
 
 	fov_radian = fov * (M_PI / 180);
 
-	fprintf(debug_log_f, "\taspect_ratio: %f\n", aspect_ratio);
+	// fprintf(debug_log_f, "\taspect_ratio: %f\n", aspect_ratio);
 	screen = our_malloc(sizeof(t_screen));
 	screen->width_factor = aspect_ratio * tanf(fov_radian / 2);
 	screen->height_factor = tanf(fov_radian / 2);
-	fprintf(debug_log_f, "\twidth height: %f, %f\n", screen->width_factor, screen->height_factor);
+	// fprintf(debug_log_f, "\twidth height: %f, %f\n", screen->width_factor, screen->height_factor);
 	return (screen);
 }
 
@@ -60,7 +60,7 @@ void	ray_tracing(t_glob *glob)
 	int			y;
 
 	x = 0;
-	debug_log_f = fopen("rendering.log", "w");
+	// debug_log_f = fopen("rendering.log", "w");
 	while (x < WIN_SIZE_X)
 	{
 		y = 0;
@@ -84,6 +84,6 @@ void	ray_tracing(t_glob *glob)
 		}
 		x++;
 	}
-	fclose(debug_log_f);
+	// fclose(debug_log_f);
 	printf("Rendering done\n");
 }
