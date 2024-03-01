@@ -24,7 +24,7 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 		t_lcol *light_col;
 		light_col = query_visible_light(collision->obj, &collision->point, ray->direction);
 		vector_normalizer(&(collision->point));
-		mlx_put_pixel(glob->img, x, y, vector_to_color(&collision->point, light_adjust(light_col)));
+		mlx_put_pixel(glob->img, x, y, vector_to_color(&collision->point, 1.0f));
 		fprintf(debug_log_f, "\t~Collision\n");
 	}
 }
