@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:08:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 14:49:41 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 16:23:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_csg	*obj_new_plane(t_object *obj, char **params)
 	pr_params[2] = params[0]; // Color
 	pr_params[3] = NULL;
 	plane = pr_new_plane(pr_params);
+	// plane->l->pos.x = -plane->l->pos.x;
+	// plane->l->pos.z = -plane->l->pos.z;
 	our_free(pr_params);
 
 	printf("Plane created\n");

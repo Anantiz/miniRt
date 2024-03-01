@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:53 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 14:49:32 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 15:45:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_csg	*obj_new_sphere(t_object *obj, char **params)
 {
 	t_csg	*sphere;
 	char	**pr_params;
-	
+
 	// Unused, but we might use it later, easier to remove than to add
 	(void)obj;
 	// for (int i = 0;params[i]; i++)
@@ -26,7 +26,7 @@ t_csg	*obj_new_sphere(t_object *obj, char **params)
 	pr_params = our_malloc(sizeof(char *) * 5);
 	if (!params || !params[0] || !params[1])
 		error_exit("Sphere: wrong number of parameters");
-	pr_params[0] = "1,1,1"; //relative  pos
+	pr_params[0] = "0,0,0"; //relative  pos
 	pr_params[1] = params[0];// size
 	pr_params[2] = params[1];// color
 	pr_params[3] = NULL;

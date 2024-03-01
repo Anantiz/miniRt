@@ -31,7 +31,8 @@ t_vector *point, t_vector *ray_dir)
 	lcol->light = light;
 	lcol->dist = collision->dist;
 
-	t_vector *norm = sub_vector(&obj->l->pos, point);
+	t_vector *norm = sub_vector(&obj->l->pos, point); // Math correct, Render wrong , Why?
+	// t_vector *norm = sub_vector(point, &obj->l->pos); // Render correct , Why?
 	vector_normalizer(norm);
 	lcol->theta = vec_dot_product(ray.direction, norm);
 	if (lcol->theta < 0)

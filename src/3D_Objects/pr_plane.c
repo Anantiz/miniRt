@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 14:49:46 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/01 16:49:17 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,16 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 	float		ray_axis_dot_pl_axis;
 	float		t;
 
-	plane_axis = add_vector(&obj->pos, &csg->l->ort);
+	plane_axis = add_vector(&obj->ort, &csg->l->ort);
+	vector_normalizer(plane_axis);
+	vector_normalizer(ray->direction);
 	ray_axis_dot_pl_axis = vec_dot_product(ray->direction, plane_axis);
 	if (ray_axis_dot_pl_axis == 0)
 		return (our_free(plane_axis), NULL);
-
 	origin = add_vector(&obj->pos, &csg->l->pos);
-	rea_v(&origin, add_vector(origin, ray->origin));
+	rea_v(&origin, sub_vector(ray->origin, origin));
 
-	t = -vec_dot_product(origin, plane_axis) /	ray_axis_dot_pl_axis;
+	t = -vec_dot_product(origin, plane_axis) / ray_axis_dot_pl_axis;
 	our_free(origin);
 	our_free(plane_axis);
 	if (t > 0)
