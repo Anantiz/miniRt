@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:08:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/04 11:02:56 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/04 12:08:05 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ t_csg	*obj_new_plane(t_object *obj, char **params)
 	our_free(pr_params);
 
 	printf("Plane created\n");
-	printf("Plane relative position: ");
-	print_vector(&plane->l->pos);
-	printf("Plane absolute position: ");
-	print_vector(&obj->pos);
+	printf("Plane Orientation: ");
+	print_vector(&obj->ort);
 	printf("Plane color: ");
 	print_rgb(&plane->l->rgb);
 	printf("\n\n");

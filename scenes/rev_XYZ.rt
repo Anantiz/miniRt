@@ -21,7 +21,7 @@ L 0,0,200 1.0 255,255,255
 #The plane behavior makes no fucking sense, yet the maths seems fine
 # If it is, at x,y=0 and z behind objects, and the direction is perpandicular to the camera
 # the whole screen should have the plate visible
-pl 0,0,-30 0,0,0 101,254,8
+pl 0,0,-30 1,1,0 101,254,8
 # Somehow it looks like for the plane::: x is y ;;; y is both x and y ??? ;;; and Z is random ???
 
 #Should be right

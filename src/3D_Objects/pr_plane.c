@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/04 10:37:33 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/04 12:18:42 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,15 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 	plane_axis = add_vector(&obj->ort, &csg->l->ort);
 	vector_normalizer(plane_axis);
 	vector_normalizer(ray->direction);
+
 	ray_axis_dot_pl_axis = vec_dot_product(ray->direction, plane_axis);
 	if (ray_axis_dot_pl_axis == 0)
-		return (our_free(plane_axis), NULL);
+	{
+		// printf("Parallel to the plane, t=%f\n", t); // is it wrong
+		return (new_collision(obj, csg, ray, 1)); // Fix t later
+
+		// return (our_free(plane_axis), NULL);
+	}
 	origin = add_vector(&obj->pos, &csg->l->pos);
 	rea_v(&origin, sub_vector(ray->origin, origin));
 

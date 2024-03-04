@@ -21,12 +21,21 @@ t_vector *point, t_vector *ray_dir)
 	ray.origin = &light->pos;
 	ray.direction = sub_vector(point, &light->pos);
 	vector_normalizer(ray.direction);
-
+	if (obj->l->type == PLANE)
+		printf("PLANE\n");
 	collision = query_collision(scene_getter(NULL), &ray);
 	if (!collision)
+	{
+		if (obj->l->type == PLANE)
+			printf("No collision\n");
 		return (our_free(ray.direction), NULL);
+	}
 	if (collision->obj != obj) // Shadows, we put in gray for now, check for transparency later
+	{
+		if (obj->l->type == PLANE)
+			printf("SHADOW\n");
 		return (our_free(collision), NULL);
+	}
 
 	lcol = our_malloc(sizeof(t_lcol));
 	lcol->light = light;
@@ -34,8 +43,7 @@ t_vector *point, t_vector *ray_dir)
 
 	if (obj->l->type == PLANE)
 	{
-		printf("PLANE\n");
-		norm = produit_vectoriel(&collision->parent_obj->ort, &collision->parent_obj->pos);
+		norm = produit_vectoriel(&collision->parent_obj->ort, &collision->parent_obj->ort);
 		printf("ORT:\t");
 		print_vector(&collision->parent_obj->ort);
 		printf("POS:\t");
