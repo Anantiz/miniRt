@@ -23,7 +23,7 @@ BIN_LIBFT		:=./libs/libft.a
 SRC_FILES:=main.c test.c
 
 UTILS_PATH:=utils
-UTILS_FILES:=colors.c print_shit.c
+UTILS_FILES:=colors.c print_shit.c delete_things.c
 SRC_FILES+=			$(addprefix $(UTILS_PATH)/,$(UTILS_FILES))
 
 _OBJS_PATH:=3D_Objects/Objs

@@ -16,6 +16,7 @@ t_vector *point, t_vector *ray_dir)
 	t_collision	*collision;
 	t_lcol		*lcol;
 	t_ray		ray;
+	t_vector	*norm;
 
 	ray.origin = &light->pos;
 	ray.direction = sub_vector(point, &light->pos);
@@ -24,20 +25,32 @@ t_vector *point, t_vector *ray_dir)
 	collision = query_collision(scene_getter(NULL), &ray);
 	if (!collision)
 		return (our_free(ray.direction), NULL);
-	if (collision->obj != obj)
+	if (collision->obj != obj) // Shadows, we put in gray for now, check for transparency later
 		return (our_free(collision), NULL);
 
 	lcol = our_malloc(sizeof(t_lcol));
 	lcol->light = light;
 	lcol->dist = collision->dist;
 
-	t_vector *norm = sub_vector(&obj->l->pos, point); // Math correct, Render wrong , Why?
-	// t_vector *norm = sub_vector(point, &obj->l->pos); // Render correct , Why?
+	if (obj->l->type == PLANE)
+	{
+		printf("PLANE\n");
+		norm = produit_vectoriel(&collision->parent_obj->ort, &collision->parent_obj->pos);
+		printf("ORT:\t");
+		print_vector(&collision->parent_obj->ort);
+		printf("POS:\t");
+		print_vector(&collision->parent_obj->pos);
+		printf("NORM:\t");
+		print_vector(norm);
+	}
+	else
+		norm = sub_vector(&obj->l->pos, point); // Math correct, Render wrong , Why?
 	vector_normalizer(norm);
 	lcol->theta = vec_dot_product(ray.direction, norm);
-	if (lcol->theta < 0)
-		lcol->theta = 0;
+	if (lcol->theta <= 0) // The light is behind the object, later we will check for transparency
+		lcol->theta = 0;//lcol->theta = -lcol->theta;//
 	our_free(ray.direction);
+	// our_free(norm);
 	return (lcol);
 }
 
@@ -45,6 +58,7 @@ static void	add_light_collision(t_lcol **root, t_lcol *collision)
 {
 	t_lcol	*tmp;
 
+	collision->next = NULL;
 	if (!*root)
 	{
 		*root = collision;

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:08:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 16:23:03 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/04 11:02:56 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_csg	*obj_new_plane(t_object *obj, char **params)
 		error_exit("Plane: wrong number of parameters");
 	pr_params = our_malloc(sizeof(char *) * 4);
 	pr_params[0] = "0,0,0"; // Relative pos to the object
-	pr_params[1] = "1,1,1"; // Relative orientation to the object
+	pr_params[1] = "0,0,0"; // Relative orientation to the object
 	pr_params[2] = params[0]; // Color
 	pr_params[3] = NULL;
 	plane = pr_new_plane(pr_params);

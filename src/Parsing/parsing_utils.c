@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 15:58:12 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/04 11:03:19 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	parse_orientation(t_vector *vector, char *str_rot)
 		parse_error_msg(ERROR_PARSE_ROT);
 	free_double_char(xyz);
 	vector_normalizer(vector);
-	if (vector->x == 0 && vector->y == 0 && vector->z == 0)
-		error_exit("Invalid orientation, must be non null");
+	// if (vector->x == 0 && vector->y == 0 && vector->z == 0)
+	// 	error_exit("Invalid orientation, must be non null");
 }
 
 float	parse_float(char *str)

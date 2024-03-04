@@ -23,13 +23,14 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 
 uint32_t vector_to_color(float k, t_rgb *color)
 {
-	if (k < 0.0f)
-		k = -k;
-	// k = 1.5f; // Increase the brightness, for debug purposes
-	k += 0.1f;
-	k += k/2.0f;
-	if (k > 1.0f)
-		k = 1.0f;
+	// Increase the brightness, for debug purposes
+	if (k != 0)
+	{
+		k += k/2.0f;
+		if (k > 1.0f)
+			k = 1.0f;
+	}
+	// k = 1.0f;
 	uint8_t r = (uint8_t)(color->r * k);
 	uint8_t g = (uint8_t)(color->g * k);
 	uint8_t b = (uint8_t)(color->b * k);

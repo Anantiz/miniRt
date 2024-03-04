@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 13:22:36 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/04 10:35:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define ALPHA		0x000000FF
 
 # define GREY		0x808080FF
+# define DARK_GREY	0x404040FF
 # define YELLOW		0xFFFF00FF
 # define CYAN		0x00FFFFFF
 # define MAGENTA	0xFF00FFFF

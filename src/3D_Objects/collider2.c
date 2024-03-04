@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 16:43:19 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/26 11:49:17 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/04 10:14:31 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,4 @@ t_collision	*collider_inter(t_collision **collision)
 	del_collision(collision[0]);
 	del_collision(collision[1]);
 	return (NULL);
-}
-
-void	del_collision(t_collision *collision)
-{
-	our_free(collision);
 }
