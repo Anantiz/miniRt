@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:08:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/04 12:08:05 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/04 13:54:43 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,27 @@ Format: "plane", pos"x,y,z", ort"x,y,z", rgb
 t_csg	*obj_new_plane(t_object *obj, char **params)
 {
 	t_csg	*plane;
-	char	**pr_params;
+	// static t_vector	plane_orientation[2] = { //WRONG
+	// 	(t_vector){3, 2, 1},
+	// 	(t_vector){1, 2, 3}
+	// };
 
-	(void)obj;
-	// for (int i = 0;params[i]; i++)
-	// 	printf("obj_Plane params[%d]: %s\n", i, params[i]);
 	if (!params || !params[0])
 		error_exit("Plane: wrong number of parameters");
-	pr_params = our_malloc(sizeof(char *) * 4);
-	pr_params[0] = "0,0,0"; // Relative pos to the object
-	pr_params[1] = "0,0,0"; // Relative orientation to the object
-	pr_params[2] = params[0]; // Color
-	pr_params[3] = NULL;
-	plane = pr_new_plane(pr_params);
-	// plane->l->pos.x = -plane->l->pos.x;
-	// plane->l->pos.z = -plane->l->pos.z;
-	our_free(pr_params);
-
+	plane = pr_new_plane(params[0]);
+	// if (vec_dot_product(&obj->ort, &plane_orientation[0]) == 0) //WRONG
+	// 	plane->l->shape.plane.norm = produit_vectoriel(&obj->ort, &plane_orientation[1]);
+	// else //WRONG
+	// 	plane->l->shape.plane.norm = produit_vectoriel(&obj->ort, &plane_orientation[0]);
+	// vector_normalizer(plane->l->shape.plane.norm);
+	// plane->l->shape.plane.norm->x = fabs(plane->l->shape.plane.norm->x);
+	// plane->l->shape.plane.norm->y = fabs(plane->l->shape.plane.norm->y);
+	// plane->l->shape.plane.norm->z = fabs(plane->l->shape.plane.norm->z);
 	printf("Plane created\n");
 	printf("Plane Orientation: ");
 	print_vector(&obj->ort);
+	// printf("Plane Normal:      ");
+	// print_vector(plane->l->shape.plane.norm);
 	printf("Plane color: ");
 	print_rgb(&plane->l->rgb);
 	printf("\n\n");

@@ -10,7 +10,7 @@ We then create a t_light_collision struct and add it to the list
 ray collision (reverse light path, since we start from the camera to the light)
 
 */
-static t_lcol	*get_light_collision(t_spot_light *light, t_csg *obj, \
+static t_lcol	*get_light_collision(t_spot_light *light, t_csg *csg, \
 t_vector *point, t_vector *ray_dir)
 {
 	t_collision	*collision;
@@ -21,44 +21,45 @@ t_vector *point, t_vector *ray_dir)
 	ray.origin = &light->pos;
 	ray.direction = sub_vector(point, &light->pos);
 	vector_normalizer(ray.direction);
-	if (obj->l->type == PLANE)
+	if (csg->l->type == PLANE)
 		printf("PLANE\n");
 	collision = query_collision(scene_getter(NULL), &ray);
 	if (!collision)
 	{
-		if (obj->l->type == PLANE)
-			printf("No collision\n");
+		if (csg->l->type == PLANE)
+			printf("\tNo collision\n");
 		return (our_free(ray.direction), NULL);
 	}
-	if (collision->obj != obj) // Shadows, we put in gray for now, check for transparency later
+	if (collision->obj != csg) // Shadows, we put in gray for now, check for transparency later
 	{
-		if (obj->l->type == PLANE)
-			printf("SHADOW\n");
+		if (csg->l->type == PLANE)
+			printf("\tSHADOW\n");
 		return (our_free(collision), NULL);
 	}
-
 	lcol = our_malloc(sizeof(t_lcol));
 	lcol->light = light;
 	lcol->dist = collision->dist;
 
-	if (obj->l->type == PLANE)
-	{
-		norm = produit_vectoriel(&collision->parent_obj->ort, &collision->parent_obj->ort);
-		printf("ORT:\t");
-		print_vector(&collision->parent_obj->ort);
-		printf("POS:\t");
-		print_vector(&collision->parent_obj->pos);
-		printf("NORM:\t");
-		print_vector(norm);
-	}
+	if (csg->l->type == PLANE)
+		norm = &collision->parent_obj->ort; // We use the orientation of the object as the normal
+	else if (csg->l->type == SPHERE)
+		norm = sub_vector(&csg->l->pos, point);
 	else
-		norm = sub_vector(&obj->l->pos, point); // Math correct, Render wrong , Why?
+		norm = new_vector(0, 0, 0);
 	vector_normalizer(norm);
 	lcol->theta = vec_dot_product(ray.direction, norm);
-	if (lcol->theta <= 0) // The light is behind the object, later we will check for transparency
-		lcol->theta = 0;//lcol->theta = -lcol->theta;//
+	// The light is behind the object, later we will check for transparency
+	if (lcol->theta < 0)
+	{
+		lcol->theta = 0;
+		if (csg->l->type == PLANE)
+			lcol->theta = 1;
+	}
+	// Here we give cosine, cuz the formula give the angle
+	//, but for spheres, we already have the cosine
+	if (csg->l->type == PLANE)
+		lcol->theta = 0.8;
 	our_free(ray.direction);
-	// our_free(norm);
 	return (lcol);
 }
 

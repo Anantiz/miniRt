@@ -72,8 +72,7 @@ typedef union u_shape // Specific geometric parameters
 
 	struct s_plane
 	{
-		float	width;
-		float	height;
+		t_vector	*norm;
 	}plane;
 
 	struct s_cylinder
@@ -174,7 +173,7 @@ void				csg_leave_add(t_csg *csg, char **params); // to come
 // Return a single leaf
 
 t_csg				*pr_new_sphere(char **params);
-t_csg				*pr_new_plane(char **params); // Special case ... idk how to handle it cleanly, i guess just a Null shape
+t_csg				*pr_new_plane(char *color); // Special case ... idk how to handle it cleanly, i guess just a Null shape
 t_csg				*pr_new_cylinder(char **params);
 
 // CSG constructors : Public
