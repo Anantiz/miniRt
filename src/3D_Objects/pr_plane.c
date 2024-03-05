@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 11:10:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 15:43:27 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_csg	*pr_new_plane(char *color)
 	return (plane);
 }
 #define PRINT_SAMPLE 10000
-extern has_printed;
+extern int has_printed;
 /*
 	Plane equation:
 		(P⃗−C)⋅A⃗ = 0
@@ -62,26 +62,26 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 	// We are litera-ly on the plane
 	if (nominator == 0)
 	{
-		if (has_printed % PRINT_SAMPLE == 0)
-			printf("nominator == 0\n"); has_printed;
+		// if (has_printed % PRINT_SAMPLE == 0)
+		// 	printf("nominator == 0\n"); has_printed;
 		return (new_collision(obj, csg, ray, 0));
 	}
 	denominator = -vec_dot_product(ray->dir, csg->l->shape.plane.norm);
 	// We are perpendicular to the normal thus parallel to the plane
 	if (denominator == 0)
 	{
-		if (has_printed % PRINT_SAMPLE == 0)
-			printf("denominator == 0\n"); has_printed;
+		// if (has_printed % PRINT_SAMPLE == 0)
+		// 	printf("denominator == 0\n"); has_printed;
 		return (NULL);
 	}
 	t = nominator / denominator;
 	if (t < 0)
 	{
-		if (has_printed % PRINT_SAMPLE == 0)
-			printf("t < 0, nominator= %f,  denominator= %f\n",nominator , denominator ); has_printed;
+		// if (has_printed % PRINT_SAMPLE == 0)
+		// 	printf("t < 0, nominator= %f,  denominator= %f\n",nominator , denominator ); has_printed;
 		return (NULL);
 	}
-	if (has_printed % PRINT_SAMPLE == 0)
-		printf("Plane t = %f, nominator= %f,  denominator= %f\n", t,nominator , denominator); has_printed;
+	// if (has_printed % PRINT_SAMPLE == 0)
+		// printf("Plane t = %f, nominator= %f,  denominator= %f\n", t,nominator , denominator); has_printed;
 	return (new_collision(obj, csg, ray, t));
 }

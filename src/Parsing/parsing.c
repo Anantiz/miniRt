@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 11:54:29 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 16:57:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static int	parse_line(t_glob *glob, const char *line)
 			return ((parsing_func[i])(glob, tokens), SUCCESS);
 	}
 	obj = new_object(tokens);
-	// if (!obj) // It exits anyway
-	// 	return (GO_FUCK_YOURSELF);
+	if (!obj)
+		return (GO_FUCK_YOURSELF);
 	scene_add_object(glob->scene, obj);
 	return (SUCCESS);
 }
@@ -88,25 +88,25 @@ int	parse_map(t_glob *glob, char *path)
 {
 	char	*line;
 	int		fd;
+	int		line_count;
 
 	fd = open_file(path);
-	if (fd == GO_FUCK_YOURSELF)
+	if (fd == -1)
 		return (GO_FUCK_YOURSELF);
 	gc_add_fd(fd);
 	line = NULL;
+	line_count = 0;
 	while (true)
 	{
+		line_count++;
 		ft_replace_str(&line, get_next_line(fd, false));
 		if (!line)
 			break ;
 		if (*line == '#' || ft_is_blank_str(line))
 			continue ;
 		if (parse_line(glob, line) == GO_FUCK_YOURSELF)
-		{
-			gc_close_fd(fd);
-			printf("\033[41mInvalid Token found in scene parsing\n\033[0m");
-			return (GO_FUCK_YOURSELF);
-		}
+			error_exit(ft_strjoin("Invalid parameter found on line ", \
+			ft_itoa(line_count)));
 	}
 	gc_close_fd(fd);
 	return (validate_parsing(glob));

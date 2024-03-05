@@ -54,8 +54,8 @@ t_vector *point)
 
 // DIRECT LIGHT TEST
 	obj_collision = query_collision(scene_getter(NULL), &ray);
-	if (csg->l->type == PLANE && has_printed % PRINT_SAMPLE == 0)
-		print_collision(obj_collision);
+	// if (csg->l->type == PLANE && has_printed % PRINT_SAMPLE == 0)
+	// 	print_collision(obj_collision);
 	if (!obj_collision)
 		return (our_free(ray.dir), NULL);
 	if (obj_collision->obj != csg) // Shadows, we put in gray for now, check for transparency later
@@ -69,15 +69,15 @@ t_vector *point)
 
 // Cos Angle between the light and the normal of the object
 	light_collision->cos_angle = vec_dot_product(ray.dir, norm);
-	if (csg->l->type == PLANE && has_printed % PRINT_SAMPLE == 0)
-	{
-		printf("Norm:      ");
-		print_vector(norm);
-		printf("Ray dir:   ");
-		print_vector(ray.dir);
-		printf("cos_angle: %f\n", light_collision->cos_angle);
-		printf("\n");
-	}
+	// if (csg->l->type == PLANE && has_printed % PRINT_SAMPLE == 0)
+	// {
+	// 	printf("Norm:      ");
+	// 	print_vector(norm);
+	// 	printf("Ray dir:   ");
+	// 	print_vector(ray.dir);
+	// 	printf("cos_angle: %f\n", light_collision->cos_angle);
+	// 	printf("\n");
+	// }
 	if (light_collision->cos_angle < 0) // The light is behind the object
 	{
 		// Later we will check for transparency

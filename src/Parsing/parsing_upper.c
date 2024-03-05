@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 10:40:27 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 16:06:27 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ void	parse_ambiant(t_glob *g, char **line_tokens)
 	static bool	ambiant_set = false;
 
 	if (ambiant_set)
-		parse_error_msg(ERROR_DUPLICATE_AMBIANT);
+		parse_error_msg(ERROR_DUPLICATE_AMBIANT, NULL);
 	if (ft_tablen(line_tokens) != 3)
-		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT, NULL);
 	ambiant_set = true;
 	if (!ft_is_float_format(line_tokens[1]))
-		parse_error_msg(ERROR_PARSE_LINTESITY);
+		parse_error_msg(ERROR_PARSE_LINTESITY, NULL);
 	g->scene->amb_intensity = ft_atoldb(line_tokens[1]);
 	if (g->scene->amb_intensity > 1 || g->scene->amb_intensity < 0)
-		parse_error_msg(ERROR_PARSE_LINTESITY);
+		parse_error_msg(ERROR_PARSE_LINTESITY, NULL);
 	parse_rgb(&g->scene->ambiant_rgb, line_tokens[2]);
 }
 
@@ -50,10 +50,10 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	t_camera	*camera;
 
 	if (cam_set)
-		parse_error_msg(ERROR_DUPLICATE_CAM);
+		parse_error_msg(ERROR_DUPLICATE_CAM, NULL);
 	cam_set = true;
 	if (ft_tablen(line_tokens) != 4)
-		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT, NULL);
 	camera = our_malloc(sizeof(t_camera));
 	camera->pos = our_malloc(sizeof(t_vector));
 	camera->dir = our_malloc(sizeof(t_vector));
@@ -61,11 +61,11 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	parse_orientation(camera->dir, line_tokens[2]);
 	if (camera->dir->x == 0 && camera->dir->y == 0 \
 	&& camera->dir->z == 0)
-		parse_error_msg(ERROR_PARSE_ROT);
+		parse_error_msg(ERROR_PARSE_ROT, NULL);
 	vector_normalizer(camera->dir);
 	camera->fov = parse_int(line_tokens[3]);
 	if (camera->fov <= 0 || camera->fov > 180)
-		parse_error_msg(ERROR_PARSE_FOV);
+		parse_error_msg(ERROR_PARSE_FOV, NULL);
 	camera->right = produit_vectoriel(&(t_vector){0, 1, 0}, camera->dir); // To fix
 	vector_normalizer(camera->right);
 	camera->up = produit_vectoriel(camera->right , camera->dir);
@@ -93,14 +93,14 @@ void	parse_light(t_glob *glob, char **line_tokens)
 	t_spot_light	*light;
 
 	if (ft_tablen(line_tokens) != LIGHT_PARAM_COUNT)
-		parse_error_msg(ERROR_PARSE_WRONG_COUNT);
+		parse_error_msg(ERROR_PARSE_WRONG_COUNT, NULL);
 	light = our_malloc(sizeof(t_spot_light));
 	parse_position(&light->pos, line_tokens[1]);
 	if (!ft_is_float_format(line_tokens[2]))
-		parse_error_msg(ERROR_PARSE_LINTESITY);
+		parse_error_msg(ERROR_PARSE_LINTESITY, NULL);
 	light->intensity_ratio = ft_atoldb(line_tokens[2]);
 	if (light->intensity_ratio < 0 || light->intensity_ratio > 1)
-		parse_error_msg(ERROR_PARSE_LINTESITY);
+		parse_error_msg(ERROR_PARSE_LINTESITY, NULL);
 	parse_rgb(&light->rgb, line_tokens[3]);
 	scene_add_light(glob->scene, light);
 	light->lumen = DEFAULT_LUMEN;
@@ -115,9 +115,9 @@ int	parse_int(char *str)
 
 	valid = 1;
 	if (!ft_is_int_format(str))
-		parse_error_msg(ERROR_PARSE_INT);
+		parse_error_msg(ERROR_PARSE_INT, NULL);
 	ret = ft_atoll_safe(str, INT_MAX, &valid);
 	if (!valid)
-		parse_error_msg(ERROR_PARSE_INT);
+		parse_error_msg(ERROR_PARSE_INT, NULL);
 	return (ret);
 }

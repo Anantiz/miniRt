@@ -7,35 +7,34 @@
 
 # Stands for Ambiant light, param[intensity, color]
 A 0.2 255,255,255
-
 # Stands for Camera, param[origin, direction, fov]
 C 0,0,150 0,0,-1 30
-
 # Stands for spot light, param[origin, intensity, color]
 L 50,0,200 1.0 255,255,255
 
 # Format : [object, origin, *orientation, {Appropriately : [diameter, height, width]}, color]
 # *orientation is not given for sphere
 
-pl 0,0,-50 1,1,0 101,254,8
-#Should be right
+# Should be right
 sp 35,0,0 15 255,192,170
-#Should be left
+# # Should be left
 sp -20,0,0 15 255,0,0
 
-# # #Should be under the middle
+# #Should be under the middle
 sp 0,20,0 15 0,255,0
-# # #Should be above the middle
+# #Should be above the middle
 sp 0,-20,0 15 252,217,23
 
-# # #Should be in front
+# #Should be in front
 sp 0,0,10 8 215,0,255
-# # #Should be behind
+# #Should be behind
 sp 0,0,-20 15 0,0,255
+pl 0,0,-80 1,0,0 101,254,8
 
-#The plane behavior makes no fucking sense, yet the maths seems fine
-# If it is, at x,y=0 and z behind objects, and the direction is perpandicular to the camera
-# the whole screen should have the plate visible
+pl 0,0,-5 5,0,10 255,222,200
+
+
+# sp 0,0,0 15 0,0,255
 
 # not implemented yet
 # cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
