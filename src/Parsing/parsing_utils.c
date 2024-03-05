@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/04 13:27:58 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 08:17:05 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,29 @@ void	parse_orientation(t_vector *vector, char *str_rot)
 		parse_error_msg(ERROR_PARSE_ROT);
 	free_double_char(xyz);
 	vector_normalizer(vector);
-	// if (vector->x == 0 && vector->y == 0 && vector->z == 0)
-	// 	error_exit("Invalid orientation, must be non null");
+	if (vector->x == 0 && vector->y == 0 && vector->z == 0)
+		error_exit("Invalid orientation, must be non null");
+}
+
+/* Checks if the input is somewhat normalized */
+void	parse_orientation_private(t_vector *vector, char *str_rot)
+{
+	char	**xyz;
+
+	xyz = ft_split(str_rot, ',');
+	if (ft_tablen(xyz) != 3)
+		error_exit("Wrong parameters count : orientation");
+	vector->x = parse_float(xyz[2]);
+	if (vector->x > 1 || vector->x < -1)
+		parse_error_msg(ERROR_PARSE_ROT);
+	vector->y = parse_float(xyz[1]);
+	if (vector->y > 1 || vector->y < -1)
+		parse_error_msg(ERROR_PARSE_ROT);
+	vector->z = parse_float(xyz[0]);
+	if (vector->z > 1 || vector->z < -1)
+		parse_error_msg(ERROR_PARSE_ROT);
+	free_double_char(xyz);
+	vector_normalizer(vector);
 }
 
 float	parse_float(char *str)

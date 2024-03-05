@@ -556,8 +556,8 @@ typedef struct LodePNGInfo {
 
   /*phys chunk (pHYs)*/
   unsigned phys_defined; /*if 0, there is no pHYs chunk and the values below are undefined, if 1 else there is one*/
-  unsigned phys_x; /*pixels per unit in x direction*/
-  unsigned phys_y; /*pixels per unit in y direction*/
+  unsigned phys_x; /*pixels per unit in x dir*/
+  unsigned phys_y; /*pixels per unit in y dir*/
   unsigned phys_unit; /*may be 0 (unknown unit) or 1 (metre)*/
 
   /*

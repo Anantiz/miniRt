@@ -17,8 +17,8 @@ typedef	struct s_ray
 	int			lumen;
 	t_rgb		ray_color;
 
-	t_vector	*origin;
-	t_vector	*direction;
+	t_vector	*pos;
+	t_vector	*dir;
 }t_ray;
 
 typedef struct s_screen

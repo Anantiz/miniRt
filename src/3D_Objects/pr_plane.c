@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/04 14:17:30 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 11:10:55 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,52 +26,62 @@ t_csg	*pr_new_plane(char *color)
 	plane->l->type = PLANE;
 	//planes are never relative to the object
 	plane->l->pos = (t_vector){0, 0, 0};
-	plane->l->ort = (t_vector){0, 0, 0};
+	plane->l->dir = (t_vector){0, 0, 0};
 	parse_rgb(&plane->l->rgb, color);
 	return (plane);
 }
-
+#define PRINT_SAMPLE 10000
+extern has_printed;
 /*
 	Plane equation:
-  		(P⃗−C)⋅A⃗ = 0
+		(P⃗−C)⋅A⃗ = 0
 	Ray equation:
 		P⃗ = R⃗c + t⋅D⃗
 	Solve plane equation for P as the ray.
 
-If t is positive it's a hit, else it's a miss.
-If the division by the dot product of the ray and the plane axis is 0, it's a miss.
-(it's parallel to the plane, so it's not going to hit it).
+	t = (C - R⃗c)⋅A⃗ / D⃗⋅A⃗
+	With:
+		A⃗ = csg->l->shape.plane.norm
+		D⃗ = ray->dir
+		(C - R⃗c)⋅A⃗ = nominator
 
+	Return:
+		Pointer to a collision struct if there is a collision
+		NULL if no parallel or intersection is opposite to the ray direction
 */
 t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 {
-	t_vector	*origin;
-	float		ray_axis_dot_pl_axis;
+	float		nominator; // The relative origin of the ray to the plane
+	float		denominator; // D⃗⋅A⃗
 	float		t;
 
-	vector_normalizer(ray->direction);
-	ray_axis_dot_pl_axis = vec_dot_product(ray->direction, &obj->ort);
-	// Ray is parallel to the plane
-	if (ray_axis_dot_pl_axis == 1)
+	nominator = vec_dot_product(&(t_vector){\
+		ray->pos->x - obj->pos.x, \
+		ray->pos->y - obj->pos.y, \
+		ray->pos->z - obj->pos.z}, csg->l->shape.plane.norm);
+	// We are litera-ly on the plane
+	if (nominator == 0)
 	{
-		printf("Ray is parallel to the plane\n");
+		if (has_printed % PRINT_SAMPLE == 0)
+			printf("nominator == 0\n"); has_printed;
+		return (new_collision(obj, csg, ray, 0));
+	}
+	denominator = -vec_dot_product(ray->dir, csg->l->shape.plane.norm);
+	// We are perpendicular to the normal thus parallel to the plane
+	if (denominator == 0)
+	{
+		if (has_printed % PRINT_SAMPLE == 0)
+			printf("denominator == 0\n"); has_printed;
 		return (NULL);
 	}
-	// Ray is perpendicular to the plane, special case because of division by 0
-	if (ray_axis_dot_pl_axis == 0)
+	t = nominator / denominator;
+	if (t < 0)
 	{
-		origin = sub_vector(&obj->pos, ray->origin);
-		// Not origin, but same variable to save memory
-		t = vector_length(origin);
-		our_free(origin);
-		return (new_collision(obj, csg, ray, t));
+		if (has_printed % PRINT_SAMPLE == 0)
+			printf("t < 0, nominator= %f,  denominator= %f\n",nominator , denominator ); has_printed;
+		return (NULL);
 	}
-	// Any other angle
-	origin = sub_vector(ray->origin, &obj->pos); // Substract with the plane origin
-	t = -vec_dot_product(origin, &obj->ort) / ray_axis_dot_pl_axis;
-	our_free(origin);
-	// if (t > 0)
-		return (new_collision(obj, csg, ray, t));
-	printf("Plane: t is negative\n");
-	return (NULL);
+	if (has_printed % PRINT_SAMPLE == 0)
+		printf("Plane t = %f, nominator= %f,  denominator= %f\n", t,nominator , denominator); has_printed;
+	return (new_collision(obj, csg, ray, t));
 }

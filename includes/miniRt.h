@@ -44,7 +44,7 @@ typedef struct s_scene t_scene;
 typedef	struct	s_camera
 {
 	t_vector	*pos;
-	t_vector	*direction;
+	t_vector	*dir;
 	t_vector	*right;
 	t_vector	*up;
 	int			fov;

@@ -72,7 +72,7 @@ typedef union u_shape // Specific geometric parameters
 
 	struct s_plane
 	{
-		t_vector	*norm;
+		t_vector	*norm; // Do not free
 	}plane;
 
 	struct s_cylinder
@@ -94,16 +94,15 @@ To come:
 */
 typedef struct s_csg_leave
 {
-	t_e_prim		type;
-
 	t_vector		pos;
-	t_vector		ort;
+	t_vector		dir;
 
+	t_e_prim		type;
 	t_u_shape		shape;
 
 	t_rgb			rgb;
 	// more to come
-
+	// Materials properties
 }t_csg_leave;
 
 typedef struct s_csg
@@ -122,12 +121,12 @@ Objects:
 		- orientation
 		- CSG tree
 		- next
-ort=orientation
+dir=orientation
 */
 typedef struct s_object
 {
 	t_vector			pos;
-	t_vector			ort;
+	t_vector			dir;
 
 	t_csg				*csg;
 

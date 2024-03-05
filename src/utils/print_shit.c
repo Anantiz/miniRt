@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:53:49 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 16:24:01 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 11:05:26 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ void	print_collision(t_collision *collision)
 	if (collision)
 	{
 		printf("Collision Object: ");
-		printf("%s\n", shape_names[collision->obj->type]);
+		printf("%s\n", shape_names[collision->obj->l->type]);
 		printf("Collision detected at distance: %8.2f\n", collision->dist);
 		printf("Collision point: ");
 		print_vector(&collision->point);
 	}
 	else
 		printf("No collision detected\n");
-	printf("\n");
 }

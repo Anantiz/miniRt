@@ -5,7 +5,7 @@
 void	print_rgb(t_rgb *color)
 {
 	if (color)
-		printf(" %3d r, %3d g, %3d b\n", color->r, color->g, color->b);
+		printf("%3d r, %3d g, %3d b\n", color->r, color->g, color->b);
 	else
 		printf("NULL\n");
 }
@@ -24,12 +24,12 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 uint32_t vector_to_color(float k, t_rgb *color)
 {
 	// Increase the brightness, for debug purposes
-	if (k != 0)
-	{
-		k += k/2.0f;
-		if (k > 1.0f)
-			k = 1.0f;
-	}
+	// if (k != 0)
+	// {
+	// 	k += k/4.0f;
+	// 	if (k > 1.0f)
+	// 		k = 1.0f;
+	// }
 	// k = 1.0f;
 	uint8_t r = (uint8_t)(color->r * k);
 	uint8_t g = (uint8_t)(color->g * k);

@@ -6,13 +6,13 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:10:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 10:22:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 08:06:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
 
-// Format: "cylinder", pos"x,y,z", ort"x,y,z" "d", "h", rgb
+// Format: "cylinder", pos"x,y,z", dir"x,y,z" "d", "h", rgb
 
 t_csg	*obj_new_cylinder(t_object *obj, char **params)
 {

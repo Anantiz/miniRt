@@ -19,45 +19,45 @@ void	my_test(t_glob *glob)
 
 
 	printf("Test 1:\n");
-	ray.origin = new_vector(-50, 0, 0);
-	ray.direction = new_vector(1, 0, 0);
+	ray.pos = new_vector(-50, 0, 0);
+	ray.dir = new_vector(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
-	our_free(ray.origin);
-	our_free(ray.direction);
+	our_free(ray.pos);
+	our_free(ray.dir);
 
 	printf("Test 2:\n");
-	ray.origin = new_vector(-50, 20, 0);
-	ray.direction = new_vector(1, 0, 0);
+	ray.pos = new_vector(-50, 20, 0);
+	ray.dir = new_vector(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
-	our_free(ray.origin);
+	our_free(ray.pos);
 	printf("Test 2 miss:\n");
-	ray.origin = new_vector(-50, 21, 0);
+	ray.pos = new_vector(-50, 21, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
-	our_free(ray.origin);
+	our_free(ray.pos);
 	our_free(collision);
-	our_free(ray.direction);
+	our_free(ray.dir);
 
 
 	printf("Test 3:\n");
-	ray.origin = new_vector(-50, 10, 10);
-	ray.direction = new_vector(1, 0, 0);
+	ray.pos = new_vector(-50, 10, 10);
+	ray.dir = new_vector(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
-	our_free(ray.origin);
-	our_free(ray.direction);
+	our_free(ray.pos);
+	our_free(ray.dir);
 
 	printf("Test 4:\n");
-	ray.origin = new_vector(-50, 10, -10);
-	ray.direction = new_vector(1, 0, 0);
+	ray.pos = new_vector(-50, 10, -10);
+	ray.dir = new_vector(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
-	our_free(ray.origin);
-	our_free(ray.direction);
+	our_free(ray.pos);
+	our_free(ray.dir);
 }

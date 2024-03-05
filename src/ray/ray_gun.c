@@ -16,10 +16,10 @@ t_ray	*new_ray(t_camera *camera, int x, int y)
 	normalize_coordinates(&u, &v, x, y);
 	screen = field_of_view(camera->fov, (float)WIN_SIZE_X / (float)WIN_SIZE_Y);
 	ray = our_malloc(sizeof(t_ray));
-	ray->origin = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
-	ray->direction = ray_dir(camera, screen, u, v);
+	ray->pos = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
+	ray->dir = ray_dir(camera, screen, u, v);
 	our_free(screen);
-	// fprintf(debug_log_f, "\tDir: %f, %f, %f\n", ray->direction->x, ray->direction->y, ray->direction->z);
+	// fprintf(debug_log_f, "\tDir: %f, %f, %f\n", ray->dir->x, ray->dir->y, ray->dir->z);
 	return (ray);
 }
 
@@ -46,7 +46,7 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 	sum_vector = add_vector(mult_vector(screen->width_factor * u, camera->right), \
 							mult_vector(screen->height_factor * v, camera->up));
 
-	ray_direction = add_vector(camera->direction, sum_vector);
+	ray_direction = add_vector(camera->dir, sum_vector);
 	our_free(sum_vector);
 	vector_normalizer(ray_direction);
 	return (ray_direction);
@@ -76,8 +76,8 @@ void	ray_tracing(t_glob *glob)
 			// }
 
 			rtt_render_pixel(glob, collision, x, y, ray);
-			our_free(ray->origin);
-			our_free(ray->direction);
+			our_free(ray->pos);
+			our_free(ray->dir);
 			our_free(ray);
 			// fprintf(debug_log_f, "\n");
 			y++;

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 12:40:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 10:23:14 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_csg	*pr_new_sphere(char **params)
 	sphere->type = LEAVE;
 	sphere->l = our_malloc(sizeof(t_csg_leave));
 	sphere->l->type = SPHERE;
-	sphere->l->ort = (t_vector){0, 0, 0};
+	sphere->l->dir = (t_vector){0, 0, 0};
 	parse_position(&sphere->l->pos, params[0]);
 	sphere->l->shape.sphere.rad = parse_float(params[1]) / 2;
 	parse_rgb(&sphere->l->rgb, params[2]);
@@ -60,10 +60,11 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 	t_pair_float	t;
 	bool			ret;
 
+	//	Could be optimized by not using temp variables
 	sphere_origin = add_vector(&obj->pos, &csg->l->pos);
-	dist_oc = sub_vector(sphere_origin, ray->origin);
+	dist_oc = sub_vector(sphere_origin, ray->pos);
 	our_free(sphere_origin);
-	ret = quadratic_solver(&t, dist_oc, ray->direction, csg->l->shape.sphere.rad);
+	ret = quadratic_solver(&t, dist_oc, ray->dir, csg->l->shape.sphere.rad);
 	our_free(dist_oc);
 	if (!ret)
 		return (NULL);

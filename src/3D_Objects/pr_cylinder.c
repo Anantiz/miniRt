@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/29 10:25:13 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 09:43:41 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_csg	*pr_new_cylinder(char **params)
 	else
 		cylinder->l->pos = (t_vector){0, 0, 0};
 	if (params[4])
-		parse_orientation(&cylinder->l->ort, params[4]);
+		parse_orientation(&cylinder->l->dir, params[4]);
 	else
-		cylinder->l->ort = (t_vector){0, 0, 0};
+		cylinder->l->dir = (t_vector){0, 0, 0};
 	return (cylinder);
 }
 
@@ -64,9 +64,9 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	// t_vector		*sphere_origin;
 	// t_pair_float	t;
 
-	// dist_oc = sub_vector(ray->origin, &csg->l->pos);
+	// dist_oc = sub_vector(ray->pos, &csg->l->pos);
 	// sphere_origin = add_vector(&csg->l->pos, &obj->pos);
-	// if (!quadratic_solver(&t, dist_oc, ray->direction, csg->l->shape.cylinder.rad))
+	// if (!quadratic_solver(&t, dist_oc, ray->dir, csg->l->shape.cylinder.rad))
 	// 	return (our_free(dist_oc), our_free(sphere_origin), NULL);
 	// our_free(dist_oc);
 	// our_free(sphere_origin);

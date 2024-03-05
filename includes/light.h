@@ -32,7 +32,7 @@ typedef struct s_light_collision
 {
 	t_spot_light				*light;
 	float						dist;
-	float						theta;
+	float						cos_angle;
 
 	struct s_light_collision	*next;
 }t_light_collision;
