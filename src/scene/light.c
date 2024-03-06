@@ -85,7 +85,8 @@ t_vector *point)
 		// Should not be Handled like this
 		// But because of the sign of the normal being random, sometimes the result will be inversed
 		// TO DO: Makes it so that the sign of the normal don't matter
-		light_collision->cos_angle = -light_collision->cos_angle;
+		if (csg->l->type == PLANE)
+			light_collision->cos_angle = -light_collision->cos_angle;
 	}
 	our_free(obj_collision);
 	light_free_norm(csg->l->type, norm);

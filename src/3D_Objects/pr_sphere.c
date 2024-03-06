@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 10:23:14 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/06 20:54:40 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_csg	*pr_new_sphere(char **params)
 		error_exit("Wrong parameters count : Sphere : pr_new_");
 	sphere = our_malloc(sizeof(t_csg));
 	sphere->type = LEAVE;
-	sphere->l = our_malloc(sizeof(t_csg_leave));
+	sphere->l = our_malloc(sizeof(t_leave));
 	sphere->l->type = SPHERE;
 	sphere->l->dir = (t_vector){0, 0, 0};
 	parse_position(&sphere->l->pos, params[0]);

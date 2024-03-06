@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 15:43:27 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/06 20:53:35 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_csg	*pr_new_plane(char *color)
 
 	plane = our_malloc(sizeof(t_csg));
 	plane->type = LEAVE;
-	plane->l = our_malloc(sizeof(t_csg_leave));
+	plane->l = our_malloc(sizeof(t_leave));
 	plane->l->type = PLANE;
 	//planes are never relative to the object
 	plane->l->pos = (t_vector){0, 0, 0};

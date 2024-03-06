@@ -103,13 +103,13 @@ typedef struct s_csg_leave
 	t_rgb			rgb;
 	// more to come
 	// Materials properties
-}t_csg_leave;
+}t_leave;
 
 typedef struct s_csg
 {
 	t_e_ndtype		type;
 
-	t_csg_leave		*l;
+	t_leave			*l;
 	struct s_csg	*left;
 	struct s_csg	*right;
 }t_csg;
