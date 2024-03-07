@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:30:16 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/07 13:38:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ Terms:
 		R⃗c = csg->l->pos	// Center of the sphere
 		D⃗ = ray->dir		// Direction of the ray
 		r = csg->l->shape.sphere.rad // Radius of the sphere
+
+	Also, for some reason I can't figure out, For our spheres , B has to be negated
+	I think it's cuz the whole coordinate system is a mess ¯\_(ツ)_/¯
 */
 t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 {
@@ -71,7 +74,7 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 		obj->pos.x + csg->l->pos.x - ray->pos->x, \
 		obj->pos.y + csg->l->pos.y - ray->pos->y, \
 		obj->pos.z + csg->l->pos.z - ray->pos->z};
-	if (!quadratic_solver(1, (2 * vec_dot_product(&dist_oc, ray->dir)), \
+	if (!quadratic_solver(1, (-2 * vec_dot_product(&dist_oc, ray->dir)), \
 	(vec_dot_product(&dist_oc, &dist_oc) - (csg->l->shape.sphere.rad * \
 	csg->l->shape.sphere.rad)), &t))
 	{

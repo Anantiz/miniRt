@@ -26,6 +26,9 @@ bool	quadratic_solver(float a, float b, float c, t_pair_float *t)
 
 	if (a == 0)
 	{
+		printf("Quadratic a = 0\n");
+		if (b == 0)
+			return (false);
 		t->t1 = -c / b;
 		t->t2 = -c / b;
 		return (true);

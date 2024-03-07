@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:10:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:18:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/07 13:50:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,13 @@ t_csg	*obj_new_cylinder(t_object *obj, char **params)
 	cylinder = pr_new_cylinder(pr_params);
 	our_free(pr_params);
 
-	printf("cylinder created\n");
-	printf("cylinder radius: %f\n", cylinder->l->shape.cylinder.rad);
-	printf("cylinder relative position: ");
-	print_vector(&cylinder->l->pos);
-	printf("cylinder absolute position: ");
-	print_vector(add_vector(&obj->pos, &cylinder->l->pos));
-	printf("cylinder color: ");
+	printf("Cylinder created\n");
+	printf("\tCylinder radius:   %f\n", cylinder->l->shape.cylinder.rad);
+	printf("\tCylinder height:   %f\n", cylinder->l->shape.cylinder.height);
+	printf("\tCylinder color:    ");
 	print_rgb(&cylinder->l->rgb);
+	printf("\tCylinder pos:  ");
+	print_vector((&obj->pos));
 	printf("\n\n");
-	return (pr_new_cylinder(params));
+	return (cylinder);
 }

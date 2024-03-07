@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 16:05:19 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/07 13:45:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	parse_position(t_vector *vector, char *str_pos)
 
 	xyz = ft_split(str_pos, ',');
 	if (ft_tablen(xyz) != 3)
-		error_exit("Wrong parameters count : position");
+		error_exit(ft_strjoin("Wrong parameters count : position, "\
+		"str_pos: ", str_pos));
 	vector->x = parse_float(xyz[2]);
 	vector->y = parse_float(xyz[1]);
 	vector->z = parse_float(xyz[0]);

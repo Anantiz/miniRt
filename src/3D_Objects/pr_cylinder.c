@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:21:36 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/07 14:30:04 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 	cylinder->l = our_malloc(sizeof(t_leave));
 	cylinder->l->type = CYLINDER;
 	parse_position(&cylinder->l->pos, params[0]);
-	parse_orientation(&cylinder->l->dir, params[1]);
+	parse_orientation_private(&cylinder->l->dir, params[1]);
 	cylinder->l->shape.cylinder.rad = parse_float(params[2]) / 2;
 	cylinder->l->shape.cylinder.height = parse_float(params[3]);
 	parse_rgb(&cylinder->l->rgb, params[4]);
@@ -60,6 +60,7 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	//step 2.1: Measure the angle between the cylinder's axis and the z axis (our reference)
 	angle = vec_dot_product(&(t_vector){0, 0, 1}, &obj->dir); // To be sure, I have to check if given a cylinder oriented in the z axis, the result is 0, but it should be
 	//step 2.2: Create the ellipse using this angle
+	// angle = M_PI / 2; // For now, we'll just use a circle
 	semi_axis = (t_pair_float){circle_radius * cosf(angle), circle_radius * sinf(angle)};
 
 
@@ -77,17 +78,30 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	float	b_sqrd = semi_axis.t2 * semi_axis.t2;
 	float	c_x = circle_center->x + ray->pos->x;
 	float	c_y = circle_center->y + ray->pos->y;
-	float	dir_x = ray->dir->x;
-	float	dir_y = ray->dir->y;
+	t_vector	*dir = produit_vectoriel(&obj->dir, &(t_vector){0, 0, 1}); // No idea why, just trying things, it dosn't change anything anyway
+	float	dir_x = dir->x;
+	float	dir_y = dir->y;
+	our_free(dir);
 	// Quadratic equation terms
-	float	a = -(1 / a_sqrd) - (1 / b_sqrd);
+	float	a = (1 / a_sqrd) + (1 / b_sqrd);
 	float	b = 2 * a;
 		// C is a whole mess
-	float	c = -(((dir_x * dir_x) + (2 * dir_x * c_x) + (c_x * c_x)) \
-	/ a_sqrd) - (((dir_y * dir_y) + (2 * dir_y * c_y) + (c_y * c_y)) / b_sqrd);
+	float	c = (((dir_x * dir_x) + (2 * dir_x * c_x) + (c_x * c_x)) / a_sqrd) \
+				+ (((dir_y * dir_y) + (2 * dir_y * c_y) + (c_y * c_y)) / b_sqrd);
 	// Solve the quadratic equation
-	if (!quadratic_solver(a, b, c + 1, &t))
+	if (!quadratic_solver(a, b, c - 1, &t))
+	{
+		printf("No quadratic solution\n");
+		// // Terms
+		// printf("\tSemi axes: %f, %f\n", semi_axis.t1, semi_axis.t2);
+		// printf("\tRadius: %f\n", circle_radius);
+		// printf("\tSquared_terms: %f, %f\n", a_sqrd, b_sqrd);
+		// printf("\tAngle: %f\n", angle);
+		printf("\ta: %f\n", a);
+		printf("\tb: %f\n", b);
+		printf("\tc: %f\n", c);
 		return (NULL);
+	}
 
 // Step 4: Check if the collision is within the cylinder's height
 
