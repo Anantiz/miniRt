@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:05:56 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 15:12:11 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/07 13:32:32 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,37 @@ t_vector *dir, float r)
 		return (true);
 	return (false);
 }
+
+
+/*
+Terms:
+	A = 1 (normalized vector)
+	B = 2 * (O - R⃗c)⋅D⃗
+	C = (O - R⃗c)⋅(O - R⃗c) - r²
+	With:
+		O = ray->pos		// Origin of the ray
+		R⃗c = csg->l->pos	// Center of the sphere
+		D⃗ = ray->dir		// Direction of the ray
+		r = csg->l->shape.sphere.rad // Radius of the sphere
+t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
+{
+	t_vector		dist_oc; // Distance between the ray origin and the sphere center
+	t_pair_float	t;
+
+	dist_oc = (t_vector){\
+		obj->pos.x + csg->l->pos.x - ray->pos->x, \
+		obj->pos.y + csg->l->pos.y - ray->pos->y, \
+		obj->pos.z + csg->l->pos.z - ray->pos->z};
+
+	dist_oc is correct
+	if (!quadratic_solver(1, (2 * vec_dot_product(&dist_oc, ray->dir)), \
+	(vec_dot_product(&dist_oc, &dist_oc) - (csg->l->shape.sphere.rad * \
+	csg->l->shape.sphere.rad)), &t))
+	{
+		return (NULL);
+	}
+	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))
+		return (new_collision(obj, csg, ray, t.t2));
+	return (new_collision(obj, csg, ray, t.t1));
+}
+*/
