@@ -6,43 +6,36 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/06 22:07:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/07 13:21:36 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
 
 /*
-If params len is not 5, segfault, please give me the right params
-	params[0] = diameter
-	params[1] = height
-	params[2] = color
-	(optional)params[3] = pos, else NULL
-	(optional)[4] = orientation, else NULL
+Since all calls to this function are made by the parser, we don't need to check
+the parameters, they are guaranteed to be either correct or a string placeholder
+
+	Params:
+		0: pos
+		1: orientation
+		2: diameter
+		3: height
+		4: color
 */
 t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 {
 	t_csg	*cylinder;
 
-	// Should not happen regardless of the input file.
-	// (obj_cylinder should normally handle this)
-	if (ft_strslen(params) < 3)
-		error_exit("Cylinder: wrong number of parameters");
 	cylinder = our_malloc(sizeof(t_csg));
 	cylinder->type = LEAVE;
-	cylinder->l = our_malloc(sizeof(t_object));
+	cylinder->l = our_malloc(sizeof(t_leave));
 	cylinder->l->type = CYLINDER;
-	cylinder->l->shape.cylinder.rad = ft_atoldb(params[0]) / 2;
-	cylinder->l->shape.cylinder.height = ft_atoldb(params[1]);
-	parse_rgb(&cylinder->l->rgb, params[2]);
-	if (params[3])
-		parse_position(&cylinder->l->pos, params[3]);
-	else
-		cylinder->l->pos = (t_vector){0, 0, 0};
-	if (params[4])
-		parse_orientation(&cylinder->l->dir, params[4]);
-	else
-		cylinder->l->dir = (t_vector){0, 0, 0};
+	parse_position(&cylinder->l->pos, params[0]);
+	parse_orientation(&cylinder->l->dir, params[1]);
+	cylinder->l->shape.cylinder.rad = parse_float(params[2]) / 2;
+	cylinder->l->shape.cylinder.height = parse_float(params[3]);
+	parse_rgb(&cylinder->l->rgb, params[4]);
 	return (cylinder);
 }
 
@@ -57,42 +50,61 @@ Step 4: Check if the collision is within the cylinder's height
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
 // Step 1: Create A circle
-	float			circle_radius = csg->l->shape.cylinder.rad;
-	t_vector		*circle_center = &obj->pos; // Base of the cylinder
 	float			angle;
 	t_pair_float	semi_axis;
+	// Shorthands for cleaner code
+	float			circle_radius = csg->l->shape.cylinder.rad;
+	t_vector		*circle_center = &obj->pos; // Base of the cylinder
 
 // Step 2, ROTATE THE CIRCLE
 	//step 2.1: Measure the angle between the cylinder's axis and the z axis (our reference)
 	angle = vec_dot_product(&(t_vector){0, 0, 1}, &obj->dir); // To be sure, I have to check if given a cylinder oriented in the z axis, the result is 0, but it should be
 	//step 2.2: Create the ellipse using this angle
 	semi_axis = (t_pair_float){circle_radius * cosf(angle), circle_radius * sinf(angle)};
+
+
 /*Step 3: Check 2D collision with the ellipse
 	Formula is (rx * t + ro_x - eo_x)^2 / a^2 + (ry * t + ro_y - eo_y)^2 / b^2 = 1
 	Where rx, ry are the ray's direction, ro_x, ro_y are the ray's origin, eo_x,
 	eo_y are the ellipse's origin, a, b are the ellipse's semi axis
 */
 	// Will be written more concisely later, I'm just trying to understand the formula
-	float	t = 0;
+	// I actually will make it a whole function
+	t_pair_float	t;
+
+	// Ellipse equation terms
 	float	a_sqrd = semi_axis.t1 * semi_axis.t1;
 	float	b_sqrd = semi_axis.t2 * semi_axis.t2;
-	float	center_x = circle_center->x + ray->pos->x;
-	float	center_y = circle_center->y + ray->pos->y;
-
-	// Now solve the quadratic equation with doube variables, wahou !
-	// To be figured out ...
-
-	// if t is negative, the collision is behind the camera
-	if (t < 0) // Kinda not true, because if we use the z axis as {0, 0, 1} or {0, 0, -1}, the result will be inversed, I think, I'm not sure, to recheck
+	float	c_x = circle_center->x + ray->pos->x;
+	float	c_y = circle_center->y + ray->pos->y;
+	float	dir_x = ray->dir->x;
+	float	dir_y = ray->dir->y;
+	// Quadratic equation terms
+	float	a = -(1 / a_sqrd) - (1 / b_sqrd);
+	float	b = 2 * a;
+		// C is a whole mess
+	float	c = -(((dir_x * dir_x) + (2 * dir_x * c_x) + (c_x * c_x)) \
+	/ a_sqrd) - (((dir_y * dir_y) + (2 * dir_y * c_y) + (c_y * c_y)) / b_sqrd);
+	// Solve the quadratic equation
+	if (!quadratic_solver(a, b, c + 1, &t))
 		return (NULL);
+
 // Step 4: Check if the collision is within the cylinder's height
+
+	// Checks for the intersection on our side of the cylinder
+	float	closest_t;
+	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))
+		closest_t = t.t2;
+	else
+		closest_t = t.t1;
+
 	// Above the cylinder
-	if (ray->pos->z + t * ray->dir->z > obj->pos.z + csg->l->shape.cylinder.height - EPSILON)
+	if (ray->pos->z + closest_t * ray->dir->z > obj->pos.z + csg->l->shape.cylinder.height - EPSILON)
 		return (NULL);
 	// Below the cylinder
-	if (ray->pos->z + t * ray->dir->z < obj->pos.z + EPSILON)
+	if (ray->pos->z + closest_t * ray->dir->z < obj->pos.z + EPSILON)
 		return (NULL);
-	return (new_collision(obj, csg, ray, t));
+	return (new_collision(obj, csg, ray, closest_t));
 }
 
 /*
@@ -101,32 +113,5 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 
 1 -((t² + 2t)/a²) - ((t² + 2t)/b²) = (rx² + 2rx + 2cx + cx²)/a² + (ry² + 2ry + 2cy + cy²)/b²
 
-
-...............................................................................
-GPT Copy/Paste: the squared terms are written buggy as t2 instead of t^2
-With cx being the origin x of the ray minus the center x of the ellipse and the same for cy
-	Starting with your expanded equation:
-
-	1−t2+2ta2−t2+2tb2=(rx2+2rx+2cx+cx2)a2+(ry2+2ry+2cy+cy2)b21−a2t2+2t​−b2t2+2t​=a2(rx2+2rx+2cx+cx2)​+b2(ry2+2ry+2cy+cy2)​
-
-	Rearrange the terms:
-
-	1−t2+2ta2−t2+2tb2−(rx2+2rx+2cx+cx2)a2−(ry2+2ry+2cy+cy2)b2=01−a2t2+2t​−b2t2+2t​−a2(rx2+2rx+2cx+cx2)​−b2(ry2+2ry+2cy+cy2)​=0
-
-	Now, combine similar terms and rewrite it in the standard form:
-
-	(−1a2−1b2)t2+(−2a2−2b2)t+(rx2+2rx+2cx+cx2)a2+(ry2+2ry+2cy+cy2)b2−1=0(−a21​−b21​)t2+(−a22​−b22​)t+a2(rx2+2rx+2cx+cx2)​+b2(ry2+2ry+2cy+cy2)​−1=0
-
-	This is now a quadratic equation in the form at2+bt+c=0at2+bt+c=0, where:
-
-	a=−1a2−1b2a=−a21​−b21​
-	b=−2a2−2b2b=−a22​−b22​
-	c=(rx2+2rx+2cx+cx2)a2+(ry2+2ry+2cy+cy2)b2−1c=a2(rx2+2rx+2cx+cx2)​+b2(ry2+2ry+2cy+cy2)​−1
-
-	Now, you can use the quadratic formula to solve for tt:
-
-	t=−b±b2−4ac2at=2a−b±b2−4ac
-...............................................................................
-​​
 
 */

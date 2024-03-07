@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:08:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 16:43:36 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/07 13:18:16 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,11 @@ t_csg	*obj_new_plane(t_object *obj, char **params)
 {
 	t_csg	*plane;
 
-	if (!params || !params[0]) // The parsed map is wrong, we can't do anything
+	if (ft_tablen(params) != 1)
 		error_exit("Plane: wrong number of parameters");
-	plane = pr_new_plane(params[0]); // Will only parse the color, the rest is already done
+	// Will only parse the color, the rest is already done
+	// It's just more consistent to have the same function signature
+	plane = pr_new_plane(params[0]);
 	plane->l->shape.plane.norm = get_plane_norm(&obj->dir);
 
 	// Debug

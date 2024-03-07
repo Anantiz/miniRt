@@ -42,7 +42,7 @@ float				vec_get_angle_rad(t_vector *v1, t_vector *v2);
 bool				fcmp(float a, float b);
 float				ft_bound_float(float value, float max, float min);
 
-bool				quadratic_solver\
-(t_pair_float *t, t_vector *dist_oc, t_vector *dir, float r);
+bool				quadratic_solver(float a, float b, float c, \
+t_pair_float *t);
 
 #endif
