@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 21:36:22 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/10 19:51:02 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 			Idk how the f did I manage to have such a complicated equation
 			cuz compared to others I've done this one has too many terms
 			LOOK AT IT AGAIN
-		Then finnaly, I think this one is okay tho, chek if it;s in the cylinder's height
+		Then finnaly, I think this one is okay tho, chek if it's in the cylinder's height
 
 	Because I somehow managed to create a dam sem-parabola (one vertice
 	is parabolique and the other is straight) instead of a cylinder
@@ -69,94 +69,41 @@ t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 	return (cylinder);
 }
 
-
 /*
 Step 1: Create A circle
+
 Step 2, ROTATE THE CIRCLE
 	step 2.1: Measure the angle between the cylinder's axis and the z axis (our reference)
 	step 2.2: Create the ellipse using this angle
+
 Step 3: Check 2D collision with the ellipse
 Step 4: Check if the collision is within the cylinder's height
 */
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
-// Step 1: Create A circle
+	/*
+		Issues to fix:
+		When the circle is rotated, the ray.dir should be affected by the rotation
+		too, TO DO NEXT TIME
+	*/
+	t_pair_float	sr;
+	t_vector		*center;
 	float			angle;
-	t_pair_float	semi_axis;
-	// Shorthands for cleaner code
-	float			circle_radius = csg->l->shape.cylinder.rad;
-	t_vector		*circle_center = &obj->pos; // Base of the cylinder
 
-// Step 2, ROTATE THE CIRCLE
-	//step 2.1: Measure the angle between the cylinder's axis and the z axis (our reference)
-	angle = vec_dot_product(&(t_vector){0, 0, -1}, &obj->dir); // To be sure, I have to check if given a cylinder oriented in the z axis, the result is 0, but it should be
-	//step 2.2: Create the ellipse using this angle
-	// angle = M_PI / 2; // For now, we'll just use a circle
-	semi_axis = (t_pair_float){circle_radius * cosf(angle), circle_radius * sinf(angle)};
-
-
-/*Step 3: Check 2D collision with the ellipse
-	Formula is (rx * t + ro_x - eo_x)^2 / a^2 + (ry * t + ro_y - eo_y)^2 / b^2 = 1
-	Where rx, ry are the ray's direction, ro_x, ro_y are the ray's origin, eo_x,
-	eo_y are the ellipse's origin, a, b are the ellipse's semi axis
-*/
-	// Will be written more concisely later, I'm just trying to understand the formula
-	// I actually will make it a whole function
-	t_pair_float	t;
-
-	vector_normalizer(ray->dir);
-	// Ellipse equation terms
-	float	a_sqrd = semi_axis.t1 * semi_axis.t1;
-	float	b_sqrd = semi_axis.t2 * semi_axis.t2;
-	float	c_x = circle_center->x + ray->pos->x;
-	float	c_y = circle_center->y + ray->pos->y;
-	float	dir_x = ray->dir->x;
-	float	dir_y = ray->dir->y;
-
-	// Quadratic equation terms
-	float	a = (1 / a_sqrd) + (1 / b_sqrd);
-	float	b = (2 / a_sqrd) + (2 / b_sqrd);
-	// C is a whole mess, but it is supposed represent the expanded non-variable terms something akin to: (point_axis + origin_axis)**2 / squared_terms**2
-	float	c = (((dir_x * dir_x) + (2 * dir_x * c_x) + (c_x * c_x)) / a_sqrd) \
-				+ (((dir_y * dir_y) + (2 * dir_y * c_y) + (c_y * c_y)) / b_sqrd);
-	// Solve the quadratic equation
-	if (!quadratic_solver(a, b, -c - 1, &t))
-	{
-		printf("No quadratic solution\n");
-		// // Terms
-		// printf("\tSemi axes: %f, %f\n", semi_axis.t1, semi_axis.t2);
-		// printf("\tRadius: %f\n", circle_radius);
-		// printf("\tSquared_terms: %f, %f\n", a_sqrd, b_sqrd);
-		// printf("\tAngle: %f\n", angle);
-		printf("\ta: %f\n", a);
-		printf("\tb: %f\n", b);
-		printf("\tc: %f\n", c);
-		return (NULL);
-	}
-
-// Step 4: Check if the collision is within the cylinder's height
-
-	// Checks for the intersection on our side of the cylinder
-	float	closest_t;
-	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))
-		closest_t = t.t1;
+	// Step 1 && 2
+	center = add_vector(&csg->l->dir, &obj->dir);
+	angle = vec_get_angle_rad(center, &(t_vector){0, 0, 1});
+	if(angle)
+		rotate_circle(csg->l->shape.cylinder.rad, &sr, 1 - angle);
 	else
-		closest_t = t.t2;
-
-	// Above the cylinder
-	if (ray->pos->z + closest_t * ray->dir->z > obj->pos.z + csg->l->shape.cylinder.height + EPSILON)
-		return (NULL);
-	// Below the cylinder
-	if (ray->pos->z + closest_t * ray->dir->z < obj->pos.z - EPSILON)
-		return (NULL);
-	return (new_collision(obj, csg, ray, closest_t));
+		sr = (t_pair_float){csg->l->shape.cylinder.rad, csg->l->shape.cylinder.rad};
+	// Step 3
+	if (!ellipse_intersection(&sr, center, ray))
+		return (our_free(center), NULL);
+	// Step 4
+	if (sr.t1 > 0 && (ray->pos->z + ray->dir->z * sr.t1) < center->z + csg->l->shape.cylinder.height && sr.t1 < sr.t2)
+		return (our_free(center), new_collision(obj, csg, ray, sr.t2));
+	else if (sr.t2 > 0 && (ray->pos->z + ray->dir->z * sr.t2) < center->z + csg->l->shape.cylinder.height)
+		return (our_free(center), new_collision(obj, csg, ray, sr.t1));
+	return (our_free(center), NULL);
 }
-
-/*
-
-((ray_origin_x * t + ray_dir_x - ellipse_center)^2) / ellipse_radius_x^2 + ((ray_origin_y * t + ellipse_center + ray_dir_y)^2) / ellipseradius_y^2 = 1
-
-1 -((t² + 2t)/a²) - ((t² + 2t)/b²) = (rx² + 2rx + 2cx + cx²)/a² + (ry² + 2ry + 2cy + cy²)/b²
-
-
-*/

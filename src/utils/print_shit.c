@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:53:49 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 11:05:26 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/10 18:47:34 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_vector(t_vector *vector)
 {
 	if (vector)
-		printf(" %8.2f x, %8.2f y, %8.2f z\n", vector->z, vector->y, vector->x);
+		printf(" %8.2f x, %8.2f y, %8.2f z\n", vector->x, vector->y, vector->z);
 	else
 		printf("NULL\n");
 }

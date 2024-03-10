@@ -3,8 +3,25 @@
 FILE *debug_log_f;
 void	normalize_coordinates(float *u, float *v, int x, int y)
 {
+	static const float aspect_ratio_x = (float)WIN_SIZE_X / (float)WIN_SIZE_Y;
+	static const float aspect_ratio_y = (float)WIN_SIZE_Y / (float)WIN_SIZE_X;
+
+	float	tmp;
+	float	angle;
+
+	// For some reasons, the x-y plane is rotated 90 degrees arround z
+
+	// Normalize the screen coordinates to camera coordinates -1 to 1
 	*u = (2 * ((x + 0.5) / WIN_SIZE_X) - 1);
-	*v = (1 - 2 * ((y + 0.5) / WIN_SIZE_Y));
+	*v = 1 - (2 * ((y + 0.5) / WIN_SIZE_Y));
+
+	*v = -(*v);
+
+	// Adjust the rotation of the camera
+// 	tmp = *u;
+// 	angle = M_PI / 2;
+// 	*u = ((*u) * cos(angle) - (*v) * sin(angle)) * (aspect_ratio_y);
+// 	*v = (tmp * sin(angle) + (*v) * cos(angle))  * (aspect_ratio_x);
 }
 
 t_ray	*new_ray(t_camera *camera, int x, int y)
@@ -14,7 +31,7 @@ t_ray	*new_ray(t_camera *camera, int x, int y)
 	float		u, v;
 
 	normalize_coordinates(&u, &v, x, y);
-	screen = field_of_view(camera->fov, (float)WIN_SIZE_X / (float)WIN_SIZE_Y);
+	screen = field_of_view(camera->fov);
 	ray = our_malloc(sizeof(t_ray));
 	ray->pos = new_vector(camera->pos->x, camera->pos->y, camera->pos->z);
 	ray->dir = ray_dir(camera, screen, u, v);
@@ -23,18 +40,16 @@ t_ray	*new_ray(t_camera *camera, int x, int y)
 	return (ray);
 }
 
-t_screen	*field_of_view(float fov, float aspect_ratio)
+t_screen	*field_of_view(float fov)
 {
-	t_screen	*screen;
-	float		fov_radian;
+	static const float	aspect_ratio = (float)WIN_SIZE_X / (float)WIN_SIZE_Y;
+	t_screen			*screen;
+	float				fov_radian;
 
 	fov_radian = fov * (M_PI / 180);
-
-	// fprintf(debug_log_f, "\taspect_ratio: %f\n", aspect_ratio);
 	screen = our_malloc(sizeof(t_screen));
 	screen->width_factor = aspect_ratio * tanf(fov_radian / 2);
 	screen->height_factor = tanf(fov_radian / 2);
-	// fprintf(debug_log_f, "\twidth height: %f, %f\n", screen->width_factor, screen->height_factor);
 	return (screen);
 }
 

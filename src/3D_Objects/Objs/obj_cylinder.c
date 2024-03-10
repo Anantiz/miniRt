@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:10:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:50:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/10 18:39:12 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_csg	*obj_new_cylinder(t_object *obj, char **params)
 	print_rgb(&cylinder->l->rgb);
 	printf("\tCylinder pos:  ");
 	print_vector((&obj->pos));
+	printf("\tCylinder dir:  ");
+	print_vector((&obj->dir));
 	printf("\n\n");
 	return (cylinder);
 }

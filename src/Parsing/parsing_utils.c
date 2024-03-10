@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:45:11 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/10 18:51:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void	parse_position(t_vector *vector, char *str_pos)
 	if (ft_tablen(xyz) != 3)
 		error_exit(ft_strjoin("Wrong parameters count : position, "\
 		"str_pos: ", str_pos));
-	vector->x = parse_float(xyz[2]);
+	vector->x = parse_float(xyz[0]);
 	vector->y = parse_float(xyz[1]);
-	vector->z = parse_float(xyz[0]);
+	vector->z = parse_float(xyz[2]);
 	free_double_char(xyz);
 }
 
@@ -90,9 +90,9 @@ void	parse_orientation(t_vector *vector, char *dir_str)
 	xyz = ft_split(dir_str, ',');
 	if (ft_tablen(xyz) != 3)
 		error_exit("Wrong parameters count : orientation");
-	vector->x = parse_float(xyz[2]);
+	vector->x = parse_float(xyz[0]);
 	vector->y = parse_float(xyz[1]);
-	vector->z = parse_float(xyz[0]);
+	vector->z = parse_float(xyz[2]);
 	free_double_char(xyz);
 	vector_normalizer(vector);
 	if (vector->x == 0 && vector->y == 0 && vector->z == 0)
@@ -109,13 +109,13 @@ void	parse_orientation_private(t_vector *vector, char *dir_str)
 	xyz = ft_split(dir_str, ',');
 	if (ft_tablen(xyz) != 3)
 		error_exit("Wrong parameters count : orientation");
-	vector->x = parse_float(xyz[2]);
+	vector->x = parse_float(xyz[0]);
 	if (vector->x > 1 || vector->x < -1)
 		parse_error_msg(ERROR_PARSE_ROT, NULL);
 	vector->y = parse_float(xyz[1]);
 	if (vector->y > 1 || vector->y < -1)
 		parse_error_msg(ERROR_PARSE_ROT, NULL);
-	vector->z = parse_float(xyz[0]);
+	vector->z = parse_float(xyz[2]);
 	if (vector->z > 1 || vector->z < -1)
 		parse_error_msg(ERROR_PARSE_ROT, NULL);
 	free_double_char(xyz);
@@ -125,6 +125,9 @@ void	parse_orientation_private(t_vector *vector, char *dir_str)
 float	parse_float(char *str)
 {
 	if (!ft_is_float_format(str))
+	{
+		printf("Invalid float: %s\n", str);
 		parse_error_msg(ERROR_PARSE_FLOAT, NULL);
+	}
 	return (ft_atoldb(str));
 }

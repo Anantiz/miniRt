@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 16:06:27 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/10 19:31:01 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,12 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	camera->fov = parse_int(line_tokens[3]);
 	if (camera->fov <= 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV, NULL);
-	camera->right = produit_vectoriel(&(t_vector){0, 1, 0}, camera->dir); // To fix
+	camera->right = produit_vectoriel(&(t_vector){0, -1, 0}, camera->dir); // To fix
 	vector_normalizer(camera->right);
 	camera->up = produit_vectoriel(camera->right , camera->dir);
 	vector_normalizer(camera->up);
-
+	// camera->right = new_vector(1, 0, 0);
+	// camera->up = new_vector(0, 1, 0);
 
 	printf("Camera:\n");
 	printf("\tPos:        ");
@@ -115,7 +116,10 @@ int	parse_int(char *str)
 
 	valid = 1;
 	if (!ft_is_int_format(str))
+	{
+		printf("Invalid integer: %s\n", str);
 		parse_error_msg(ERROR_PARSE_INT, NULL);
+	}
 	ret = ft_atoll_safe(str, INT_MAX, &valid);
 	if (!valid)
 		parse_error_msg(ERROR_PARSE_INT, NULL);

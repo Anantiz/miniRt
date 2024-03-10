@@ -6,13 +6,13 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:03:10 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/25 08:35:04 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/10 18:23:13 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	count_words(char *s, long long int *i, size_t*j)
+static size_t	count_words(char *s, long long int *i, size_t *j)
 {
 	size_t	count;
 	size_t	tail;
@@ -70,15 +70,18 @@ char	**ft_split_spaces(const char *s)
 		return (NULL);
 	while (j != count)
 	{
-		if ((ft_isspace(s[i]) || s[i] == '\0') && s != NULL)
+		i = 0;
+		while (ft_isspace(*s))
+			s++;
+		while (s[i] && !ft_isspace(s[i]))
+			i++;
+		if (i != 0)
 		{
-			strs[j++] = ft_substr(s, 0, i++);
+			strs[j++] = ft_substr(s, 0, i);
 			if (check_error(strs, j))
 				return (NULL);
 			s += i;
-			i = 0;
 		}
-		i++;
 	}
 	return (strs);
 }

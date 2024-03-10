@@ -30,7 +30,7 @@ uint32_t vector_to_color(float k, t_rgb *color)
 	// 	if (k > 1.0f)
 	// 		k = 1.0f;
 	// }
-	// k = 1.0f;
+	k = 1.0f; // Because angle with cylinder is not working yet
 	uint8_t r = (uint8_t)(color->r * k);
 	uint8_t g = (uint8_t)(color->g * k);
 	uint8_t b = (uint8_t)(color->b * k);

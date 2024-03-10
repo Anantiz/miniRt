@@ -31,7 +31,7 @@ _OBJS_FILES:=obj_sphere.c obj_plane.c obj_cylinder.c obj_penguin.c obj_fighter_j
 SRC_FILES+=			$(addprefix $(_OBJS_PATH)/,$(_OBJS_FILES))
 
 3D_OBJ_PATH:=3D_Objects
-3D_OBJ_FILES:=_3Dobj.c collider2.c collider.c pr_sphere.c pr_plane.c pr_cylinder.c
+3D_OBJ_FILES:=_3Dobj.c collider2.c collider.c pr_sphere.c pr_plane.c pr_cylinder.c pr_2D_helpers.c
 SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
 
 PARSE_PATH:=Parsing
