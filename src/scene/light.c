@@ -38,6 +38,11 @@ t_vector *point)
 		// Later we will check for transparency
 		light_col->cos_angle = 0;
 	}
+	/* Add some cheat function, to put the cos_angle to zero if a
+	   plane is in between the light and the camera.
+	   (because right now, the plane is always visible from the camera even
+	   if the light is behind it, which is not true in real life.)
+	*/
 	del_collision(obj_col);
 	return (our_free(ray.dir), light_col);
 }
