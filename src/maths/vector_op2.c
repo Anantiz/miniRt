@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:49:46 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 09:21:26 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:49:29 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,5 @@ float	vec_dist(const t_vector *v1, const t_vector *v2)
 
 t_vector	*vec_mult(float k, t_vector *v1)
 {
-	t_vector	*ret;
-
-	ret = vec_new(v1->x * k, v1->y * k, v1->z * k);
-	return (ret);
+	return (vec_new(v1->x * k, v1->y * k, v1->z * k));
 }

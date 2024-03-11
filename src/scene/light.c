@@ -53,7 +53,7 @@ t_vector *point)
 	vec_normalize(ray.dir);
 
 // DIRECT LIGHT TEST
-	obj_collision = query_collision(scene_getter(NULL), &ray);
+	obj_collision = query_collision(fetch_scene(NULL), &ray);
 	// if (csg->l->type == PLANE && has_printed % PRINT_SAMPLE == 0)
 	// 	print_collision(obj_collision);
 	if (!obj_collision)
@@ -116,7 +116,7 @@ t_lcol	*query_visible_light(t_csg *obj , t_vector *point, t_vector *ray_dir)
 	t_lcol		*root;
 
 	(void)ray_dir; // Variable to be removed I guess
-	light = scene_getter(NULL)->lights;
+	light = fetch_scene(NULL)->lights;
 	root = NULL;
 	while (light)
 	{

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:35:33 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:46:25 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ FILE *debug_log_f;
 int main(int argc, char **argv)
 {
 	t_glob	glob;
-	t_scene	*scene;
 
 	if (argc != 2)
 	{
@@ -45,12 +44,16 @@ int main(int argc, char **argv)
 		return (FAILURE);
 	}
 	debug_log_f = fopen("rendering.log", "w");
-	scene = scene_new();
-	glob.scene = scene;
+	glob.scene = scene_new();
+	fetch_glob(&glob);
 	glob.camera = NULL;
+
+
 	if (parse_map(&glob, argv[1]))
 		return (FAILURE);
 	printf("\033[32mParsing done\033[0m\n");
+
+
 	// my_test(&glob);
 	init_global(&glob);
 	ray_tracing(&glob);

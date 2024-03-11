@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 19:28:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:40:36 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,17 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 	t_vector		dist_oc; // Distance between the ray origin and the sphere center
 	t_pair_float	t;
 
+	// No function call, no memory allocation, Catchao
 	dist_oc = (t_vector){\
 		obj->pos.x + csg->l->pos.x - ray->pos->x, \
 		obj->pos.y + csg->l->pos.y - ray->pos->y, \
 		obj->pos.z + csg->l->pos.z - ray->pos->z};
-	if (!quadratic_solver(1, (-2 * vec_dot_product(&dist_oc, ray->dir)), \
+
+	if (!quadratic_solver(1, (2 * vec_dot_product(&dist_oc, ray->dir)), \
 	(vec_dot_product(&dist_oc, &dist_oc) - (csg->l->shape.sphere.rad * \
 	csg->l->shape.sphere.rad)), &t))
 	{
+		// printf("Sphere collision error\n");
 		return (NULL);
 	}
 	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))

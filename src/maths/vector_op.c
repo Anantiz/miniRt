@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/03/11 09:41:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:50:30 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,21 @@ t_vector    *vec_new(float x, float y, float z)
 
 t_vector	*vec_add(t_vector *v1, t_vector *v2)
 {
-	t_vector	*result;
-
-	result = vec_new(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z);
-	return (result);
+	return (vec_new(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z));
 }
 
 t_vector	*vec_cross_product(t_vector *v1, t_vector *v2)
 {
-	t_vector	*ret;
-
-	ret = vec_new(v1->y * v2->z - v1->z * v2->y, \
+	return (vec_new(v1->y * v2->z - v1->z * v2->y, \
 					(v1->x * v2->z) + v1->z * v2->x, \
-					(v1->x * v2->y) - v1->y * v2->x);
-	return (ret);
+					(v1->x * v2->y) - v1->y * v2->x));
 }
 
 float	vec_length(t_vector *vector)
 {
-	float	ret;
-
-	ret = sqrtf((vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
-	return (ret);
+	return (sqrtf((vector->x * vector->x) \
+			+ (vector->y * vector->y) \
+			+ (vector->z * vector->z)));
 }
 
 void	vec_normalize(t_vector *vector)
@@ -75,8 +68,5 @@ Using a trigonometric circle to think about it:
 */
 float	vec_dot_product(t_vector *v1, t_vector *v2)
 {
-	float	ret;
-
-	ret = ((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z));
-	return (ret);
+	return (((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z)));
 }

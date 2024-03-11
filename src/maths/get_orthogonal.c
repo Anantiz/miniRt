@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:06:45 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:26:16 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:51:36 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 #include "miniRt.h"
 
 #define ORTH_BASES_LEN 6
-
-void	vec_abs(t_vector *v)
-{
-	v->x = fabs(v->x);
-	v->y = fabs(v->y);
-	v->z = fabs(v->z);
-}
 
 /*
 This function is used to get an orthogonal vector when only one is given

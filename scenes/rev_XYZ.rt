@@ -8,7 +8,7 @@
 # Stands for Ambiant light, param[intensity, color]
 A 0.2 255,255,255
 # Stands for Camera, param[origin, direction, fov]
-C 0,0,300 0,0,-1 70
+C 0,0,100 0,0,-1 70
 # Stands for spot light, param[origin, intensity, color]
 L 0,0,80 1.0 255,255,255
 
@@ -16,34 +16,34 @@ L 0,0,80 1.0 255,255,255
 # *orientation is not given for sphere
 
 # Should be right
-# sp 35,0,0 15 255,192,170
-# # # Should be left
-# sp -20,0,0 15 255,0,0
+sp 35,0,0 15 255,192,170
+# # Should be left
+sp -20,0,0 15 255,0,0
 
-# # #Should be above the middle
-# sp 0,20,0 15 0,255,0
-# # #Should be under the middle
-# sp 0,-20,0 15 252,217,23
+# #Should be above the middle
+sp 0,20,0 15 0,255,0
+# #Should be under the middle
+sp 0,-20,0 15 252,217,23
 
-# # #Should be in front
-# sp 0,0,10 8 215,0,255
-# # #Should be behind
-# sp 0,0,-15 15 0,0,255
+# #Should be in front
+sp 0,0,10 8 215,0,255
+# #Should be behind
+sp 0,0,-15 15 0,0,255
 
-pl 0,0,-80 1,0,0 101,254,8
+pl 0,0,180 1,0,0 101,254,8
 # pl -60,0,-5 5,0,10 255,222,200
 
 
 # sp 0,0,0 15 0,0,255
 
-sp -100,-50,0 15 255,0,0
-sp 100,-50,0 15 0,0,255
-sp -100,50,0 15 255,0,255
-sp 0,0,30 15 94,108,255
+# sp -100,-50,0 15 255,0,0
+# sp 100,-50,0 15 0,0,255
+# sp -100,50,0 15 255,0,255
+# sp 0,0,30 15 94,108,255
 
 #cy	pos		dir		rad		height	color
 # cy 0,150,0	1,0,1	14.2	21.42	255,255,255
 
-cy 30,0,0	1,1,0	20	20	255,255,255
+# cy 30,0,0	1,1,0	20	20	255,255,255
 
 # cy -50,0,20	1,0,5	15		18		0,0,255

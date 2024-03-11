@@ -6,20 +6,11 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:51:00 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 09:19:56 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:51:43 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
-
-float	ft_bound_float(float value, float max, float min)
-{
-	if (value > max)
-		return (max);
-	if (value < min)
-		return (min);
-	return (value);
-}
 
 float		vec_get_angle_rad(t_vector *v1, t_vector *v2)
 {
@@ -63,20 +54,9 @@ float		vec_get_angle_rad(t_vector *v1, t_vector *v2)
 	return (acosf(angle)); // Acos cuz we want the angle, not the cosinus
 }
 
-// return true if a and b are close enough
-bool	fcmp(float a, float b)
+void	vec_abs(t_vector *v)
 {
-	bool	abs_diff;
-	bool	sign_diff;
-
-	abs_diff = fabs(a - b) < EPSILON;
-	sign_diff = (a < 0) == (b < 0);
-	return (abs_diff && sign_diff);
-}
-
-bool	vec_cmp(t_vector *v1, t_vector *v2)
-{
-	if (fcmp(v1->x, v2->x) && fcmp(v1->y, v2->y) && fcmp(v1->z, v2->z))
-		return (false);
-	return (true);
+	v->x = fabs(v->x);
+	v->y = fabs(v->y);
+	v->z = fabs(v->z);
 }

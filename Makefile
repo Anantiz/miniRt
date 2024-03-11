@@ -23,7 +23,7 @@ BIN_LIBFT		:=./libs/libft.a
 SRC_FILES:=main.c test.c
 
 UTILS_PATH:=utils
-UTILS_FILES:=colors.c print_shit.c delete_things.c
+UTILS_FILES:=colors.c print_shit.c delete_things.c fetch_things.c
 SRC_FILES+=			$(addprefix $(UTILS_PATH)/,$(UTILS_FILES))
 
 _OBJS_PATH:=3D_Objects/Objs
@@ -52,7 +52,7 @@ SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 
 MATHS_PATH:=maths
 MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c light_op.c quadratic_solver.c \
-get_orthogonal.c
+get_orthogonal.c math_utils.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene

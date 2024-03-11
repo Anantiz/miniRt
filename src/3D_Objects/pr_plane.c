@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/06 20:53:35 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:49:08 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,14 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 		ray->pos->x - obj->pos.x, \
 		ray->pos->y - obj->pos.y, \
 		ray->pos->z - obj->pos.z}, csg->l->shape.plane.norm);
-	// We are litera-ly on the plane
+
 	if (nominator == 0)
-	{
-		// if (has_printed % PRINT_SAMPLE == 0)
-		// 	printf("nominator == 0\n"); has_printed;
 		return (new_collision(obj, csg, ray, 0));
-	}
 	denominator = -vec_dot_product(ray->dir, csg->l->shape.plane.norm);
-	// We are perpendicular to the normal thus parallel to the plane
-	if (denominator == 0)
-	{
-		// if (has_printed % PRINT_SAMPLE == 0)
-		// 	printf("denominator == 0\n"); has_printed;
+	if (denominator == 0) // Wtf ?? Past me, what did you do ?, It should raise collision
 		return (NULL);
-	}
 	t = nominator / denominator;
 	if (t < 0)
-	{
-		// if (has_printed % PRINT_SAMPLE == 0)
-		// 	printf("t < 0, nominator= %f,  denominator= %f\n",nominator , denominator ); has_printed;
 		return (NULL);
-	}
-	// if (has_printed % PRINT_SAMPLE == 0)
-		// printf("Plane t = %f, nominator= %f,  denominator= %f\n", t,nominator , denominator); has_printed;
 	return (new_collision(obj, csg, ray, t));
 }

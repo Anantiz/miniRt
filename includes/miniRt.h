@@ -83,5 +83,6 @@ void				rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_r
 
 void				print_vector(t_vector *vector);
 void				print_collision(t_collision *collision);
+t_glob				*fetch_glob(t_glob *glob);
 
 #endif
