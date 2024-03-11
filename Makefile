@@ -51,7 +51,8 @@ RENDER_FILES:=RTT_render.c
 SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 
 MATHS_PATH:=maths
-MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c light_op.c quadratic_solver.c
+MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c light_op.c quadratic_solver.c \
+get_orthogonal.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene

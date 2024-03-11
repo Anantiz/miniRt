@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:33:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 19:39:57 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:20:36 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	ellipse_intersection(t_pair_float *sr, t_vector *sc, t_ray *ray)
 	float		sqrd;
 	t_vector	*c;
 
-	c = sub_vector(ray->pos, sc);
+	c = vec_sub(ray->pos, sc);
 	ellipse_init_to_zero_cuz_norm(&a, &b, &c_quadratic);
 	sqrd = sr->t1 * sr->t1;
 	if (sqrd)

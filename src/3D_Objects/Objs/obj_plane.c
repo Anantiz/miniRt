@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:08:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:49:51 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:21:49 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,44 +25,6 @@ Cross product:
 		orthogonal to the two vectors (So the third vector of the base)
 */
 // OBJect_PLane_Basis_Length
-#define OBJPLBL 6
-
-t_vector	*get_plane_norm(t_vector *plane_dir)
-{
-	// For some satanic reason, these works kinda randomly
-	static t_vector	orthogonal_basis[OBJPLBL] = {
-		(t_vector){1, 1, 0},
-		(t_vector){0, 1, 1},
-		(t_vector){1, 0, 1},
-		(t_vector){1, 0, 0},
-		(t_vector){0, 1, 0},
-		(t_vector){0, 0, 1},
-	};
-	t_vector		*norm;
-	int				i;
-
-	i = 0;
-	while (i < OBJPLBL)// We normalize the base, unoptimized code
-		vector_normalizer(&orthogonal_basis[i++]);
-	i = 0;
-	norm = NULL;
-	while (i < OBJPLBL)
-	{
-		if (vec_dot_product(plane_dir, &orthogonal_basis[i]) == 0)
-		{
-			norm = produit_vectoriel(plane_dir, &orthogonal_basis[i]);
-			break ;
-		}
-		i++;
-	}
-	if (!norm) // What the hell is this plane orientation?
-		error_exit("Plane: wrong orientation, can't find normal");
-	norm->x = fabs(norm->x);
-	norm->y = fabs(norm->y);
-	norm->z = fabs(norm->z);
-	vector_normalizer(norm);
-	return (norm);
-}
 
 /*
 Format: "plane", pos"x,y,z", ort"x,y,z", rgb
@@ -78,7 +40,7 @@ t_csg	*obj_new_plane(t_object *obj, char **params)
 	// Will only parse the color, the rest is already done
 	// It's just more consistent to have the same function signature
 	plane = pr_new_plane(params[0]);
-	plane->l->shape.plane.norm = get_plane_norm(&obj->dir);
+	plane->l->shape.plane.norm = vec_get_ortho(&obj->dir);
 
 	// Debug
 	printf("Plane created\n");

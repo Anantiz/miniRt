@@ -13,14 +13,14 @@ static t_vector	*light_get_norm(t_collision *collision, t_e_prim type)
 	}
 	else if (type == SPHERE)
 	{
-		tmp = add_vector(&collision->parent_obj->pos, &collision->obj->l->pos);
-		norm = sub_vector(&collision->parent_obj->pos, &collision->point);
+		tmp = vec_add(&collision->parent_obj->pos, &collision->obj->l->pos);
+		norm = vec_sub(&collision->parent_obj->pos, &collision->point);
 		our_free(tmp);
-		vector_normalizer(norm);
+		vec_normalize(norm);
 		return (norm);
 	}
 	else
-		return (new_vector(0, 0, 0));
+		return (vec_new(0, 0, 0));
 }
 
 static void	light_free_norm(t_e_prim type, t_vector *norm)
@@ -49,8 +49,8 @@ t_vector *point)
 
 	has_printed++;
 	ray.pos = &light->pos;
-	ray.dir = sub_vector(point, &light->pos);
-	vector_normalizer(ray.dir);
+	ray.dir = vec_sub(point, &light->pos);
+	vec_normalize(ray.dir);
 
 // DIRECT LIGHT TEST
 	obj_collision = query_collision(scene_getter(NULL), &ray);

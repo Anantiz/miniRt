@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:51:00 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 19:48:48 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:19:56 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ float		vec_get_angle_rad(t_vector *v1, t_vector *v2)
 	float		temp;
 	float		angle;
 
-	temp = vector_length(v1);
+	temp = vec_length(v1);
 	if (temp == 0)
 		return (0);
 	else
 		normed1 = (t_vector){v1->x / temp, v1->y / temp, v1->z / temp};
 
-	temp = vector_length(v2);
+	temp = vec_length(v2);
 	if (temp == 0)
 		return (0);
 	else
@@ -60,7 +60,7 @@ float		vec_get_angle_rad(t_vector *v1, t_vector *v2)
 		angle -= 1;
 	while (angle < -1)
 		angle += 1;
-	return (acosf(angle));
+	return (acosf(angle)); // Acos cuz we want the angle, not the cosinus
 }
 
 // return true if a and b are close enough

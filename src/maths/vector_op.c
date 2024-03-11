@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/26 15:08:23 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:41:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRt.h"
 #include <math.h>
 
-t_vector    *new_vector(float x, float y, float z)
+t_vector    *vec_new(float x, float y, float z)
 {
     t_vector	*vector;
 
@@ -24,25 +24,25 @@ t_vector    *new_vector(float x, float y, float z)
 	return (vector);
 }
 
-t_vector	*add_vector(t_vector *v1, t_vector *v2)
+t_vector	*vec_add(t_vector *v1, t_vector *v2)
 {
 	t_vector	*result;
 
-	result = new_vector(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z);
+	result = vec_new(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z);
 	return (result);
 }
 
-t_vector	*produit_vectoriel(t_vector *v1, t_vector *v2)
+t_vector	*vec_cross_product(t_vector *v1, t_vector *v2)
 {
 	t_vector	*ret;
 
-	ret = new_vector(v1->y * v2->z - v1->z * v2->y, \
+	ret = vec_new(v1->y * v2->z - v1->z * v2->y, \
 					(v1->x * v2->z) + v1->z * v2->x, \
 					(v1->x * v2->y) - v1->y * v2->x);
 	return (ret);
 }
 
-float	vector_length(t_vector *vector)
+float	vec_length(t_vector *vector)
 {
 	float	ret;
 
@@ -50,11 +50,11 @@ float	vector_length(t_vector *vector)
 	return (ret);
 }
 
-void	vector_normalizer(t_vector *vector)
+void	vec_normalize(t_vector *vector)
 {
 	float	length;
 
-	length = vector_length(vector);
+	length = vec_length(vector);
 	if (length == 0)
 		return ;
 	vector->x = vector->x / length;
@@ -62,6 +62,17 @@ void	vector_normalizer(t_vector *vector)
 	vector->z = vector->z / length;
 }
 
+/*
+In all logic, the cosing of the dot product should be an angle in radians
+
+Using a trigonometric circle to think about it:
+	Plugging the dot_product in cos gives us the angle between the two vectors.
+
+	Since cos(0) = 1,
+		a dot product of 0 means the vectors do not share any axis (orthogonal)
+	Following: cos(1) = 0,
+		a dot product of 1 means the vectors are on the same axis (parallel)
+*/
 float	vec_dot_product(t_vector *v1, t_vector *v2)
 {
 	float	ret;

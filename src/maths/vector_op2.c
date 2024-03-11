@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:49:46 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/22 11:17:38 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:21:26 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	Shall not return NULL
 	Because we are not in the mood for error handling
 */
-t_vector	*cpy_vector(t_vector *v)
+t_vector	*vec_cpy(t_vector *v)
 {
 	t_vector	*ret;
 
@@ -37,7 +37,7 @@ t_vector	*cpy_vector(t_vector *v)
 	return (ret);
 }
 
-t_vector	*sub_vector(t_vector *v1, t_vector *v2)
+t_vector	*vec_sub(t_vector *v1, t_vector *v2)
 {
 	t_vector	*ret;
 
@@ -52,13 +52,13 @@ t_vector	*sub_vector(t_vector *v1, t_vector *v2)
 	Use this to avoid memory leaks
 	(throwing everything for the garbage collector is ugly)
 */
-void	rea_v(t_vector **old_addr, t_vector *new_ptr)
+void	vec_realloc(t_vector **old_addr, t_vector *new_ptr)
 {
 	our_free(*old_addr);
 	*old_addr = new_ptr;
 }
 
-float	dist_vector(const t_vector *v1, const t_vector *v2)
+float	vec_dist(const t_vector *v1, const t_vector *v2)
 {
 	float	x;
 	float	y;
@@ -70,10 +70,10 @@ float	dist_vector(const t_vector *v1, const t_vector *v2)
 	return (sqrtf(x * x + y * y + z * z));
 }
 
-t_vector	*mult_vector(float k, t_vector *v1)
+t_vector	*vec_mult(float k, t_vector *v1)
 {
 	t_vector	*ret;
 
-	ret = new_vector(v1->x * k, v1->y * k, v1->z * k);
+	ret = vec_new(v1->x * k, v1->y * k, v1->z * k);
 	return (ret);
 }

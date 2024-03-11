@@ -19,8 +19,8 @@ void	my_test(t_glob *glob)
 
 
 	printf("Test 1:\n");
-	ray.pos = new_vector(-50, 0, 0);
-	ray.dir = new_vector(1, 0, 0);
+	ray.pos = vec_new(-50, 0, 0);
+	ray.dir = vec_new(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
@@ -28,14 +28,14 @@ void	my_test(t_glob *glob)
 	our_free(ray.dir);
 
 	printf("Test 2:\n");
-	ray.pos = new_vector(-50, 20, 0);
-	ray.dir = new_vector(1, 0, 0);
+	ray.pos = vec_new(-50, 20, 0);
+	ray.dir = vec_new(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
 	our_free(ray.pos);
 	printf("Test 2 miss:\n");
-	ray.pos = new_vector(-50, 21, 0);
+	ray.pos = vec_new(-50, 21, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(ray.pos);
@@ -44,8 +44,8 @@ void	my_test(t_glob *glob)
 
 
 	printf("Test 3:\n");
-	ray.pos = new_vector(-50, 10, 10);
-	ray.dir = new_vector(1, 0, 0);
+	ray.pos = vec_new(-50, 10, 10);
+	ray.dir = vec_new(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);
@@ -53,8 +53,8 @@ void	my_test(t_glob *glob)
 	our_free(ray.dir);
 
 	printf("Test 4:\n");
-	ray.pos = new_vector(-50, 10, -10);
-	ray.dir = new_vector(1, 0, 0);
+	ray.pos = vec_new(-50, 10, -10);
+	ray.dir = vec_new(1, 0, 0);
 	collision = query_collision(glob->scene, &ray);
 	print_collision(collision);
 	our_free(collision);

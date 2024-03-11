@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 19:31:01 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:25:45 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,28 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 	if (camera->dir->x == 0 && camera->dir->y == 0 \
 	&& camera->dir->z == 0)
 		parse_error_msg(ERROR_PARSE_ROT, NULL);
-	vector_normalizer(camera->dir);
+	vec_normalize(camera->dir);
 	camera->fov = parse_int(line_tokens[3]);
 	if (camera->fov <= 0 || camera->fov > 180)
 		parse_error_msg(ERROR_PARSE_FOV, NULL);
-	camera->right = produit_vectoriel(&(t_vector){0, -1, 0}, camera->dir); // To fix
-	vector_normalizer(camera->right);
-	camera->up = produit_vectoriel(camera->right , camera->dir);
-	vector_normalizer(camera->up);
-	// camera->right = new_vector(1, 0, 0);
-	// camera->up = new_vector(0, 1, 0);
 
+	// Now we want to get the right and up vector for ray-sampling
+
+	camera->right = vec_get_ortho(camera->dir);
+	vec_normalize(camera->right);
+	// This Should logically, give an orthogonal vector to the two other
+	camera->up = vec_cross_product(camera->right , camera->dir);
+	vec_normalize(camera->up);
+
+	//Debug
 	printf("Camera:\n");
 	printf("\tPos:        ");
 	print_vector(camera->pos);
 	printf("\tDir:        ");
 	print_vector(camera->dir);
-	printf("\tRight_norm: ");
+	printf("\tRight_normal: ");
 	print_vector(camera->right);
-	printf("\tUp_normal:  ");
+	printf("\tUp_normal:    ");
 	print_vector(camera->up);
 	printf("\n");
 	glob->camera = camera;

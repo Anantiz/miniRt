@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 19:51:02 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:20:22 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	float			angle;
 
 	// Step 1 && 2
-	center = add_vector(&csg->l->dir, &obj->dir);
+	center = vec_add(&csg->l->dir, &obj->dir);
 	angle = vec_get_angle_rad(center, &(t_vector){0, 0, 1});
 	if(angle)
 		rotate_circle(csg->l->shape.cylinder.rad, &sr, 1 - angle);

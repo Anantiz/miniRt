@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 19:12:13 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:35:33 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	init_global(t_glob *glob)
 }
 void	my_test(t_glob *glob);
 
+FILE *debug_log_f;
+
 int main(int argc, char **argv)
 {
 	t_glob	glob;
@@ -42,6 +44,7 @@ int main(int argc, char **argv)
 		printf("\033[32mUsage: ./miniRT <scene.rt>\033[0m\n");
 		return (FAILURE);
 	}
+	debug_log_f = fopen("rendering.log", "w");
 	scene = scene_new();
 	glob.scene = scene;
 	glob.camera = NULL;
@@ -57,5 +60,6 @@ int main(int argc, char **argv)
 	mlx_terminate(glob.mlx);
 	safe_as_fuck_malloc(0, NULL, SAFE_MALLOC_FREE_ALL);
 	gc_close_all();
+	fclose(debug_log_f);
 	return (0);
 }

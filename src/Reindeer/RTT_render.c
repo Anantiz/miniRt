@@ -1,7 +1,5 @@
 #include "../../includes/miniRt.h"
 
-extern FILE *debug_log_f;
-
 /* This one is a loop_hook, called every frame*/
 void	rtt_render(void *glob_)
 {

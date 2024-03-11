@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:12:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 18:51:23 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:24:28 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	parse_orientation(t_vector *vector, char *dir_str)
 	vector->y = parse_float(xyz[1]);
 	vector->z = parse_float(xyz[2]);
 	free_double_char(xyz);
-	vector_normalizer(vector);
+	vec_normalize(vector);
 	if (vector->x == 0 && vector->y == 0 && vector->z == 0)
 		parse_error_msg(ERROR_PARSE_ROT, "\n\tOrientation can't be 0,0,0, "\
 		"that's the same as saying:\n\t\t-\"Bro look in the direction of nowhe"\
@@ -119,7 +119,7 @@ void	parse_orientation_private(t_vector *vector, char *dir_str)
 	if (vector->z > 1 || vector->z < -1)
 		parse_error_msg(ERROR_PARSE_ROT, NULL);
 	free_double_char(xyz);
-	vector_normalizer(vector);
+	vec_normalize(vector);
 }
 
 float	parse_float(char *str)
