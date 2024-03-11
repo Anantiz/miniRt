@@ -21,29 +21,46 @@ typedef	struct	s_vector
 
 /* VECTOR OPERATOR */
 
-void				print_vector(t_vector *vector);
+//v1
 
-void				vec_realloc(t_vector **old_addr, t_vector *new_ptr);
 t_vector			*vec_new(float x, float y, float z);
 t_vector			*vec_cpy(t_vector *v);
-t_vector			*vec_sub(t_vector *v1, t_vector *v2);
+void				vec_realloc(t_vector **old_addr, t_vector *new_ptr);
+float				vec_dot_product(t_vector *v1, t_vector *v2);
+t_vector			*vec_cross_product(t_vector *v1, t_vector *v2);
+
+// v2
+
 t_vector			*vec_add(t_vector *v1, t_vector *v2);
+t_vector			*vec_sub(t_vector *v1, t_vector *v2);
+t_vector			*vec_mult(float k, t_vector *v1);
+t_vector			*vec_div(float k, t_vector *v1);
+float				vec_dist(t_vector *v1, t_vector *v2);
+
+//v3
+
+void				vec_abs(t_vector *v);
+void				vec_negate(t_vector *v);
 float				vec_length(t_vector *vector);
 void				vec_normalize(t_vector *vector);
-float				vec_dot_product(t_vector *v1, t_vector *v2);
-float				vec_dist(const t_vector *v1, const t_vector *v2);
-t_vector			*vec_mult(float k, t_vector *v1);
-t_vector			*vec_cross_product(t_vector *v1, t_vector *v2);
 bool				vec_cmp(t_vector *v1, t_vector *v2);
 
+//v4 ++
+
 t_vector			*vec_get_ortho(t_vector *v);
-float				vec_get_angle_rad(t_vector *v1, t_vector *v2);
+float				vec2d_get_angle_rad(t_vector *v1, t_vector *v2);
 
 // float compare
 bool				fcmp(float a, float b);
 float				ft_bound_float(float value, float max, float min);
 
+// Just math
+
 bool				quadratic_solver(float a, float b, float c, \
 t_pair_float *t);
+
+// Others
+
+void				print_vector(t_vector *vector);
 
 #endif

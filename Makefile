@@ -26,12 +26,16 @@ UTILS_PATH:=utils
 UTILS_FILES:=colors.c print_shit.c delete_things.c fetch_things.c
 SRC_FILES+=			$(addprefix $(UTILS_PATH)/,$(UTILS_FILES))
 
+COLLIDER_PATH:=3D_Objects/Collider
+COLLIDER_FILES:=collider2.c collider.c collision_norm.c
+SRC_FILES+=			$(addprefix $(COLLIDER_PATH)/,$(COLLIDER_FILES))
+
 _OBJS_PATH:=3D_Objects/Objs
 _OBJS_FILES:=obj_sphere.c obj_plane.c obj_cylinder.c obj_penguin.c obj_fighter_jet.c
 SRC_FILES+=			$(addprefix $(_OBJS_PATH)/,$(_OBJS_FILES))
 
 3D_OBJ_PATH:=3D_Objects
-3D_OBJ_FILES:=_3Dobj.c collider2.c collider.c pr_sphere.c pr_plane.c pr_cylinder.c pr_2D_helpers.c
+3D_OBJ_FILES:=_3Dobj.c pr_sphere.c pr_plane.c pr_cylinder.c pr_2D_helpers.c
 SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
 
 PARSE_PATH:=Parsing
@@ -51,8 +55,8 @@ RENDER_FILES:=RTT_render.c
 SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 
 MATHS_PATH:=maths
-MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c light_op.c quadratic_solver.c \
-get_orthogonal.c math_utils.c
+MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c vector_op4.c light_op.c \
+quadratic_solver.c get_orthogonal.c math_utils.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene

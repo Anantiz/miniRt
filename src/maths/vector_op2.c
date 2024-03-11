@@ -6,59 +6,33 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:49:46 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:49:29 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 12:00:40 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
-#include <math.h>
 
-/*
-	Shall not return NULL
-	Because we are not in the mood for error handling
-*/
-t_vector	*vec_cpy(t_vector *v)
+t_vector	*vec_add(t_vector *v1, t_vector *v2)
 {
-	t_vector	*ret;
-
-	ret = our_malloc(sizeof(t_vector));
-	if (v)
-	{
-		ret->x = v->x;
-		ret->y = v->y;
-		ret->z = v->z;
-	}
-	else
-	{
-		ret->x = 0;
-		ret->y = 0;
-		ret->z = 0;
-	}
-	return (ret);
+	return (vec_new(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z));
 }
 
 t_vector	*vec_sub(t_vector *v1, t_vector *v2)
 {
-	t_vector	*ret;
-
-	ret = our_malloc(sizeof(t_vector));
-	ret->x = v1->x - v2->x;
-	ret->y = v1->y - v2->y;
-	ret->z = v1->z - v2->z;
-	return (ret);
+	return (vec_new(v1->x - v2->x, v1->y - v2->y, v1->z - v2->z));
 }
 
-/*
-	Use this to avoid memory leaks
-	(throwing everything for the garbage collector is ugly)
-*/
-void	vec_realloc(t_vector **old_addr, t_vector *new_ptr)
+t_vector	*vec_mult(float k, t_vector *v1)
 {
-	our_free(*old_addr);
-	*old_addr = new_ptr;
+	return (vec_new(v1->x * k, v1->y * k, v1->z * k));
 }
 
-float	vec_dist(const t_vector *v1, const t_vector *v2)
+t_vector	*vec_div(float k, t_vector *v1)
+{
+	return (vec_new(v1->x / k, v1->y / k, v1->z / k));
+}
+
+float	vec_dist(t_vector *v1, t_vector *v2)
 {
 	float	x;
 	float	y;
@@ -68,9 +42,4 @@ float	vec_dist(const t_vector *v1, const t_vector *v2)
 	y = v1->y - v2->y;
 	z = v1->z - v2->z;
 	return (sqrtf(x * x + y * y + z * z));
-}
-
-t_vector	*vec_mult(float k, t_vector *v1)
-{
-	return (vec_new(v1->x * k, v1->y * k, v1->z * k));
 }

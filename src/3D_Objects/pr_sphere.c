@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:40:36 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 12:12:43 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,26 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 		obj->pos.y + csg->l->pos.y - ray->pos->y, \
 		obj->pos.z + csg->l->pos.z - ray->pos->z};
 
-	if (!quadratic_solver(1, (2 * vec_dot_product(&dist_oc, ray->dir)), \
+	if (!quadratic_solver(1, (-2 * vec_dot_product(&dist_oc, ray->dir)), \
 	(vec_dot_product(&dist_oc, &dist_oc) - (csg->l->shape.sphere.rad * \
 	csg->l->shape.sphere.rad)), &t))
 	{
-		// printf("Sphere collision error\n");
 		return (NULL);
 	}
 	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))
 		return (new_collision(obj, csg, ray, t.t2));
 	return (new_collision(obj, csg, ray, t.t1));
+}
+
+/*
+Norm of a sphere is the vector from the center to the point
+*/
+void	collider_sphere_norm(t_collision *col, t_ray *ray)
+{
+	(void)ray;
+	col->norm = vec_new(\
+		col->point.x - (col->parent_obj->pos.x + col->obj->l->pos.x), \
+		col->point.y - (col->parent_obj->pos.y + col->obj->l->pos.y), \
+		col->point.z - (col->parent_obj->pos.z + col->obj->l->pos.z));
+	vec_normalize(col->norm);
 }

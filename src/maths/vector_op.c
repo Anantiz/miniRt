@@ -6,12 +6,11 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/03/11 10:50:30 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 11:57:08 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRt.h"
-#include <math.h>
+#include "vector.h"
 
 t_vector    *vec_new(float x, float y, float z)
 {
@@ -24,9 +23,30 @@ t_vector    *vec_new(float x, float y, float z)
 	return (vector);
 }
 
-t_vector	*vec_add(t_vector *v1, t_vector *v2)
+/*
+	Shall not return NULL
+	Because we are not in the mood for error handling
+*/
+t_vector	*vec_cpy(t_vector *v)
 {
-	return (vec_new(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z));
+	t_vector	*ret;
+
+	ret = our_malloc(sizeof(t_vector));
+	if (v)
+		*ret = (t_vector){v->x, v->y, v->z };
+	else
+		*ret = (t_vector){0, 0, 0};
+	return (ret);
+}
+
+/*
+	Use this to avoid memory leaks
+	(throwing everything for the garbage collector is ugly)
+*/
+void	vec_realloc(t_vector **old_addr, t_vector *new_ptr)
+{
+	our_free(*old_addr);
+	*old_addr = new_ptr;
 }
 
 t_vector	*vec_cross_product(t_vector *v1, t_vector *v2)
@@ -34,25 +54,6 @@ t_vector	*vec_cross_product(t_vector *v1, t_vector *v2)
 	return (vec_new(v1->y * v2->z - v1->z * v2->y, \
 					(v1->x * v2->z) + v1->z * v2->x, \
 					(v1->x * v2->y) - v1->y * v2->x));
-}
-
-float	vec_length(t_vector *vector)
-{
-	return (sqrtf((vector->x * vector->x) \
-			+ (vector->y * vector->y) \
-			+ (vector->z * vector->z)));
-}
-
-void	vec_normalize(t_vector *vector)
-{
-	float	length;
-
-	length = vec_length(vector);
-	if (length == 0)
-		return ;
-	vector->x = vector->x / length;
-	vector->y = vector->y / length;
-	vector->z = vector->z / length;
 }
 
 /*

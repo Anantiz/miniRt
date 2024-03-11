@@ -43,7 +43,6 @@ typedef enum e_objtype
 	P_CYLINDER,
 	P_FIGHTER_JET,
 	P_PENGUIN
-
 }t_e_objt;
 
 // Shapes
@@ -140,6 +139,8 @@ typedef struct s_collision
 	t_vector		point;
 	t_csg			*obj;
 	t_object		*parent_obj;
+	t_ray			*ray;
+	t_vector		*norm;
 }t_collision;
 
 
@@ -186,26 +187,37 @@ t_csg				*obj_new_penguin(t_object *obj, char **params);
 
 /* Coliders : Private */
 
+// CSG tree solver
+
 t_collision			*collider_union(t_collision **collision);
 t_collision			*collider_inter(t_collision **collision);
 t_collision			*collider_switch(t_object *obj, t_ray *ray, t_csg *csg);
 t_collision			*hadron_collider(t_object *obj, t_ray *ray, t_csg *csg);
+
+// Collision constructor
+void				collision_norm_switch(t_collision *col, t_e_prim type);
 t_collision			*new_collision(t_object *obj, t_csg *csg, t_ray *ray, \
 float t);
 
-t_collision			*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray);
-t_collision			*collider_plane(t_object *obj, t_csg *csg, t_ray *ray);
-t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray);
+// Individual colliders + Norms
 
-/* Helpers */
+t_collision			*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray);
+void				collider_sphere_norm(t_collision *col, t_ray *ray);
+
+t_collision			*collider_plane(t_object *obj, t_csg *csg, t_ray *ray);
+void				collider_plane_norm(t_collision *col, t_ray *ray);
+
+t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray);
+void				collider_cylinder_norm(t_collision *col, t_ray *ray);
+
+/* Helpers, should kina be in vector.h ... */
 
 void				rotate_ellipse(float *rx, float *ry, float angle);
 void				rotate_circle(float r, t_pair_float *sr, float angle);
 bool				ellipse_intersection(t_pair_float *sr, t_vector *sc, \
 t_ray *ray);
 
-
-/* Trash :*/
+/* Trash */
 
 void				del_collision(t_collision *collision);
 void				print_collision(t_collision *collision);

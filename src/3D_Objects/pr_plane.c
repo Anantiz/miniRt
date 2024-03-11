@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:49:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 12:15:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ t_csg	*pr_new_plane(char *color)
 	parse_rgb(&plane->l->rgb, color);
 	return (plane);
 }
-#define PRINT_SAMPLE 10000
-extern int has_printed;
+
 /*
 	Plane equation:
 		(P⃗−C)⋅A⃗ = 0
@@ -63,10 +62,22 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 	if (nominator == 0)
 		return (new_collision(obj, csg, ray, 0));
 	denominator = -vec_dot_product(ray->dir, csg->l->shape.plane.norm);
-	if (denominator == 0) // Wtf ?? Past me, what did you do ?, It should raise collision
+	if (denominator == 0) // Wtf ?? Past me, what did you do ? This is weird
 		return (NULL);
 	t = nominator / denominator;
 	if (t < 0)
 		return (NULL);
 	return (new_collision(obj, csg, ray, t));
+}
+
+/*
+	Plane normal is the plane normal
+	(Surprising, I know)
+*/
+void	collider_plane_norm(t_collision *col, t_ray *ray)
+{
+	(void)ray;
+	col->norm = vec_cpy(col->obj->l->shape.plane.norm);
+	// if (vec_dot_product(col->norm, ray->dir) > 0)
+	// 	vec_negate(col->norm);
 }

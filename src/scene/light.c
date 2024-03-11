@@ -1,33 +1,4 @@
 #include "light.h"
-#define PRINT_SAMPLE 10000
-int has_printed = -1;
-
-static t_vector	*light_get_norm(t_collision *collision, t_e_prim type)
-{
-	t_vector	*norm;
-	t_vector	*tmp;
-
-	if (type == PLANE)
-	{
-		return (collision->obj->l->shape.plane.norm);
-	}
-	else if (type == SPHERE)
-	{
-		tmp = vec_add(&collision->parent_obj->pos, &collision->obj->l->pos);
-		norm = vec_sub(&collision->parent_obj->pos, &collision->point);
-		our_free(tmp);
-		vec_normalize(norm);
-		return (norm);
-	}
-	else
-		return (vec_new(0, 0, 0));
-}
-
-static void	light_free_norm(t_e_prim type, t_vector *norm)
-{
-	if (type == SPHERE)
-		our_free(norm);
-}
 
 /*
 Cast a collison ray starting from the light point towards the point of interest
@@ -42,55 +13,33 @@ ray collision (reverse light path, since we start from the camera to the light)
 static t_lcol	*get_light_collision(t_spot_light *light, t_csg *csg, \
 t_vector *point)
 {
-	t_collision	*obj_collision;
-	t_lcol		*light_collision;
+	t_collision	*obj_col;
+	t_lcol		*light_col;
 	t_ray		ray;
-	t_vector	*norm;
 
-	has_printed++;
 	ray.pos = &light->pos;
 	ray.dir = vec_sub(point, &light->pos);
 	vec_normalize(ray.dir);
 
-// DIRECT LIGHT TEST
-	obj_collision = query_collision(fetch_scene(NULL), &ray);
-	// if (csg->l->type == PLANE && has_printed % PRINT_SAMPLE == 0)
-	// 	print_collision(obj_collision);
-	if (!obj_collision)
+	// Direct light collision with the object, later, it will check for more...
+	obj_col = query_collision(fetch_scene(NULL), &ray);
+	if (!obj_col)
 		return (our_free(ray.dir), NULL);
-	if (obj_collision->obj != csg) // Shadows, we put in gray for now, check for transparency later
-		return (our_free(obj_collision), NULL);
+	if (obj_col->obj != csg) // Shadows, we put in gray for now, check for transparency later
+		return (our_free(obj_col), NULL);
 
-// Basic data
-	light_collision = our_malloc(sizeof(t_lcol));
-	light_collision->light = light;
-	light_collision->dist = obj_collision->dist;
-	norm = light_get_norm(obj_collision, csg->l->type);
 
-// Cos Angle between the light and the normal of the object
-	light_collision->cos_angle = vec_dot_product(ray.dir, norm);
-	// if (csg->l->type == PLANE && has_printed % PRINT_SAMPLE == 0)
-	// {
-	// 	printf("Norm:      ");
-	// 	print_vector(norm);
-	// 	printf("Ray dir:   ");
-	// 	print_vector(ray.dir);
-	// 	printf("cos_angle: %f\n", light_collision->cos_angle);
-	// 	printf("\n");
-	// }
-	if (light_collision->cos_angle < 0) // The light is behind the object
+	light_col = our_malloc(sizeof(t_lcol));
+	light_col->light = light; // For color and intensity
+	light_col->dist = obj_col->dist; // For light dispersion
+	light_col->cos_angle = vec_dot_product(ray.dir, obj_col->norm); // For light incidency
+	if (light_col->cos_angle < 0) // The light is behind the object
 	{
 		// Later we will check for transparency
-
-		// Should not be Handled like this
-		// But because of the sign of the normal being random, sometimes the result will be inversed
-		// TO DO: Makes it so that the sign of the normal don't matter
-		if (csg->l->type == PLANE)
-			light_collision->cos_angle = -light_collision->cos_angle;
+		light_col->cos_angle = 0;
 	}
-	our_free(obj_collision);
-	light_free_norm(csg->l->type, norm);
-	return (our_free(ray.dir), light_collision);
+	del_collision(obj_col);
+	return (our_free(ray.dir), light_col);
 }
 
 static void	add_light_collision(t_lcol **root, t_lcol *collision)
