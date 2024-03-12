@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/12 10:15:07 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 14:34:12 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 	t_pair_float	t;
 
 	dist_oc = (t_vector){\
-		ray->pos->x - (obj->pos.x + csg->l->pos.x), \
-		ray->pos->y - (obj->pos.y + csg->l->pos.y), \
-		ray->pos->z - (obj->pos.z + csg->l->pos.z)};
+		(obj->pos.x + csg->l->pos.x) - ray->pos->x, \
+		(obj->pos.y + csg->l->pos.y) - ray->pos->y, \
+		(obj->pos.z + csg->l->pos.z) - ray->pos->z};
 	float a = 1;//vec_dot_product(ray->dir, ray->dir);
-	if (!quadratic_solver(a, (-2 * vec_dot_product(&dist_oc, ray->dir)), \
+	if (!quadratic_solver(a, (2 * vec_dot_product(&dist_oc, ray->dir)), \
 	(vec_length(&dist_oc) - (csg->l->shape.sphere.rad * \
 	csg->l->shape.sphere.rad)), &t))
 	{
