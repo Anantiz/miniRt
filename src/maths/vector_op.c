@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/03/11 11:57:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 10:12:41 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_vector	*vec_cross_product(t_vector *v1, t_vector *v2)
 }
 
 /*
+Assuming a normalized vector -- ONLY
 In all logic, the cosing of the dot product should be an angle in radians
 
 Using a trigonometric circle to think about it:

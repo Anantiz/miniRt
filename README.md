@@ -1,3 +1,0 @@
-Stupid thing I did:
-	The collision struct should also compute the angle
-	between the ray and the object that it hit ...

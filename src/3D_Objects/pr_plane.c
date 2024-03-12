@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 17:46:39 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 09:34:55 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,36 +59,25 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 		return (NULL);
 
 	/*
-		Test data:
-		Camera:
-			Pos:             0.00 x,     0.00 y,   100.00 z
-			Dir:             0.00 x,     0.00 y,    -1.00 z
-			Right_normal:      1.00 x,     0.00 y,     0.00 z
-			Up_normal:        -0.00 x,    -1.00 y,     0.00 z
-		The camera origin is the ray origin
-	Plane created
-		Plane position:         0.00 x,     0.00 y,   -90.00 z
-		Plane Orientation:      1.00 x,     0.00 y,     0.00 z
-		Plane Normal:           0.00 x,     1.00 y,     0.00 z
-		Plane color:       101 r, 254 g,   8 b
-
+		The nominator always end up being 0 if the normal of the plane
+		adn the vector from the plane to the ray origin are only composed of 1 axis
+		So that causes rendering issues, but it's the correct math formula
 	*/
-	// The nominator is always 0, in our case, even tho the plane is right in front of the camera
 	nominator = vec_dot_product(&(t_vector){\
 		ray->pos->x - obj->pos.x, \
 		ray->pos->y - obj->pos.y, \
 		ray->pos->z - obj->pos.z}, csg->l->shape.plane.norm);
 	t = -nominator / denominator;
 //DEBUG
-	static int	i = 0;
-	if (i++ % 10000 == 0)
+	static int	sample = 0;
+	if (sample++ % 40000 == 0)
 	{
 		if (nominator)
 		{
 			printf("\033[31mnominator: %f\033[0m\n", nominator);
 		}
-		printf("t: %f\nray-dir", t);
-		print_vector(ray->dir);
+		printf("t: %f\n", t);
+		// print_vector();
 		printf("\n");
 	}
 

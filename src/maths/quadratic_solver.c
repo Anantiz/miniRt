@@ -23,6 +23,8 @@
 bool	quadratic_solver(float a, float b, float c, t_pair_float *t)
 {
 	float		delta;
+	static int	sample = 0;
+	sample++;
 
 	if (a == 0)
 	{
@@ -35,7 +37,11 @@ bool	quadratic_solver(float a, float b, float c, t_pair_float *t)
 	}
 	delta = (b * b) - (4.0 * a * c);
 	if (delta < 0)
+	{
+		if (sample % 80000 == 0)
+			printf("Quadratic delta < 0: %f\n", delta);
 		return (false);
+	}
 	t->t1 = (-b - sqrtf(delta)) / (2.0 * a);
 	t->t2 = (-b + sqrtf(delta)) / (2.0 * a);
 	if (t->t1 > 0 || t->t2 > 0)

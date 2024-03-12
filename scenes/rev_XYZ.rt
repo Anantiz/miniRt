@@ -8,9 +8,9 @@
 # Stands for Ambiant light, param[intensity, color]
 A 0.2 255,255,255
 # Stands for Camera, param[origin, direction, fov]
-C 0,0,100 0,0,-1 70
+C 0,0,300 0,0,-1 30
 # Stands for spot light, param[origin, intensity, color]
-L 0,0,80 1.0 255,255,255
+L 0,50,100 1.0 255,255,255
 
 # Format : [object, origin, *orientation, {Appropriately : [diameter, height, width]}, color]
 # *orientation is not given for sphere
@@ -30,7 +30,6 @@ L 0,0,80 1.0 255,255,255
 # # #Should be behind
 # sp 0,0,-15 15 0,0,255
 
-pl 0,0,-90 1,0,0 101,254,8
 # pl -60,0,-5 5,0,10 255,222,200
 
 
@@ -42,7 +41,8 @@ sp -100,50,0 15 255,0,255
 # sp 0,0,30 15 94,108,255
 
 #cy	pos		dir		rad		height	color
-cy 0,30,0	1,0,1	14.2	21.42	255,255,255
+# cy 0,30,0	1,0,1	14.2	21.42	255,255,255
+# pl 0,0,-50 3,3,1 101,254,8
 
 # cy 30,0,0	1,1,0	20	20	255,255,255
 
