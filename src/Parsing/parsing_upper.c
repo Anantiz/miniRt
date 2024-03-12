@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:25:45 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 15:19:49 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,15 @@ void	parse_camera(t_glob *glob, char **line_tokens)
 		parse_error_msg(ERROR_PARSE_FOV, NULL);
 
 	// Now we want to get the right and up vector for ray-sampling
+	// Just rotate the dir vector on the opoosite axis
 
-	camera->right = vec_get_ortho(camera->dir);
-	vec_normalize(camera->right);
-	// This Should logically, give an orthogonal vector to the two other
-	camera->up = vec_cross_product(camera->right , camera->dir);
-	vec_normalize(camera->up);
+	// We want the right vector to be along the x axis, so we rotate our dir vector
+	// around the y axis (because it is know looking towards z)
+	// That is Absolute Cheating, because if our vector is now not facing Z it don't work
+	// Fck it for now
+	camera->right = vec_cross_product(camera->dir, &(t_vector){0, 1, 0});
+	camera->up = vec_cross_product(camera->dir, &(t_vector){1,0,0});
+
 
 	//Debug
 	printf("Camera:\n");

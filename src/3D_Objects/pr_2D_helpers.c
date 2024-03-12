@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:33:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 09:20:36 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:18:54 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	rotate_ellipse(float *rx, float *ry, float angle)
 {
 	float	tmp;
 
-	tmp = *rx;
-	*rx = *rx * cosf(angle) - *ry * sinf(angle);
-	*ry = tmp * sinf(angle) + *ry * cosf(angle);
+	tmp = *rx * cosf(angle) - *ry * sinf(angle);
+	*ry = *rx * sinf(angle) + *ry * cosf(angle);
+	*rx = tmp;
 }
 
 /*
@@ -44,11 +44,11 @@ void	rotate_circle(float r, t_pair_float *sr, float angle)
 	Cuz no more than 25 lines per function
 	(stupid norm)
 */
-static void ellipse_init_to_zero_cuz_norm(float *a, float *b, float *c_quadratic)
+static void init_to_zero(float *a, float *b, float *c)
 {
 	*a = 0;
 	*b = 0;
-	*c_quadratic = 0;
+	*c = 0;
 }
 
 /*
@@ -89,26 +89,26 @@ bool	ellipse_intersection(t_pair_float *sr, t_vector *sc, t_ray *ray)
 {
 	float		a;
 	float		b;
-	float		c_quadratic;
+	float		c;
 	float		sqrd;
-	t_vector	*c;
+	t_vector	*or; // Center
 
-	c = vec_sub(ray->pos, sc);
-	ellipse_init_to_zero_cuz_norm(&a, &b, &c_quadratic);
-	sqrd = sr->t1 * sr->t1;
+	or = vec_sub(ray->pos, sc);
+	init_to_zero(&a, &b, &c);
+	sqrd = sr->t1 * sr->t1 + EPSILON;
 	if (sqrd)
 	{
 		a += (ray->dir->x * ray->dir->x) / sqrd;
-		b += (2 * (c->x * ray->dir->x)) / sqrd;
-		c_quadratic += (c->x * c->x) / sqrd;
+		b += (2 * (or->x * ray->dir->x)) / sqrd;
+		c += (or->x * or->x) / sqrd;
 	}
-	sqrd = sr->t2 * sr->t2;
+	sqrd = sr->t2 * sr->t2 + EPSILON;
 	if (sqrd)
 	{
-		a += (ray->dir->y * ray->dir->y) / sqrd;
-		b += (2 * (c->y * ray->dir->y)) / sqrd;
-		c_quadratic += (c->y * c->y) / sqrd;
+		a += (ray->dir->z * ray->dir->z) / sqrd;
+		b += (2 * (or->z * ray->dir->z)) / sqrd;
+		c += (or->z * or->z) / sqrd;
 	}
-	our_free(c);
-	return (quadratic_solver(a, b, c_quadratic - 1, sr));
+	our_free(or);
+	return (quadratic_solver(a, b, c - 1, sr));
 }

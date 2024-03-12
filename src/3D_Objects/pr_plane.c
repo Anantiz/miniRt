@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/12 09:34:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:27:24 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,17 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 		ray->pos->z - obj->pos.z}, csg->l->shape.plane.norm);
 	t = -nominator / denominator;
 //DEBUG
-	static int	sample = 0;
-	if (sample++ % 40000 == 0)
-	{
-		if (nominator)
-		{
-			printf("\033[31mnominator: %f\033[0m\n", nominator);
-		}
-		printf("t: %f\n", t);
-		// print_vector();
-		printf("\n");
-	}
+	// static int	sample = 0;
+	// if (sample++ % 40000 == 0)
+	// {
+	// 	if (nominator)
+	// 	{
+	// 		printf("\033[31mnominator: %f\033[0m\n", nominator);
+	// 	}
+	// 	printf("t: %f\n", t);
+	// 	// print_vector();
+	// 	printf("\n");
+	// }
 
 	if (t < EPSILON)
 		return (NULL);

@@ -6,14 +6,14 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 09:06:45 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/12 09:57:58 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:26:17 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 #include "miniRt.h"
 
-#define ORTH_BASES_LEN 4
+#define ORTH_BASES_LEN 3
 
 /*
 This function is used to get an orthogonal vector when only one is given
@@ -31,28 +31,6 @@ t_vector	*vec_get_ortho(t_vector *v)
 		(t_vector){0, 1, 0},
 		(t_vector){0, 0, 1},
 	};
-
-	// if ()
-	// {
-	// 	// Test if they are orthogonal
-	// 	for (int i=0; i < ORTH_BASES_LEN; i++)
-	// 	{
-	// 		for (int j=0; j < ORTH_BASES_LEN; j++)
-	// 		{
-	// 				if (i != j && vec_dot_product(&orthogonal_basis[i], &orthogonal_basis[j]) != 0)
-	// 				{
-	// 					printf("\033[31mOrthogonal basis not orthogonal\033[0m\n");
-	// 					printf("i: %d, j: %d\n", i, j);
-	// 					printf("Dot product: %f\n", vec_dot_product(&orthogonal_basis[i], &orthogonal_basis[j]));
-	// 					print_vector(&orthogonal_basis[i]);
-	// 					print_vector(&orthogonal_basis[j]);
-	// 					printf("\n");
-	// 				}
-	// 		}
-
-	// 	}
-	// }
-
 	if (!v || (v->x == 0 && v->y == 0 && v->z == 0)) // Should never be happening because of architecture choices
 		error_exit("get_orthogonal() l:47: NULL vector given, fix that before production");
 	i = 0;

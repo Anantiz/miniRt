@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 12:10:05 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:17:24 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 Step 1: Create A circle
 
 Step 2, ROTATE THE CIRCLE
-	step 2.1: Measure the angle between the cylinder's axis and the z axis (our reference)
+	step 2.1: Measure the angle between the cylinder's axis and the y axis (our reference)
 	step 2.2: Create the ellipse using this angle
 
 Step 3: Check 2D collision with the ellipse
@@ -88,30 +88,30 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	*/
 	t_pair_float	sr;
 	t_vector		*v;
-	float			angle;
+	float			h;
+	float			t;
 
 	// Step 1 && 2
 	v = vec_add(&csg->l->dir, &obj->dir); // V is the cylinder Axis
 	vec_normalize(v);
-	angle = vec2d_get_angle_rad(v, &(t_vector){0, 0, 1});
-	if(angle)
-		rotate_circle(csg->l->shape.cylinder.rad, &sr, 1 - angle);
-	else
-		sr = (t_pair_float){csg->l->shape.cylinder.rad, csg->l->shape.cylinder.rad};
+	h = csg->l->shape.cylinder.height; // Shorter term
+	rotate_circle(csg->l->shape.cylinder.rad, &sr, vec2d_get_angle_rad(v, &(t_vector){0, 1, 0}));
 	our_free(v);
-	v = vec_add(&csg->l->pos, &obj->pos); // V is the cylinder center
 
 	// Step 3
+	v = vec_add(&csg->l->pos, &obj->pos); // V is the cylinder center
 	if (!ellipse_intersection(&sr, v, ray))
 		return (our_free(v), NULL);
-
 	// Step 4
-	// For some reason, the t1 and t2 are inverted I don't know why, but it works like that don't touch it
-	if (sr.t1 > 0 && (ray->pos->z + ray->dir->z * sr.t1) < v->z + csg->l->shape.cylinder.height && sr.t1 < sr.t2)
-		return (our_free(v), new_collision(obj, csg, ray, sr.t2));
-	else if (sr.t2 > 0 && (ray->pos->z + ray->dir->z * sr.t2) < v->z + csg->l->shape.cylinder.height)
-		return (our_free(v), new_collision(obj, csg, ray, sr.t1));
-	return (our_free(v), NULL);
+	// Take the closest intersection (If the ray traverse the cylinder)
+	if (sr.t1 < 0 || (sr.t2 > 0 && sr.t2 < sr.t1))
+		t = sr.t2;
+	else
+		t = sr.t1;
+	// Height check
+	if (t < 0 || !(v->y + ray->pos->y + t * ray->dir->y <= h && v->y + ray->pos->y + t * ray->dir->y >= 0))
+		return (our_free(v), NULL);
+	return (our_free(v), new_collision(obj, csg, ray, t));
 }
 
 /*
@@ -119,13 +119,14 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 */
 void	collider_cylinder_norm(t_collision *col, t_ray *ray)
 {
-	t_vector	*norm;
-	t_vector	*tmp;
+	t_vector	*center_axis;
 
-	tmp = vec_add(&col->parent_obj->pos, &col->obj->l->pos);
-	norm = vec_sub(&col->point, tmp);
-	norm->z -= col->dist * (ray->dir->z);
-	vec_normalize(norm);
-	col->norm = norm;
-	our_free(tmp);
+	(void)ray;
+	center_axis = vec_add(&col->parent_obj->pos, &col->obj->l->pos);
+	// As compared to a sphere, we have to ignore the height, because
+	// Cylinder's normals are only defined by the circle's normals
+	center_axis->y = col->point.y;
+	col->norm = vec_sub(&col->point, center_axis);
+	our_free(center_axis);
+	vec_normalize(col->norm );
 }
