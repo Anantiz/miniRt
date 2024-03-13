@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:14:42 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/04 10:22:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 11:28:28 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 /*
 	If we somehow add new things we can free them here
 */
-void	del_collision(t_collision *collision)
+void	del_collision(t_collision *col)
 {
-	our_free(collision);
+	// May delete the ray, depends on what we do later
+	our_free(col->norm);
+	our_free(col);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 08:06:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 16:46:01 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,7 @@ t_object	*new_object(char **params)
 	static const t_e_objt	stypes[] = {P_SPHERE, P_PLANE, P_CYLINDER,P_FIGHTER_JET, P_PENGUIN};
 	t_object				*obj;
 	int						i;
-/*
 
-Currently not safe, as a wrong parameter count can result in a segfault.
-
-Cuz i ain't check that now, to do later
-
-*/
 	i = -1;
 	while (types[++i])
 	{
@@ -83,5 +77,5 @@ Cuz i ain't check that now, to do later
 			return (obj);
 		}
 	}
-	return (error_exit("Invalid object type, aborting."), NULL); // Here we leak an fd
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/28 14:52:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 10:43:43 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_scene
 /* CORE : public */
 
 t_scene				*scene_new(void);
-t_scene				*scene_getter(t_scene *scene);
+t_scene				*fetch_scene(t_scene *scene);
 t_collision			*query_collision(t_scene *scene, t_ray *ray);
 
 /* Warpers */

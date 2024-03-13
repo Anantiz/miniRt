@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:53 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 10:44:48 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:20:22 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_csg	*obj_new_sphere(t_object *obj, char **params)
 	printf("\tSphere color:    ");
 	print_rgb(&sphere->l->rgb);
 	printf("\tSphere pos:  ");
-	print_vector(add_vector(&obj->pos, &sphere->l->pos));
+	print_vector(vec_add(&obj->pos, &sphere->l->pos));
 	printf("\n\n");
 	return (sphere);
 }

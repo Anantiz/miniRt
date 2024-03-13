@@ -35,7 +35,7 @@ typedef enum e_ndtype				t_e_ndtype;
 typedef struct s_csg				t_csg;
 typedef struct s_object				t_object;
 
-typedef struct s_csg_leave			t_csg_leave;
+typedef struct s_csg_leave			t_leave;
 typedef union u_shape				t_u_shape;
 
 // Scene

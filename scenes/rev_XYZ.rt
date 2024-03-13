@@ -1,44 +1,39 @@
-#	X,Y,Z:= Screen width, screen height, depth (I think tho)
-#capitals letter are used for unique identifyers
+#X,Y,Z:= Screen width, screen height, depth (I think tho)
+#Capitals letter are used for unique identifiers
+#
 #Shapes Identifyers
-#pl = Plane
-#sp = Sphere
-#cy = Cylinder
+#	pl = Plane
+#	sp = Sphere
+#	cy = Cylinder
 
 # Stands for Ambiant light, param[intensity, color]
 A 0.2 255,255,255
-
 # Stands for Camera, param[origin, direction, fov]
-C 0,0,150 0,0,-1 30
-
+C 0,0,320 0,0,-1 30
 # Stands for spot light, param[origin, intensity, color]
-L 50,0,200 1.0 255,255,255
+L 15,-20,100 1.0 255,255,255
 
 # Format : [object, origin, *orientation, {Appropriately : [diameter, height, width]}, color]
 # *orientation is not given for sphere
 
-pl 0,0,-50 1,1,0 101,254,8
-#Should be right
-sp 35,0,0 15 255,192,170
-#Should be left
-sp -20,0,0 15 255,0,0
 
-# # #Should be under the middle
-sp 0,20,0 15 0,255,0
-# # #Should be above the middle
-sp 0,-20,0 15 252,217,23
+pl 0,0,-45 1,1,-1 60,200,0
 
-# # #Should be in front
-sp 0,0,10 8 215,0,255
-# # #Should be behind
-sp 0,0,-20 15 0,0,255
+sp -100,0,0 15 255,0,0
+sp 100,0,0 15 255,0,0
 
-#The plane behavior makes no fucking sense, yet the maths seems fine
-# If it is, at x,y=0 and z behind objects, and the direction is perpandicular to the camera
-# the whole screen should have the plate visible
+sp 100,-50,0 15 0,0,255
+sp -100,-50,0 15 0,0,255
 
-# not implemented yet
-# cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
+sp 100,50,0 15 255,0,255
+sp -100,50,0 15 255,0,255
 
+# sp 20,20,0 10 94,108,255
+# sp 20,-20,0 10 94,108,255
+# sp -20,-20,0 10 94,108,255
+# sp -20,20,0 10 94,108,255
 
-
+#cy	pos		dir		rad	height	color
+# cy -50,20,0	1,0,0	15	40	255,220,220
+# cy 0,20,0	0,1,0	15	40	220,255,220
+cy 50,20,0	0,0,1	15	40	210,215,255

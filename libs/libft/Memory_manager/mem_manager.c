@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 15:04:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 11:52:23 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/05 16:56:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,7 @@ void	*safe_as_fuck_malloc(size_t bytes, void *address, int action)
 	{
 		new_node = mem_manager_new_node(bytes, &action);
 		if (action == -1)
-		{
-			mem_manager_del_list(&all_mallocs);
-			perror("Critical memory failure during allocation");
-			exit(1);
-		}
+			error_exit("Critical error during memory allocation Aborting");
 		mem_manager_add_front(&all_mallocs, new_node);
 	}
 	else if (action == 0)

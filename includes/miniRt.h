@@ -13,7 +13,6 @@
 # define DEFAULT_LUMEN		1000
 # define DEFAULT_INTENSITY	0.6
 
-
 # include <math.h>
 
 # include <fcntl.h>
@@ -38,6 +37,8 @@
 # define GO_FUCK_YOURSELF		-1
 
 extern const char *shape_names[]; // To remove for release
+extern FILE *debug_log_f;
+
 // Pls don't ask why
 typedef struct s_scene t_scene;
 
@@ -82,5 +83,6 @@ void				rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_r
 
 void				print_vector(t_vector *vector);
 void				print_collision(t_collision *collision);
+t_glob				*fetch_glob(t_glob *glob);
 
 #endif

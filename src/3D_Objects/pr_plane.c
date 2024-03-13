@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 11:10:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:27:24 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_csg	*pr_new_plane(char *color)
 
 	plane = our_malloc(sizeof(t_csg));
 	plane->type = LEAVE;
-	plane->l = our_malloc(sizeof(t_csg_leave));
+	plane->l = our_malloc(sizeof(t_leave));
 	plane->l->type = PLANE;
 	//planes are never relative to the object
 	plane->l->pos = (t_vector){0, 0, 0};
@@ -30,8 +30,7 @@ t_csg	*pr_new_plane(char *color)
 	parse_rgb(&plane->l->rgb, color);
 	return (plane);
 }
-#define PRINT_SAMPLE 10000
-extern has_printed;
+
 /*
 	Plane equation:
 		(P⃗−C)⋅A⃗ = 0
@@ -55,33 +54,47 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 	float		denominator; // D⃗⋅A⃗
 	float		t;
 
+	denominator = vec_dot_product(ray->dir, csg->l->shape.plane.norm);
+	if (fabs(denominator) < EPSILON) // Ray is parallel to the plane because orthogonal to the normal
+		return (NULL);
+
+	/*
+		The nominator always end up being 0 if the normal of the plane
+		adn the vector from the plane to the ray origin are only composed of 1 axis
+		So that causes rendering issues, but it's the correct math formula
+	*/
 	nominator = vec_dot_product(&(t_vector){\
 		ray->pos->x - obj->pos.x, \
 		ray->pos->y - obj->pos.y, \
 		ray->pos->z - obj->pos.z}, csg->l->shape.plane.norm);
-	// We are litera-ly on the plane
-	if (nominator == 0)
-	{
-		if (has_printed % PRINT_SAMPLE == 0)
-			printf("nominator == 0\n"); has_printed;
-		return (new_collision(obj, csg, ray, 0));
-	}
-	denominator = -vec_dot_product(ray->dir, csg->l->shape.plane.norm);
-	// We are perpendicular to the normal thus parallel to the plane
-	if (denominator == 0)
-	{
-		if (has_printed % PRINT_SAMPLE == 0)
-			printf("denominator == 0\n"); has_printed;
+	t = -nominator / denominator;
+//DEBUG
+	// static int	sample = 0;
+	// if (sample++ % 40000 == 0)
+	// {
+	// 	if (nominator)
+	// 	{
+	// 		printf("\033[31mnominator: %f\033[0m\n", nominator);
+	// 	}
+	// 	printf("t: %f\n", t);
+	// 	// print_vector();
+	// 	printf("\n");
+	// }
+
+	if (t < EPSILON)
 		return (NULL);
-	}
-	t = nominator / denominator;
-	if (t < 0)
-	{
-		if (has_printed % PRINT_SAMPLE == 0)
-			printf("t < 0, nominator= %f,  denominator= %f\n",nominator , denominator ); has_printed;
-		return (NULL);
-	}
-	if (has_printed % PRINT_SAMPLE == 0)
-		printf("Plane t = %f, nominator= %f,  denominator= %f\n", t,nominator , denominator); has_printed;
 	return (new_collision(obj, csg, ray, t));
+}
+
+/*
+	Plane normal is the plane normal
+	(Surprising, I know)
+*/
+void	collider_plane_norm(t_collision *col, t_ray *ray)
+{
+	(void)ray;
+	col->norm = vec_cpy(col->obj->l->shape.plane.norm);
+	// Because the normal direction don't matter for a plane
+	if (vec_dot_product(col->norm, ray->dir) > 0) // Most probably useless tho
+		vec_negate(col->norm);
 }

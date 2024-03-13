@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 12:39:16 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 11:13:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_scene	*scene_new(void)
 	scene->lights_count = 0;
 	scene->ambiant_rgb = (t_rgb){0, 0, 0};
 	scene->amb_intensity = -1.0f;
-	scene_getter(scene);
+	fetch_scene(scene);
 	return (scene);
 }
 
@@ -45,7 +45,6 @@ static void	free_collisions_except(t_collision **collisions, t_collision *except
 	our_free(collisions);
 }
 
-extern FILE *debug_log_f;
 static t_collision	*get_closest_collision(t_collision **collisions, int count)
 {
 	t_collision *closest_collision;

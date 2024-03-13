@@ -6,51 +6,43 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:51:00 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/01 12:47:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/11 11:56:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-float	ft_bound_float(float value, float max, float min)
+void	vec_abs(t_vector *v)
 {
-	if (value > max)
-		return (max);
-	if (value < min)
-		return (min);
-	return (value);
+	v->x = fabs(v->x);
+	v->y = fabs(v->y);
+	v->z = fabs(v->z);
 }
 
-float		vec_get_angle_rad(t_vector *v1, t_vector *v2)
+void	vec_negate(t_vector *v)
 {
-	t_vector	normed1;
-	t_vector	normed2;
-	float		temp;
-
-	temp = vector_length(v1);
-	if (temp == 0)
-		normed1 = (t_vector){1, 1, 1};
-	else
-		normed1 = (t_vector){v1->x / temp, v1->y / temp, v1->z / temp};
-	temp = vector_length(v2);
-	if (temp == 0)
-		normed2 = (t_vector){1, 1, 1};
-	else
-		normed2 = (t_vector){v2->x / temp, v2->y / temp, v2->z / temp};
-	return ((\
-	ft_bound_float(vec_dot_product(v1, v2), 1, -1) \
-	/ (ft_bound_float(vec_dot_product(&normed1, &normed2), 1, -1) + EPSILON)));
+	v->x = -v->x;
+	v->y = -v->y;
+	v->z = -v->z;
 }
 
-// return true if a and b are close enough
-bool	fcmp(float a, float b)
+float	vec_length(t_vector *vector)
 {
-	bool	abs_diff;
-	bool	sign_diff;
+	return (sqrtf((vector->x * vector->x) \
+			+ (vector->y * vector->y) \
+			+ (vector->z * vector->z)));
+}
 
-	abs_diff = fabs(a - b) < EPSILON;
-	sign_diff = (a < 0) == (b < 0);
-	return (abs_diff && sign_diff);
+void	vec_normalize(t_vector *vector)
+{
+	float	length;
+
+	length = vec_length(vector);
+	if (length == 0)
+		return ;
+	vector->x = vector->x / length;
+	vector->y = vector->y / length;
+	vector->z = vector->z / length;
 }
 
 bool	vec_cmp(t_vector *v1, t_vector *v2)

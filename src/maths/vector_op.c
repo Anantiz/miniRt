@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   vector_op.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/02/26 15:08:23 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/12 10:12:41 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRt.h"
-#include <math.h>
+#include "vector.h"
 
-t_vector    *new_vector(float x, float y, float z)
+t_vector    *vec_new(float x, float y, float z)
 {
     t_vector	*vector;
 
@@ -24,48 +23,52 @@ t_vector    *new_vector(float x, float y, float z)
 	return (vector);
 }
 
-t_vector	*add_vector(t_vector *v1, t_vector *v2)
-{
-	t_vector	*result;
-
-	result = new_vector(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z);
-	return (result);
-}
-
-t_vector	*produit_vectoriel(t_vector *v1, t_vector *v2)
+/*
+	Shall not return NULL
+	Because we are not in the mood for error handling
+*/
+t_vector	*vec_cpy(t_vector *v)
 {
 	t_vector	*ret;
 
-	ret = new_vector(v1->y * v2->z - v1->z * v2->y, \
+	ret = our_malloc(sizeof(t_vector));
+	if (v)
+		*ret = (t_vector){v->x, v->y, v->z };
+	else
+		*ret = (t_vector){0, 0, 0};
+	return (ret);
+}
+
+/*
+	Use this to avoid memory leaks
+	(throwing everything for the garbage collector is ugly)
+*/
+void	vec_realloc(t_vector **old_addr, t_vector *new_ptr)
+{
+	our_free(*old_addr);
+	*old_addr = new_ptr;
+}
+
+t_vector	*vec_cross_product(t_vector *v1, t_vector *v2)
+{
+	return (vec_new(v1->y * v2->z - v1->z * v2->y, \
 					(v1->x * v2->z) + v1->z * v2->x, \
-					(v1->x * v2->y) - v1->y * v2->x);
-	return (ret);
+					(v1->x * v2->y) - v1->y * v2->x));
 }
 
-float	vector_length(t_vector *vector)
-{
-	float	ret;
+/*
+Assuming a normalized vector -- ONLY
+In all logic, the cosing of the dot product should be an angle in radians
 
-	ret = sqrtf((vector->x * vector->x) + (vector->y * vector->y) + (vector->z * vector->z));
-	return (ret);
-}
+Using a trigonometric circle to think about it:
+	Plugging the dot_product in cos gives us the angle between the two vectors.
 
-void	vector_normalizer(t_vector *vector)
-{
-	float	length;
-
-	length = vector_length(vector);
-	if (length == 0)
-		return ;
-	vector->x = vector->x / length;
-	vector->y = vector->y / length;
-	vector->z = vector->z / length;
-}
-
+	Since cos(0) = 1,
+		a dot product of 0 means the vectors do not share any axis (orthogonal)
+	Following: cos(1) = 0,
+		a dot product of 1 means the vectors are on the same axis (parallel)
+*/
 float	vec_dot_product(t_vector *v1, t_vector *v2)
 {
-	float	ret;
-
-	ret = ((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z));
-	return (ret);
+	return (((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z)));
 }

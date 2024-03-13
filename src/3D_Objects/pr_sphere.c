@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:32:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/13 12:56:48 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,38 +44,73 @@ t_csg	*pr_new_sphere(char **params)
 }
 
 /*
-First we convert the sphere into a polynomial equation
-(The params sent to the quadratic solver)
-Then we solve the quadratic equation
-And we return the collision
+	Sphere equation:
+	(x - xc)² + (y - yc)² + (z - zc)² = r²
+	Plug the ray equation into the sphere equation:
+	(O + tD - C)² = r²
+	(Ox + tDx - Cx)² + (Oy + tDy - Cy)² + (Oz + tDz - Cz)² = r²
+	Solve for t:
+	(Ox + tDx - Cx)² + (Oy + tDy - Cy)² + (Oz + tDz - Cz)² - r² = 0
 
-Super compact version of the function, to make it faster (less memory allocation)
-(We only work on the CPU bruh)
-
-Terms:
-	A = 1 (normalized vector)
-	B = 2 * (O - R⃗c)⋅D⃗
-	C = (O - R⃗c)⋅(O - R⃗c) - r²
-	With:
-		
+	Also, for some reason I can't figure out, For our spheres , B has to be negated
+	I think it's cuz the whole coordinate system is a mess ¯\_(ツ)_/¯
 */
 t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 {
-	t_vector		dist_oc;
-	t_pair_float	t;
+	// static int	sample = 0;
 
+	t_vector		dist_oc; // Distance between the ray origin and the sphere center
+	t_pair_float	t;
+	float			b;
+	float			c;
+
+	// Relative position of the sphere
 	dist_oc = (t_vector){\
-		obj->pos.x + csg->l->pos.x - ray->pos->x, \
-		obj->pos.y + csg->l->pos.y - ray->pos->y, \
-		obj->pos.z + csg->l->pos.z - ray->pos->z};
-	if (!quadratic_solver(1, (2 * vec_dot_product(&dist_oc, ray->dir)), \
-	(vec_dot_product(&dist_oc, &dist_oc) - (csg->l->shape.sphere.rad * \
-	csg->l->shape.sphere.rad)), &t))
+		ray->pos->x - (obj->pos.x + csg->l->pos.x), \
+		ray->pos->y - (obj->pos.y + csg->l->pos.y), \
+		ray->pos->z - (obj->pos.z + csg->l->pos.z)};
+
+	// A = 1
+	b = 2 * vec_dot_product(&dist_oc, ray->dir);
+	c = vec_dot_product(&dist_oc, &dist_oc) - (csg->l->shape.sphere.rad * csg->l->shape.sphere.rad);
+	if (!quadratic_solver(1, b, c, &t))
 	{
-		printf("Sphere, quadratic_solver returned false\n");
+		//DEBUG
+		// if (sample++ % 80000 == 0)
+		// {
+		// 	printf("\033[33mSphere Dead: \033[0m\n");
+		// 	printf("\tA: 1 B: %f C: %f\n", b,c);
+		// 	printf("\tRadius2: %f\n", csg->l->shape.sphere.rad * csg->l->shape.sphere.rad * (csg->l->shape.sphere.rad * csg->l->shape.sphere.rad));
+		// 	printf("\t(O - R⃗c)⋅(O - R⃗c): %f\n", vec_dot_product(&dist_oc, &dist_oc));
+		// 	printf("\tDist: %f\n", vec_length(&dist_oc));
+		// 	printf("\n");
+		// }
 		return (NULL);
 	}
+	//DEBUG
+	// if (sample++ % 80000 == 0)
+	// {
+	// 	printf("\033[33mSphere: \033[0m\n");
+	// 	printf("\tt1: %f t2: %f\ndist_oc", t.t1,t.t2);
+	// 	printf("\tA: 1 B: %f C: %f\n", b,c);
+	// 	printf("\tRadius2: %f\n", csg->l->shape.sphere.rad * csg->l->shape.sphere.rad);
+	// 	printf("\t(O - R⃗c)⋅(O - R⃗c): %f\n", vec_dot_product(&dist_oc, &dist_oc));
+	// 	printf("\n");
+	// }
 	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))
 		return (new_collision(obj, csg, ray, t.t2));
 	return (new_collision(obj, csg, ray, t.t1));
+}
+
+/*
+Norm of a sphere is the vector from the center to the point
+*/
+void	collider_sphere_norm(t_collision *col, t_ray *ray)
+{
+	(void)ray;
+	col->norm = vec_new(\
+		col->point.x - (col->parent_obj->pos.x + col->obj->l->pos.x), \
+		col->point.y - (col->parent_obj->pos.y + col->obj->l->pos.y), \
+		col->point.z - (col->parent_obj->pos.z + col->obj->l->pos.z));
+	vec_normalize(col->norm);
 }

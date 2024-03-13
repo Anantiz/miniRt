@@ -6,75 +6,82 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 09:43:41 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/13 11:54:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
 
 /*
-If params len is not 5, segfault, please give me the right params
-	params[0] = diameter
-	params[1] = height
-	params[2] = color
-	(optional)params[3] = pos, else NULL
-	(optional)[4] = orientation, else NULL
+	Note for tommorow:
+
+	The maths don't seemn to work, look at all of it again
+	Then think about how dumb it might be, and correct it again.
+
+	Then write it into code.
+
+	I think the idea is to:
+		- Create a circle, this is the cylinder front profile (I think it's okay)
+		- Rotate the circle, if the cylinder is not seen from face
+		it's technically just a rotated circle (I think this part looks okay too)
+
+		- Then, we have to check the collision with the circle
+			-Quadratic equation, I think the whole polynomial is wrong
+			Idk how the f did I manage to have such a complicated equation
+			cuz compared to others I've done this one has too many terms
+			LOOK AT IT AGAIN
+		Then finnaly, I think this one is okay tho, chek if it's in the cylinder's height
+
+	Because I somehow managed to create a dam sem-parabola (one vertice
+	is parabolique and the other is straight) instead of a cylinder
+	How the f did I manage to do that ?   ??
+
+
+	Mainly, What causes issue it the discrepancy between a and b that are relatively small
+	and the c that is huge, my C is way too complexe, or the two others are too simple
+	Probably both ... It's not tomorow that I'll get a phd in maths.
 */
-t_csg	*pr_new_cylinder(char **params)
+
+/*
+Since all calls to this function are made by the parser, we don't need to check
+the parameters, they are guaranteed to be either correct or a string placeholder
+
+	Params:
+		0: pos
+		1: orientation
+		2: diameter
+		3: height
+		4: color
+*/
+t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 {
 	t_csg	*cylinder;
 
-	 // Should not happen regardless of the input file (obj_cylinder should normally handle this)
-	if (ft_strslen(params) < 3)
-		error_exit("Cylinder: wrong number of parameters");
 	cylinder = our_malloc(sizeof(t_csg));
 	cylinder->type = LEAVE;
-	cylinder->l = our_malloc(sizeof(t_object));
+	cylinder->l = our_malloc(sizeof(t_leave));
 	cylinder->l->type = CYLINDER;
-	cylinder->l->shape.cylinder.rad = ft_atoldb(params[0]) / 2;
-	cylinder->l->shape.cylinder.height = ft_atoldb(params[1]);
-	parse_rgb(&cylinder->l->rgb, params[2]);
-	if (params[3])
-		parse_position(&cylinder->l->pos, params[3]);
-	else
-		cylinder->l->pos = (t_vector){0, 0, 0};
-	if (params[4])
-		parse_orientation(&cylinder->l->dir, params[4]);
-	else
-		cylinder->l->dir = (t_vector){0, 0, 0};
+	parse_position(&cylinder->l->pos, params[0]);
+	parse_orientation_private(&cylinder->l->dir, params[1]);
+	cylinder->l->shape.cylinder.rad = parse_float(params[2]) / 2;
+	cylinder->l->shape.cylinder.height = parse_float(params[3]);
+	parse_rgb(&cylinder->l->rgb, params[4]);
 	return (cylinder);
 }
 
 /*
-Cylinder equation:
-  (P⃗−C)⋅A⃗ = 0
-and
- ∣∣P⃗−C−((P⃗−C)⋅A⃗)⋅A⃗∣∣ ≤ r
-
-with:
-P⃗ = point on the cylinder
-C⃗ = center of the cylinder
-A⃗ = axis of the cylinder
-r = radius of the cylinder
 
 */
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
-	// t_vector		*dist_oc;
-	// t_vector		*sphere_origin;
-	// t_pair_float	t;
 
-	// dist_oc = sub_vector(ray->pos, &csg->l->pos);
-	// sphere_origin = add_vector(&csg->l->pos, &obj->pos);
-	// if (!quadratic_solver(&t, dist_oc, ray->dir, csg->l->shape.cylinder.rad))
-	// 	return (our_free(dist_oc), our_free(sphere_origin), NULL);
-	// our_free(dist_oc);
-	// our_free(sphere_origin);
-	// if (t.t1 < 0 || (t.t2 < t.t1 && t.t2 > 0))
-	// 	return (new_collision(obj, csg, ray, t.t2));
-	// return (new_collision(obj, csg, ray, t.t1));
-	(void)obj;
-	(void)csg;
+}
+
+/*
+
+*/
+void	collider_cylinder_norm(t_collision *col, t_ray *ray)
+{
+
 	(void)ray;
-	return (NULL);
 }

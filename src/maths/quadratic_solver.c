@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quadratic_solver.c                                 :+:      :+:    :+:   */
+/*   sphere_quadratic_solver.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,31 +15,36 @@
 #include <math.h>
 
 /*
-Args:
-	t: The pair of float that will contain the two solutions
-	Dist_oc: Dist between the origin of the ray and the origin of the circle
-	Dir: Direction of the incoming ray
-	r: Radius of the circle
-Return:
-	True if there is a solution, false otherwise
-*/
-bool	quadratic_solver(t_pair_float *t, t_vector *dist_oc, \
-t_vector *dir, float r)
-{
-	float		b;
-	float		c;
-	float		delta;
+	Return true if the equation has a solution
+	Else return false
 
-	// We assume that the ray is normalized, thus a = 1
-	// This might cause Doomsday if it's not the case *shrug*
-	b = 2.0 * vec_dot_product(dist_oc, dir);
-	c = vec_dot_product(dist_oc, dist_oc) - (r * r);
-	delta = (b * b) - (4.0 * c);
+	We use a pointer to a t_pair_float to store the solutions
+*/
+bool	quadratic_solver(float a, float b, float c, t_pair_float *t)
+{
+	float		delta;
+	// static int	sample = 0;
+
+	if (a == 0)
+	{
+		// printf("Quadratic a = 0\n");
+		if (b == 0)
+			return (false);
+		t->t1 = -c / b;
+		t->t2 = -c / b;
+		return (true);
+	}
+	delta = (b * b) - (4.0 * a * c);
 	if (delta < 0)
+	{
+		// if (sample++ % 80000 == 0)
+		// 	printf("Quadratic delta < 0: %f\n", delta);
 		return (false);
-	t->t1 = (b - sqrtf(delta)) / (2.0);
-	t->t2 = (b + sqrtf(delta)) / (2.0);
-	if (t->t1 > 0 || t->t2 > 0)
+	}
+	// sample++;
+	t->t1 = (-b - sqrtf(delta)) / (2.0 * a);
+	t->t2 = (-b + sqrtf(delta)) / (2.0 * a);
+	if (t->t1 > EPSILON || t->t2 > EPSILON)
 		return (true);
 	return (false);
 }
