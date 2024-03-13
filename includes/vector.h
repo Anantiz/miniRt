@@ -37,6 +37,12 @@ t_vector			*vec_mult(float k, t_vector *v1);
 t_vector			*vec_div(float k, t_vector *v1);
 float				vec_dist(t_vector *v1, t_vector *v2);
 
+// In place
+t_vector			*vec_add_inplace(t_vector *v1, t_vector *v2);
+t_vector			*vec_sub_inplace(t_vector *v1, t_vector *v2);
+t_vector			*vec_mult_inplace(float k, t_vector *v1);
+t_vector			*vec_div_inplace(float k, t_vector *v1);
+
 //v3
 
 void				vec_abs(t_vector *v);
@@ -49,6 +55,13 @@ bool				vec_cmp(t_vector *v1, t_vector *v2);
 
 t_vector			*vec_get_ortho(t_vector *v);
 float				vec2d_get_angle_rad(t_vector *v1, t_vector *v2);
+
+//v5
+
+bool				vec_less_than(t_vector *a, t_vector *b);
+bool				vec_more_than(t_vector *a, t_vector *b);
+bool				vec_less_than_or_equal(t_vector *a, t_vector *b);
+bool				vec_more_than_or_equal(t_vector *a, t_vector *b);
 
 // float compare
 bool				fcmp(float a, float b);

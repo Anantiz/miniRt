@@ -219,6 +219,7 @@ float angle_z);
 bool				ellipse_intersection(t_pair_float *sr, t_vector *sc, \
 t_ray *ray);
 
+
 /* Trash */
 
 void				del_collision(t_collision *collision);
