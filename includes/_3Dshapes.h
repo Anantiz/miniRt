@@ -212,8 +212,10 @@ void				collider_cylinder_norm(t_collision *col, t_ray *ray);
 
 /* Helpers, should kina be in vector.h ... */
 
-void				rotate_ellipse(float *rx, float *ry, float angle);
-void				rotate_circle(float r, t_pair_float *sr, float angle);
+void				rotate_ellipse(float *rx, float *ry, float angle_x, \
+float angle_z);
+void				rotate_circle(float r, t_pair_float *sr, float angle_x, \
+float angle_z);
 bool				ellipse_intersection(t_pair_float *sr, t_vector *sc, \
 t_ray *ray);
 

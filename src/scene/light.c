@@ -36,7 +36,7 @@ t_vector *point)
 	if (light_col->cos_angle < 0) // The light is behind the object
 	{
 		// Later we will check for transparency
-		light_col->cos_angle = 0;//-light_col->cos_angle; // That's cheating, but fck it
+		light_col->cos_angle = 0;
 	}
 	/*
 		Add some cheat function, to put the cos_angle to zero if a
