@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/13 16:54:57 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/14 17:35:02 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,123 +69,60 @@ t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 	return (cylinder);
 }
 
+height_inequality
+
 #define SAMPLE_RATE 20000
 /*
-Step 1: Create A circle
-
-Step 2, ROTATE THE CIRCLE
-	step 2.1: Measure the angle between the cylinder's axis and the y axis (our reference)
-	step 2.2: Create the ellipse using this angle
-
-Step 3: Check 2D collision with the ellipse
-Step 4: Check if the collision is within the cylinder's height
+	1. Get an orthogonal plan to the cylinder's axis
+	2. Solve the ray-plane intersection
+		2.1 Reject negative values
+	3. Check if it's in the radius and the height
 */
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
-	t_pair_float	sr;// Stands for shape radius
-	t_vector		*v;
-	float			angle_x;
-	float			angle_z;
-	float			h;
-	float			t;
+	t_vector		*cy_axis;
+	t_vector		*cy_origin;
+	t_vector		*plane_intersect;
+	float			intersect_dist;
+	float			t_plane;
+	float			t_cylinder;
 
-	// Step 1 && 2
-	v = vec_add(&csg->l->dir, &obj->dir); // V is the cylinder Axis
-	vec_normalize(v);
-	angle_x = vec2d_get_angle_rad(v, &(t_vector){-1, 0, 0});
-	angle_z = vec2d_get_angle_rad(v, &(t_vector){0, 0, -1});
-	our_free(v);
-	// DEBUG
-	static int sample = 0;
-	sample++;
-	if (sample % SAMPLE_RATE == 0)
-	{
-		printf("\nangle_x: %f\tangle_z: %f\n", angle_x, angle_z);
-		printf("\tBefore rotation\n");
-		sr.t1 = csg->l->shape.cylinder.rad;
-		sr.t2 = csg->l->shape.cylinder.rad;
-		printf("\t\tsr.x: %f\n", sr.t1);
-		printf("\t\tsr.y: %f\n", sr.t2);
-	}
-	rotate_circle(csg->l->shape.cylinder.rad, &sr, angle_x, angle_z);
-	if (sample % SAMPLE_RATE == 0)
-	{
-		printf("\tAfter rotation\n");
-		printf("\t\tsr.x: %f\n", sr.t1);
-		printf("\t\tsr.y: %f\n", sr.t2);
-	}
-	// printf("ENTER\n");
+	cy_origin = vec_add(&obj->pos, &csg->l->pos);
+	cy_axis = vec_add(&obj->dir, &csg->l->dir);
 
-	// Step 3
-	h = csg->l->shape.cylinder.height; // Shorter term for the height
-	v = vec_add(&csg->l->pos, &obj->pos); // V is the cylinder center
-	if (!ellipse_intersection(&sr, v, ray))
-	{
-		// sample--;
-		if ((sample) % SAMPLE_RATE == 0)
-			printf("\tDead\n");
-		return (our_free(v), NULL);
-	}
+	// The cylinder axis is the normal of the plane
+	t_plane = plane_intersection(cy_origin, cy_axis, ray);
+	if (t_plane < 0)
+		return (free2(cy_origin, cy_axis), NULL);
+	plane_intersect = vec_mult(t_plane, ray->dir);
+	vec_realloc(&plane_intersect, vec_add(plane_intersect, ray->pos));
+	// Now we have a plane intersect.
+	// We need to check if it's in the height and radius at the same time
+	// (It can be in the radius but not in the height, and vice versa)
 
-	// Step 4
-	// Take the closest intersection (If the ray traverse the cylinder)
-	if (sr.t1 < 0 || (sr.t2 > 0 && sr.t2 < sr.t1))
-		t = sr.t2;
-	else
-		t = sr.t1;
-	// Height check
+	// Double inequality incoming:
+	// Find when the ray reaches both the radius and the height
+	// If there is no solution, the ray doesn't hit the cylinder
+	// t_cylinder will be the result of the equation
 	/*
-		Find a way such that:
-			it statts the height along the y axis
-			it becomes the Diameter if alongx the x or z axis
+		Goes like this:
+			//Height inequality, gives a tuple of 2 values where the ray enters and exits the cylinder height
+			Height_check(t_plane, cy_origin, cy_axis, ray)
+			and
+			//Radius inequality, gives a tuple of 2 values where the ray enters and exits the cylinder radius (Handle collinear case)
 	*/
-	if (t < 0)
-	{
-		if ((sample) % SAMPLE_RATE == 0)
-		{
-			printf("\tNEgative collision\n");
-		}
-		return (our_free(v), NULL);
-	}
+	t_pair_float	*height_check;
+	t_pair_float	*radius_check;
+	height_check = height_inequality(t_plane, cy_origin, cy_axis, ray);
+	radius_check = radius_inequality(cy_origin, cy_axis, ray, csg->l->shape.cylinder.rad);
+	// Check if the values exist
+	if (!height_check || !radius_check)
+		return (free4(cy_origin, cy_axis, radius_check, height_check), NULL);
+	// Now get the overlap of the two inequalities and find the closest bound
 	/*
-		If Ray_origin + t * Ray_dir is within the cylinder's height it's a collision
-
-		cylinder's height means:
-			Cylinder_origin + Cylinder_axis * height
+		Hopefully that will work :D
 	*/
-	// Giga leaks, to fix lated
-	t_vector	*tmp = vec_mult(t, ray->dir);
-	t_vector	*point = vec_add(ray->pos, tmp);
-	our_free(tmp);
-
-	t_vector	*cylinder_origin = vec_add(&csg->l->pos, &obj->pos);
-	tmp = vec_mult(h, &csg->l->dir);
-
-	t_vector	*cylinder_end = vec_add(cylinder_origin, tmp);
-	our_free(tmp);
-	// printf("PASSED\n");
-	if (sample % 80000 == 0)
-	{
-		printf("\tcylinder_origin: %f %f %f\n", cylinder_origin->x, cylinder_origin->y, cylinder_origin->z);
-		printf("\tcylinder_end: %f %f %f\n", cylinder_end->x, cylinder_end->y, cylinder_end->z);
-		printf("\tpoint: %f %f %f\n", point->x, point->y, point->z);
-	}
-
-	// Check if the point is within the cylinder's height
-	// Since the Cylinder can follow any axis, we can't just check a single axis ... (sadly)
-	// if (vec_less_than(point, cylinder_origin) || vec_more_than(point, cylinder_end))
-	// {
-	// 	if ((sample) % SAMPLE_RATE == 0)
-	// 		printf("\tOut of height\n");
-	// 	our_free(point);
-	// 	our_free(cylinder_origin);
-	// 	our_free(cylinder_end);
-	// 	return (our_free(v), NULL);
-	// }
-	our_free(point);
-	our_free(cylinder_origin);
-	our_free(cylinder_end);
-	return (our_free(v), new_collision(obj, csg, ray, t));
+	return (new_collision(obj, csg, ray, t_cylinder));
 }
 
 /*

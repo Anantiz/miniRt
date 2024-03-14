@@ -205,6 +205,9 @@ t_collision			*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray);
 void				collider_sphere_norm(t_collision *col, t_ray *ray);
 
 t_collision			*collider_plane(t_object *obj, t_csg *csg, t_ray *ray);
+float				plane_intersection(t_vector *plane_pos, t_vector *plane_norm, \
+t_ray *ray);
+
 void				collider_plane_norm(t_collision *col, t_ray *ray);
 
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray);

@@ -54,7 +54,7 @@ bool				vec_cmp(t_vector *v1, t_vector *v2);
 //v4 ++
 
 t_vector			*vec_get_ortho(t_vector *v);
-float				vec2d_get_angle_rad(t_vector *v1, t_vector *v2);
+float				vec_get_angle_axis(t_vector *v1, t_vector *v2);
 
 //v5
 
@@ -75,5 +75,10 @@ t_pair_float *t);
 // Others
 
 void				print_vector(t_vector *vector);
+
+// To free multiple vectors at once, cleaner than multiple calls to free
+void				free2(void *v1, void *v2);
+void				free3(void *v1, void *v2, void *v3);
+void				free4(void *v1, void *v2, void *v3,  void *v4);
 
 #endif
