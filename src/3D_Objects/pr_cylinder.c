@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/15 16:51:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/15 17:24:20 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,19 @@ t_pair_float	*height_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, floa
 	return (ret);
 }
 
-t_pair_float	*radius_inequality(t_ray *ray, t_vector *cy_o, t_vector *cy_d, float h)
+/*
+	When does the ray enter and exit the cylinder's radius
+*/
+t_pair_float	*radius_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, float r)
 {
-	return (NULL);
+	t_pair_float	*ret;
+	t_vector		*tmp;
+	float			cached[2];
+
+
+	ret = our_malloc(sizeof(t_pair_float));
+
+	return (ret);
 }
 
 
