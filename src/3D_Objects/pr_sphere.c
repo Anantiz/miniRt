@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/13 12:56:48 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/15 16:22:08 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 		// 	printf("\tA: 1 B: %f C: %f\n", b,c);
 		// 	printf("\tRadius2: %f\n", csg->l->shape.sphere.rad * csg->l->shape.sphere.rad * (csg->l->shape.sphere.rad * csg->l->shape.sphere.rad));
 		// 	printf("\t(O - R⃗c)⋅(O - R⃗c): %f\n", vec_dot_product(&dist_oc, &dist_oc));
-		// 	printf("\tDist: %f\n", vec_length(&dist_oc));
+		// 	printf("\tDist: %f\n", vec_len(&dist_oc));
 		// 	printf("\n");
 		// }
 		return (NULL);

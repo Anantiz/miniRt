@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/14 16:04:35 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/15 16:03:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,3 +85,7 @@ void	collider_plane_norm(t_collision *col, t_ray *ray)
 	if (vec_dot_product(col->norm, ray->dir) > 0) // Most probably useless tho
 		vec_negate(col->norm);
 }
+
+/*
+	
+*/

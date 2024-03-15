@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/14 17:35:02 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/15 16:51:55 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,47 @@ t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 	return (cylinder);
 }
 
-height_inequality
+/*
+	Given the ray and cylinder pos+axis, find when the ray enters and exits
+	the cylinder's height bounds
 
-#define SAMPLE_RATE 20000
+	(extract_height): gotta find a way to measure the "height" of a point along the cylinder axis
+	Simplify the equation:
+		magnitude(projection(ray_dir * t, cy_dir)) <= magnitude (cy_pos + cy_dir * h - ray_pos)
+		t = (magnitude (cy_pos + cy_dir * h - ray_pos) / magnitude(cy_dir)) / dot(ray_dir, cy_dir)
+	Solve for t and return the tuple
+*/
+t_pair_float	*height_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, float h)
+{
+	t_pair_float	*ret;
+	t_vector		*tmp;
+	float			cached[2];
+	// We consider the cylinder's top as a vector from the origin instead of a point
+
+	ret = our_malloc(sizeof(t_pair_float));
+	cached[0] = vec_len(cy_d);
+	cached[1] = vec_dot_product(ray->dir, cy_d);
+	tmp = vec_cpy(cy_p);
+	vec_sub_inplace(tmp, ray->pos);
+
+	// Get t for Height exit
+	ret->t2 = vec_len(tmp) / cached[0] / cached[1];
+
+	// Get t for Height entry
+	vec_add_inplace(tmp, vec_mult(h, cy_d));
+	ret->t1 = vec_len(tmp) / cached[0] / cached[1];
+	our_free(tmp);
+	if (ret->t1 < 0 && ret->t2 < 0)
+		return (our_free(ret), NULL);
+	return (ret);
+}
+
+t_pair_float	*radius_inequality(t_ray *ray, t_vector *cy_o, t_vector *cy_d, float h)
+{
+	return (NULL);
+}
+
+
 /*
 	1. Get an orthogonal plan to the cylinder's axis
 	2. Solve the ray-plane intersection
@@ -82,6 +120,7 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
 	t_vector		*cy_axis;
 	t_vector		*cy_origin;
+	float			h;
 	t_vector		*plane_intersect;
 	float			intersect_dist;
 	float			t_plane;
@@ -89,6 +128,7 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 
 	cy_origin = vec_add(&obj->pos, &csg->l->pos);
 	cy_axis = vec_add(&obj->dir, &csg->l->dir);
+	h = csg->l->shape.cylinder.height;
 
 	// The cylinder axis is the normal of the plane
 	t_plane = plane_intersection(cy_origin, cy_axis, ray);
@@ -113,8 +153,8 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	*/
 	t_pair_float	*height_check;
 	t_pair_float	*radius_check;
-	height_check = height_inequality(t_plane, cy_origin, cy_axis, ray);
-	radius_check = radius_inequality(cy_origin, cy_axis, ray, csg->l->shape.cylinder.rad);
+	height_check = height_inequality(ray, cy_origin, cy_axis, h);
+	radius_check = radius_inequality(ray, cy_origin, cy_axis, csg->l->shape.cylinder.rad);
 	// Check if the values exist
 	if (!height_check || !radius_check)
 		return (free4(cy_origin, cy_axis, radius_check, height_check), NULL);

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:51:00 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 11:56:53 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/15 16:22:08 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	vec_negate(t_vector *v)
 	v->z = -v->z;
 }
 
-float	vec_length(t_vector *vector)
+float	vec_len(t_vector *vector)
 {
 	return (sqrtf((vector->x * vector->x) \
 			+ (vector->y * vector->y) \
@@ -37,7 +37,7 @@ void	vec_normalize(t_vector *vector)
 {
 	float	length;
 
-	length = vec_length(vector);
+	length = vec_len(vector);
 	if (length == 0)
 		return ;
 	vector->x = vector->x / length;
