@@ -55,7 +55,7 @@ bool				vec_cmp(t_vector *v1, t_vector *v2);
 
 t_vector			*vec_get_ortho(t_vector *v);
 float				vec_get_angle_axis(t_vector *v1, t_vector *v2);
-t_vector			*vec_project(t_vector *axis, t_vector *projected);
+t_vector			*vec_project(t_vector *a, t_vector *b);
 
 //v5
 
