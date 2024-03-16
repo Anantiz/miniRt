@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/16 14:46:12 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:41:14 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_pair_float	*height_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, floa
 
 	// Get t for Height entry
 	vec_add_inplace(tmp, vec_mult(h, cy_d));
-	ret->t1 = vec_len(tmp) / cached[0] / cached[1];
+	ret->t1 = -(vec_len(tmp) / cached[0] / cached[1]);
 	our_free(tmp);
 	if (ret->t1 < 0 && ret->t2 < 0) // Behind the ray, early exit
 		return (our_free(ret), NULL);
@@ -110,16 +110,18 @@ t_pair_float	*radius_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, floa
 		&&
 		signed_dist(cy_p, Ray_p) >= -r
 	*/
-	t_vector	*relative_pos = vec_sub(cy_p, proj_ray_pos);
-	float		squared_relative_pos = vec_dot_product(relative_pos, relative_pos);
-	float		squared_dir = vec_dot_product(proj_ray_dir, proj_ray_dir);
+	// t_vector	*relative_pos = vec_sub(cy_p, proj_ray_pos);
+	// float		squared_relative_pos = vec_dot_product(relative_pos, relative_pos);
+	// float		squared_dir = vec_dot_product(proj_ray_dir, proj_ray_dir);
 
-	ret->t1 = (-vec_dot_product(relative_pos, proj_ray_dir) - sqrtf((vec_dot_product(relative_pos, proj_ray_dir) \
-		* vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
+	// ret->t1 = (-vec_dot_product(relative_pos, proj_ray_dir) - sqrtf((vec_dot_product(relative_pos, proj_ray_dir) \
+	// 	* vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
 
 
-	ret->t2 = (-vec_dot_product(relative_pos, proj_ray_dir) + sqrtf((vec_dot_product(relative_pos, proj_ray_dir) * vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
-	free4(proj_ray_dir, proj_ray_pos, cy_plane, relative_pos);
+	// ret->t2 = (-vec_dot_product(relative_pos, proj_ray_dir) + sqrtf((vec_dot_product(relative_pos, proj_ray_dir) * vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
+	// free4(proj_ray_dir, proj_ray_pos, cy_plane, relative_pos);
+	ret->t1 = 0;
+	ret->t2 = 1500;
 	return (ret);
 }
 
