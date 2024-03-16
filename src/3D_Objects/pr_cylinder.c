@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/16 12:33:25 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/16 14:46:12 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_pair_float	*height_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, floa
 	ret = our_malloc(sizeof(t_pair_float));
 	cached[0] = vec_len(cy_d);
 	cached[1] = vec_dot_product(ray->dir, cy_d);
-	tmp = vec_cpy(cy_p);
+	tmp = vec_copy(cy_p);
 	vec_sub_inplace(tmp, ray->pos);
 
 	// Get t for Height exit
@@ -86,20 +86,23 @@ t_pair_float	*height_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, floa
 */
 t_pair_float	*radius_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, float r)
 {
-	t_vector		*cy_plane;
+	t_pair_float	*ret;
+
 	t_vector		*proj_ray_dir;
 	t_vector		*proj_ray_pos;
-	t_pair_float	*ret;
-	float			dist;
+	t_vector		*cy_plane;
 
+	// First check if the ray_dir is parallel to the cylinder's axis
+	if (fabs(vec_dot_product(ray->dir, cy_d)) == 1)
+		return (NULL);
 	ret = our_malloc(sizeof(t_pair_float));
-	// First get the cylinder's plane (orthogonal to the axis)
-	cy_plane = get_orthogonal(cy_d);
-	// Now project the ray on the plane
+
+	// Second project the ray onto the cylinder's plane (orthogonal to the axis)
+	cy_plane = vec_get_ortho(cy_d);
 	proj_ray_dir = vec_project(ray->dir, cy_plane);
 	proj_ray_pos = vec_project(ray->pos, cy_plane);
 
-	// Now solve the inequation for t:
+	// Third solve the inequation for t:
 	/*
 		Ray_p = proj_ray_pos + proj_ray_dir * t
 
@@ -107,14 +110,16 @@ t_pair_float	*radius_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, floa
 		&&
 		signed_dist(cy_p, Ray_p) >= -r
 	*/
+	t_vector	*relative_pos = vec_sub(cy_p, proj_ray_pos);
+	float		squared_relative_pos = vec_dot_product(relative_pos, relative_pos);
+	float		squared_dir = vec_dot_product(proj_ray_dir, proj_ray_dir);
+
+	ret->t1 = (-vec_dot_product(relative_pos, proj_ray_dir) - sqrtf((vec_dot_product(relative_pos, proj_ray_dir) \
+		* vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
 
 
-	if (dist < r) // Inside the cylinder
-	{
-		ret->t1 = 0;
-		ret->t2 = INFINITY;
-		return (ret);
-	}
+	ret->t2 = (-vec_dot_product(relative_pos, proj_ray_dir) + sqrtf((vec_dot_product(relative_pos, proj_ray_dir) * vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
+	free4(proj_ray_dir, proj_ray_pos, cy_plane, relative_pos);
 	return (ret);
 }
 
@@ -150,9 +155,6 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	t_pair_float	*radius_check;
 	float			t_cylinder;
 
-	t_vector		*plane_intersect;
-	float			t_plane;
-
 	t_vector		*cy_axis;
 	t_vector		*cy_origin;
 	float			h;
@@ -160,17 +162,6 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	cy_origin = vec_add(&obj->pos, &csg->l->pos);
 	cy_axis = vec_add(&obj->dir, &csg->l->dir);
 	h = csg->l->shape.cylinder.height;
-
-	// The cylinder axis is the normal of the plane
-		// Deprecated
-			// t_plane = plane_intersection(cy_origin, cy_axis, ray);
-			// if (t_plane < 0)
-			// 	return (free2(cy_origin, cy_axis), NULL);
-			// plane_intersect = vec_mult(t_plane, ray->dir);
-			// vec_realloc(&plane_intersect, vec_add(plane_intersect, ray->pos));
-			// Now we have a plane intersect.
-			// We need to check if it's in the height and radius at the same time
-			// (It can be in the radius but not in the height, and vice versa)
 
 	// Double inequality incoming:
 	// Find when the ray reaches both the radius and the height
@@ -229,4 +220,5 @@ void	collider_cylinder_norm(t_collision *col, t_ray *ray)
 	col->norm = vec_cross_product(tmp, cy_data);
 	our_free(cy_data);
 	vec_normalize(col->norm);
+	// vec_negate(col->norm);
 }

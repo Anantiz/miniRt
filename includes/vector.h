@@ -24,7 +24,7 @@ typedef	struct	s_vector
 //v1
 
 t_vector			*vec_new(float x, float y, float z);
-t_vector			*vec_cpy(t_vector *v);
+t_vector			*vec_copy(t_vector *v);
 t_vector			*vec_realloc(t_vector **old_addr, t_vector *new_ptr);
 float				vec_dot_product(t_vector *v1, t_vector *v2);
 t_vector			*vec_cross_product(t_vector *v1, t_vector *v2);

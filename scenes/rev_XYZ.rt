@@ -9,7 +9,7 @@
 # Stands for Ambiant light, param[intensity, color]
 A 0.2 255,255,255
 # Stands for Camera, param[origin, direction, fov]
-C 0,0,100 0,0,-1 70
+C 0,0,350 0,0,-1 30
 # Stands for spot light, param[origin, intensity, color]
 L 30,0,70 1.0 255,255,255
 
@@ -27,10 +27,10 @@ L 30,0,70 1.0 255,255,255
 # sp 100,50,0 15 255,0,255
 # sp -100,50,0 15 255,0,255
 
-# sp 20,20,0 10 94,108,255
-# sp 20,-20,0 10 94,108,255
-# sp -20,-20,0 10 94,108,255
-# sp -20,20,0 10 94,108,255
+sp 20,20,0 10 94,108,255
+sp 20,-20,0 10 94,108,255
+sp -20,-20,0 10 94,108,255
+sp -20,20,0 10 94,108,255
 
 # cy	pos		dir		rad	height	color
 cy -50,0,0	1,0,0	15	40	255,220,220

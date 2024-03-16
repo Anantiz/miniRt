@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/03/15 15:36:40 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/16 14:36:05 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_vector	*vec_new(float x, float y, float z)
 	Shall not return NULL
 	Because we are not in the mood for error handling
 */
-t_vector	*vec_cpy(t_vector *v)
+t_vector	*vec_copy(t_vector *v)
 {
 	t_vector	*ret;
 

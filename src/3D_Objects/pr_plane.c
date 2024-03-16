@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/15 16:03:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/16 14:36:05 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 void	collider_plane_norm(t_collision *col, t_ray *ray)
 {
 	(void)ray;
-	col->norm = vec_cpy(col->obj->l->shape.plane.norm);
+	col->norm = vec_copy(col->obj->l->shape.plane.norm);
 	// Because the normal direction don't matter for a plane
 	if (vec_dot_product(col->norm, ray->dir) > 0) // Most probably useless tho
 		vec_negate(col->norm);
 }
 
 /*
-	
+
 */
