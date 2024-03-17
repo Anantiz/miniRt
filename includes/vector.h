@@ -46,7 +46,7 @@ t_vector			*vec_div_inplace(float k, t_vector *v1);
 //v3
 
 void				vec_abs(t_vector *v);
-void				vec_negate(t_vector *v);
+t_vector			*vec_negate(t_vector *v);
 float				vec_len(t_vector *vector);
 void				vec_normalize(t_vector *vector);
 bool				vec_cmp(t_vector *v1, t_vector *v2);
@@ -75,6 +75,7 @@ t_pair_float *t);
 
 // Others
 
+float				smallest_pos(float a, float b);
 void				print_vector(t_vector *vector);
 
 // To free multiple vectors at once, cleaner than multiple calls to free

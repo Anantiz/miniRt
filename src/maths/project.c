@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:00:17 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/16 14:36:05 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/17 16:30:32 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,16 @@ float	signed_dist(t_vector *a, t_vector *b, t_vector *dir)
 	if (vec_dot_product(b, dir) > vec_dot_product(a, dir))
 		return (vec_dist(a, b));
 	return (-vec_dist(a, b));
+}
+
+/*
+	Return the smallest positive value between a and b
+	(If both are negative, return b)
+*/
+float	smallest_pos(float a, float b)
+{
+	if (a < 0 || (b > 0 && b < a))
+		return (b);
+	else
+		return (a);
 }

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/16 15:41:14 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/17 16:51:34 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,160 +39,174 @@ t_csg	*pr_new_cylinder(char **params) // REDO THE PARSING
 	return (cylinder);
 }
 
-/*
-	Given the ray and cylinder pos+axis, find when the ray enters and exits
-	the cylinder's height bounds
-
-	(extract_height) == projection: gotta find a way to measure the "height" of
-	a point along the cylinder axis
-
-	Simplify the equation:
-		magnitude(projection(ray_dir * t, cy_dir))
-			<= magnitude (cy_pos + cy_dir * h - ray_pos)
-
-		t = (magnitude (cy_pos + cy_dir * h - ray_pos)
-			/ magnitude(cy_dir)) / dot(ray_dir, cy_dir)
-
-	Solve for t and return the tuple
-*/
-t_pair_float	*height_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, float h)
+//OK!
+t_vector	*vec_matrix_rotate(t_vector *v, float theta[3])
 {
-	t_pair_float	*ret;
-	t_vector		*tmp;
-	float			cached[2];
-	// We consider the cylinder's top as a vector from the origin instead of a point
+	float cos_x = cosf(theta[0]);
+	float sin_x = sinf(theta[0]);
+	float cos_y = cosf(theta[1]);
+	float sin_y = sinf(theta[1]);
+	float cos_z = cosf(theta[2]);
+	float sin_z = sinf(theta[2]);
 
-	ret = our_malloc(sizeof(t_pair_float));
-	cached[0] = vec_len(cy_d);
-	cached[1] = vec_dot_product(ray->dir, cy_d);
-	tmp = vec_copy(cy_p);
-	vec_sub_inplace(tmp, ray->pos);
+	// Perform X-axis rotation
+	float new_y = v->y * cos_x - v->z * sin_x;
+	float new_z = v->y * sin_x + v->z * cos_x;
+	// Perform Y-axis rotation
+	float new_x = v->x * cos_y + new_z * sin_y;
+	new_z = -v->x * sin_y + new_z * cos_y;
+	// Perform Z-axis rotation
+	float rotated_x = new_x * cos_z - new_y * sin_z;
+	float rotated_y = new_x * sin_z + new_y * cos_z;
 
-	// Get t for Height exit
-	ret->t2 = vec_len(tmp) / cached[0] / cached[1];
-
-	// Get t for Height entry
-	vec_add_inplace(tmp, vec_mult(h, cy_d));
-	ret->t1 = -(vec_len(tmp) / cached[0] / cached[1]);
-	our_free(tmp);
-	if (ret->t1 < 0 && ret->t2 < 0) // Behind the ray, early exit
-		return (our_free(ret), NULL);
+	// Allocate memory for the rotated vector
+	t_vector *ret = our_malloc(sizeof(t_vector));
+	ret->x = rotated_x;
+	ret->y = rotated_y;
+	ret->z = new_z; // Z-axis rotation result
 	return (ret);
 }
 
 /*
-	When does the ray enter and exit the cylinder's radius
-	Same as for the height, but this time we project the ray on the plane
-*/
-t_pair_float	*radius_inequality(t_ray *ray, t_vector *cy_p, t_vector *cy_d, float r)
-{
-	t_pair_float	*ret;
+	1.Convert global coordinates to local coordinates
+	The conversion will be transformation from:
+		The given cylinder's axis to the z-axis
+	2. Solve the equation for the cylinder
+	3. Convert the result back to global coordinates
+	Super ugly, but I've been working on this stupid cylinder for too long
+	Screw cylinders, me and my homies hate cylinders
 
-	t_vector		*proj_ray_dir;
-	t_vector		*proj_ray_pos;
-	t_vector		*cy_plane;
-
-	// First check if the ray_dir is parallel to the cylinder's axis
-	if (fabs(vec_dot_product(ray->dir, cy_d)) == 1)
-		return (NULL);
-	ret = our_malloc(sizeof(t_pair_float));
-
-	// Second project the ray onto the cylinder's plane (orthogonal to the axis)
-	cy_plane = vec_get_ortho(cy_d);
-	proj_ray_dir = vec_project(ray->dir, cy_plane);
-	proj_ray_pos = vec_project(ray->pos, cy_plane);
-
-	// Third solve the inequation for t:
-	/*
-		Ray_p = proj_ray_pos + proj_ray_dir * t
-
-		signed_dist(cy_p, Ray_p) <= r
-		&&
-		signed_dist(cy_p, Ray_p) >= -r
-	*/
-	// t_vector	*relative_pos = vec_sub(cy_p, proj_ray_pos);
-	// float		squared_relative_pos = vec_dot_product(relative_pos, relative_pos);
-	// float		squared_dir = vec_dot_product(proj_ray_dir, proj_ray_dir);
-
-	// ret->t1 = (-vec_dot_product(relative_pos, proj_ray_dir) - sqrtf((vec_dot_product(relative_pos, proj_ray_dir) \
-	// 	* vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
-
-
-	// ret->t2 = (-vec_dot_product(relative_pos, proj_ray_dir) + sqrtf((vec_dot_product(relative_pos, proj_ray_dir) * vec_dot_product(relative_pos, proj_ray_dir)) - squared_dir * (squared_relative_pos - r * r))) / squared_dir;
-	// free4(proj_ray_dir, proj_ray_pos, cy_plane, relative_pos);
-	ret->t1 = 0;
-	ret->t2 = 1500;
-	return (ret);
-}
-
-static float	closest_overlap(t_pair_float *h, t_pair_float *r)
-{
-	// First check if the inequalities overlap
-	/*
-		So: if you enter and exit the cylinder's height before entering the radius
-			it's not a valid overlap
-		Same:
-			if You enter and exit the radius before entering the height
-			Not valid
-	*/
-	if (h->t1 < r->t1 && h->t2 < r->t1) // Height is before radius
-		return (-1);
-	if (r->t1 < h->t1 && r->t2 < h->t1) // Radius is before height
-		return (-1);
-
-	// Now get the moment where you enter the overlap
-	// The furthest entry, in-between height and radius
-	return (fmax(h->t1, r->t1));
-}
-
-/*
-	1. Get an orthogonal plan to the cylinder's axis
-	2. Solve the ray-plane intersection
-		2.1 Reject negative values
-	3. Check if it's in the radius and the height
+	Note:
+		I'll code transfrormation matrices and conversions and all that stuff
+		in here, Once that works I'll copy-paste the matrix-rotation part
+		in it's own module
 */
 t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 {
-	t_pair_float	*height_check;
-	t_pair_float	*radius_check;
-	float			t_cylinder;
+// Note the extra-ammount of variables, it's to make the code more readable
+// I make it cleaner once it works
 
-	t_vector		*cy_axis;
-	t_vector		*cy_origin;
+// General variables
 	float			h;
-
-	cy_origin = vec_add(&obj->pos, &csg->l->pos);
-	cy_axis = vec_add(&obj->dir, &csg->l->dir);
+	float			r;
 	h = csg->l->shape.cylinder.height;
-
-	// Double inequality incoming:
-	// Find when the ray reaches both the radius and the height
-	// If there is no solution, the ray doesn't hit the cylinder
-	// t_cylinder will be the result of the equation
+	r = csg->l->shape.cylinder.rad;
+// Global coordinates
+	t_vector		*cy_axis_g;
+	t_vector		*cy_origin_g;
+	cy_origin_g = vec_add(&obj->pos, &csg->l->pos);
+	cy_axis_g = vec_add(&obj->dir, &csg->l->dir);
+// Local coordinates
 	/*
-		Goes like this:
-			//Height inequality, gives a tuple of 2 values where the ray enters and exits the cylinder height
-			Height_check(t_plane, cy_origin, cy_axis, ray)
-			and
-			//Radius inequality, gives a tuple of 2 values where the ray enters and exits the cylinder radius (Handle collinear case)
+		The cylinder's origin will be the origin of the local coordinates
+
+		We need to find the transformation matrix that will convert the given
+		cylinder's axis to the z-axis, then apply it to the ray origin and direction
+		Objective:
+			From: cy_origin_g + cy_axis_g == Some_point
+			To  : cy_origin_l + cy_axis_l == z_axis + {0,0,0} == {0,0,1}
 	*/
+	/* STEP-1: Find the conversion Matrix*/
+	//OK!
+	float		angles[3];
+	angles[0] = atan2(cy_axis_g->y, cy_axis_g->z);
+	angles[1] = atan2(cy_axis_g->x, cy_axis_g->z);
+	angles[2] = atan2(cy_axis_g->x, cy_axis_g->y);
+	t_vector	*ray_pos_l;
+	t_vector	*ray_dir_l;
+	t_vector	*tmp;
+	tmp = vec_sub_inplace(vec_copy(ray->pos), cy_origin_g);
+	ray_pos_l = vec_matrix_rotate(tmp, angles);
+	our_free(tmp);
+	ray_dir_l = vec_matrix_rotate(ray->dir, angles);
+	vec_normalize(ray_dir_l);
 
-	// Less chance to be in the radius than in the height, so do radius first
-	// to exit early
-	radius_check = radius_inequality(ray, cy_origin, cy_axis, csg->l->shape.cylinder.rad);
-	if (!radius_check)
-		return (free3(cy_origin, cy_axis, radius_check), NULL);
+	/* STEP-2: Solve the equation*/
+	/*
+		Infinite cylinder equation:
+			x² + y² = r²
+		Then just check if z is in the range [0, h]
+	*/
+	float			t_circle; // The collision point on the circle (entrance or exit)
+	t_pair_float	t;
+	float			a;
+	float			b;
+	float			c;
 
-	height_check = height_inequality(ray, cy_origin, cy_axis, h);
-	if (!height_check)
-		return (free4(cy_origin, cy_axis, radius_check, height_check), NULL);
+		// static int sample = 0;
+		// sample++;
+	/*Ray-Circle intersection:
+		((ray_dir.x * t) - ray_pos)² + ((ray_dir.y * t) - ray_pos)² = r²
+		We somehow are lacking the cap of the cylinder
+	*/
+	a = ray_dir_l->x * ray_dir_l->x + ray_dir_l->y * ray_dir_l->y;
+	b = 2 * (ray_dir_l->x * ray_pos_l->x + ray_dir_l->y * ray_pos_l->y);
+	c = ray_pos_l->x * ray_pos_l->x + ray_pos_l->y * ray_pos_l->y - r * r;
+	quadratic_solver(a, b, c, &t);
+	t_circle = smallest_pos(t.t1, t.t2);
 
-	// Now get the overlap of the two inequalities and find the closest bound
-	t_cylinder = closest_overlap(height_check, radius_check);
-	free4(cy_origin, cy_axis, radius_check, height_check);
-	if (t_cylinder < 0)
-		return (NULL);
-	return (new_collision(obj, csg, ray, t_cylinder));
+	/*Ray-Cap intersection:
+		We need to check if the ray hits the caps of the cylinder
+		Check if you collide with the normal plane
+		Then check the distance to the center of the circle is within the radius
+	*/
+	// Check the bottom cap
+	float		t_cap;
+	float		t_caps[2];
+	float		t_caps_dist[2];
+
+	t_caps[0] = plane_intersection(&(t_vector){0, 0, 0}, &(t_vector){0, 0, 1}, ray_pos_l, ray_dir_l);
+	t_caps[1] = plane_intersection(&(t_vector){0, 0, h}, &(t_vector){0, 0, 1}, ray_pos_l, ray_dir_l);
+	t_vector	*tmp_col_cap;
+
+	// Get collision with caps
+		tmp =  vec_mult(t_caps[0], ray_dir_l);
+		tmp_col_cap = vec_add(ray_pos_l, tmp);
+		t_caps_dist[0] = vec_dist(tmp_col_cap, &(t_vector){0, 0, 0});
+
+		// if (sample % 10000 == 0){
+		// 	printf("t_caps[0]:%f\tt_caps_dist[0]: %f",t_caps[0], t_caps_dist[0]);
+		// 	print_vector(tmp_col_cap);
+		// }
+		if (t_caps_dist[0] > r)
+			t_caps[0] = -1;
+		our_free(tmp);
+		our_free(tmp_col_cap);
+
+		tmp =  vec_mult(t_caps[1], ray_dir_l);
+		tmp_col_cap = vec_add(ray_pos_l, tmp);
+		t_caps_dist[1] = vec_dist(tmp_col_cap, &(t_vector){0, 0, h});
+		// if (sample % 10000 == 0){
+		// 	printf("t_caps[1]:%f\tt_caps_dist[1]: %f",t_caps[1], t_caps_dist[1]);
+		// 	print_vector(tmp_col_cap);
+		// }
+		if (t_caps_dist[1] > r)
+			t_caps[1] = -1;
+		our_free(tmp);
+		our_free(tmp_col_cap);
+
+	// Get the closest collision
+	t_cap = smallest_pos(t_caps[0], t_caps[1]);
+	// if (sample % 10000 == 0){
+	// 	// printf("t_cap: %f\n", t_cap);
+	// 	// printf("t_circle: %f\n\n", t_circle);
+	// }
+	if (t_cap < t_circle && t_cap > 0)
+	{
+		printf("\033[31mCAP\033[0m\n");
+	}
+
+	// Now take the closest collision point between the circle and the caps
+	float		t_col; // The actual collision point
+	t_col = smallest_pos(t_circle, t_cap);
+	if (t_col < 0)
+		return (free2(ray_pos_l, ray_dir_l), free2(cy_axis_g, cy_origin_g), NULL);
+
+	vec_mult_inplace(t_col, ray_dir_l);
+	if (vec_add_inplace(ray_pos_l, ray_dir_l)->z > h || ray_pos_l->z < 0)
+		return (free2(ray_pos_l, ray_dir_l), free2(cy_axis_g, cy_origin_g), NULL);
+	free4(ray_pos_l, ray_dir_l, cy_axis_g, cy_origin_g);
+	return (new_collision(obj, csg, ray, t_col));
 }
 
 /*
@@ -224,3 +238,4 @@ void	collider_cylinder_norm(t_collision *col, t_ray *ray)
 	vec_normalize(col->norm);
 	// vec_negate(col->norm);
 }
+
