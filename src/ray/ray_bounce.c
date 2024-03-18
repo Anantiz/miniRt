@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_bounce.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
+/*   By: loris <loris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:26:07 by loris             #+#    #+#             */
-/*   Updated: 2024/03/18 15:11:39 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:58:24 by loris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ t_rgb	*trace_ray(t_ray *ray, t_scene *scene, int depth)
 	col = query_collision(scene, ray);
 
 	if (depth == 0)
-		//return black
-
+		return (vec_new(0, 0, 0));
 	if (!col)
-		// return background
+		return (vec_new(255, 0, 0));
 	colorReflechie = vec_new(0, 0, 0);
 	colorRefractee = vec_new(0, 0, 0);
 	colorLocal(col, ray);

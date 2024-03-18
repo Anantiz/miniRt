@@ -70,7 +70,8 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 void	ray_tracing(t_glob *glob)
 {
 	t_ray		*ray;
-	t_collision	*collision;;
+	t_collision	*collision;
+	t_rgb		*rgb;
 	int			x;
 	int			y;
 
@@ -81,7 +82,9 @@ void	ray_tracing(t_glob *glob)
 		while (y < WIN_SIZE_Y)
 		{
 			ray = new_ray(glob->camera, x, y);
-			collision = trace_ray(ray, glob);
+			rgb = trace_ray(ray, glob);
+			// rgb vector -> rgb normalized 0 - 1
+			// put this in rtt_render
 			rtt_render_pixel(glob, collision, x, y, ray);
 			our_free(ray->dir);
 			our_free(ray);

@@ -18,6 +18,7 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 	(void)ray;
 	if (x >= WIN_SIZE_X || y >= WIN_SIZE_Y || x < 0 || y < 0)
 		return ;
+	
 	if (!collision)
 	{
 		mlx_put_pixel(glob->img, x, y, BLACK);
