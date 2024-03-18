@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 11:53:43 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/18 14:20:15 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,15 @@ void	cy_get_theta(float theta[3], t_vector *cy_axis_a, t_vector *cy_axis_b)
 	our_free(cy_axis_g);
 }
 
-static void	cy_check_cap(float a, float b)
-{
-	if (b < 0)
-		return ;
-	if (a < 0 && b > 0)
-		collider_cylinder_norm(NULL, NULL);
-	else if (b < a)
-		collider_cylinder_norm(NULL, NULL);
-}
+// static void	cy_check_cap(float a, float b)
+// {
+// 	if (b < 0)
+// 		return ;
+// 	if (a < 0 && b > 0)
+// 		collider_cylinder_norm(NULL, NULL);
+// 	else if (b < a)
+// 		collider_cylinder_norm(NULL, NULL);
+// }
 
 /*
 	1.Convert global coordinates to local coordinates
@@ -125,7 +125,7 @@ static void	cy_check_cap(float a, float b)
 		in here, Once that works I'll copy-paste the matrix-rotation part
 		in it's own module
 */
-t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
+t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 {
 	t_vector		*rdir_l;
 	t_vector		*pos;
@@ -134,25 +134,25 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 	float			t_col[2];
 
 	//Part 1: Convert to local coordinates
-	pos = vec_add(&obj->pos, &csg->l->pos);
-	cy_get_theta(theta, &obj->dir, &csg->l->dir);
+	pos = vec_add(&obj->pos, &csg->pos);
+	cy_get_theta(theta, &obj->dir, &csg->dir);
 	rdir_l = vec_matrix_rotate(ray->dir, theta);
 	tmp = vec_sub_inplace(vec_copy(ray->pos), pos);
 	pos = vec_realloc(&pos, vec_matrix_rotate(tmp, theta));
 
 	//Part 2: Get the collision
 	t_col[0] = cy_circle_intersection(pos, rdir_l, \
-		csg->l->shape.cylinder.rad);
+		csg->shape.cylinder.rad);
 	t_col[1] = cy_cap_intersection(pos, rdir_l, \
-		csg->l->shape.cylinder.rad, csg->l->shape.cylinder.height);
+		csg->shape.cylinder.rad, csg->shape.cylinder.height);
 
 	// Part 3: Get the closest collision
-	cy_check_cap(t_col[0], t_col[1]);
+	// cy_check_cap(t_col[0], t_col[1]);
 	t_col[0] = smallest_pos(t_col[0], t_col[1]);
 	if (t_col[0] < 0)
 		return (free3(pos, rdir_l, tmp), NULL);
 	vec_mult_inplace(t_col[0], rdir_l);
-	if (vec_add_inplace(pos, rdir_l)->z > csg->l->shape.cylinder.height || pos->z < 0)
+	if (vec_add_inplace(pos, rdir_l)->z > csg->shape.cylinder.height || pos->z < 0)
 		return (free3(pos, rdir_l, tmp), NULL);
 	return (free3(pos, rdir_l, tmp), new_collision(obj, csg, ray, t_col[0]));
 }
@@ -163,9 +163,22 @@ t_collision			*collider_cylinder(t_object *obj, t_csg *csg, t_ray *ray)
 void	collider_cylinder_norm(t_collision *col, t_ray *ray)
 {
 	static bool	cap = false;
-	t_vector	*cy_data;
-	t_vector	*tmp;
+	t_vector	*norm;
 
-
+	(void)ray;
+	if (!col)
+	{
+		cap = true;
+		return ;
+	}
+	// The norm of the cap plane is the same as the cylinder
+	norm = vec_add(&col->obj->dir, &col->csg->dir);
+	if (!cap) // But if we not on the cap it's the circle norm that we want
+	{
+		// The norm becomes the normal of the axis, but towards the collision point
+	}
+	else
+		cap = false; // Reset the cap flag
+	col->norm = norm;
 }
 

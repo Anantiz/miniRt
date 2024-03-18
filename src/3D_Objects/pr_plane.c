@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 11:16:24 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/18 13:47:42 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ float	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector *ra
 		Pointer to a collision struct if there is a collision
 		NULL if no parallel or intersection is opposite to the ray direction
 */
-t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
+t_collision	*collider_plane(t_object *obj, t_leave *csg, t_ray *ray)
 {
 	float		t;
 
-	t = plane_intersection(&obj->pos, csg->l->shape.plane.norm, ray->pos, ray->dir);
+	t = plane_intersection(&obj->pos, csg->shape.plane.norm, ray->pos, ray->dir);
 	if (t < 0 || t == INFINITY)
 		return (NULL);
 	return (new_collision(obj, csg, ray, t));
@@ -82,12 +82,9 @@ t_collision	*collider_plane(t_object *obj, t_csg *csg, t_ray *ray)
 void	collider_plane_norm(t_collision *col, t_ray *ray)
 {
 	(void)ray;
-	col->norm = vec_copy(col->obj->l->shape.plane.norm);
-	// Because the normal direction don't matter for a plane
-	if (vec_dot_product(col->norm, ray->dir) > 0) // Most probably useless tho
-		vec_negate(col->norm);
+	col->norm = vec_copy(col->csg->shape.plane.norm);
+	// Just make sure the normal is pointing towards the ray
+	// if (vec_dot_product(col->norm, ray->dir) > 0) // Most probably useless tho
+	// 	vec_negate(col->norm);
+	vec_normalize(col->norm);
 }
-
-/*
-
-*/
