@@ -81,7 +81,7 @@ void	ray_tracing(t_glob *glob)
 		while (y < WIN_SIZE_Y)
 		{
 			ray = new_ray(glob->camera, x, y);
-			collision = query_collision(glob->scene, ray);
+			collision = trace_ray();
 			rtt_render_pixel(glob, collision, x, y, ray);
 			our_free(ray->dir);
 			our_free(ray);
