@@ -33,9 +33,9 @@ t_vector *point)
 	light_col->light = light; // For color and intensity
 	light_col->dist = obj_col->dist; // For light dispersion
 	light_col->cos_angle = -vec_dot_product(ray.dir, obj_col->norm); // For light incidency
+
 	if (light_col->cos_angle < 0) // The light is behind the object
 	{
-		// Later we will check for transparency
 		light_col->cos_angle = 0;
 	}
 	/*

@@ -6,10 +6,10 @@
 
 // # define WIN_SIZE_X	1920
 // # define WIN_SIZE_Y	1080
-# define WIN_SIZE_X	960
-# define WIN_SIZE_Y	540
-// # define WIN_SIZE_X	640
-// # define WIN_SIZE_Y	360
+// # define WIN_SIZE_X	960
+// # define WIN_SIZE_Y	540
+# define WIN_SIZE_X	640
+# define WIN_SIZE_Y	360
 // # define WIN_SIZE_X	320
 // # define WIN_SIZE_Y	180
 

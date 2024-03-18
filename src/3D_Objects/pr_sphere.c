@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/15 16:22:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/18 11:16:06 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_csg	*pr_new_sphere(char **params)
 	parse_position(&sphere->l->pos, params[0]);
 	sphere->l->shape.sphere.rad = parse_float(params[1]) / 2;
 	parse_rgb(&sphere->l->rgb, params[2]);
+	sphere->l->reflect = 0;
+	sphere->l->refract = 0;
 	return (sphere);
 }
 
@@ -74,29 +76,7 @@ t_collision	*collider_sphere(t_object *obj, t_csg *csg, t_ray *ray)
 	b = 2 * vec_dot_product(&dist_oc, ray->dir);
 	c = vec_dot_product(&dist_oc, &dist_oc) - (csg->l->shape.sphere.rad * csg->l->shape.sphere.rad);
 	if (!quadratic_solver(1, b, c, &t))
-	{
-		//DEBUG
-		// if (sample++ % 80000 == 0)
-		// {
-		// 	printf("\033[33mSphere Dead: \033[0m\n");
-		// 	printf("\tA: 1 B: %f C: %f\n", b,c);
-		// 	printf("\tRadius2: %f\n", csg->l->shape.sphere.rad * csg->l->shape.sphere.rad * (csg->l->shape.sphere.rad * csg->l->shape.sphere.rad));
-		// 	printf("\t(O - R⃗c)⋅(O - R⃗c): %f\n", vec_dot_product(&dist_oc, &dist_oc));
-		// 	printf("\tDist: %f\n", vec_len(&dist_oc));
-		// 	printf("\n");
-		// }
 		return (NULL);
-	}
-	//DEBUG
-	// if (sample++ % 80000 == 0)
-	// {
-	// 	printf("\033[33mSphere: \033[0m\n");
-	// 	printf("\tt1: %f t2: %f\ndist_oc", t.t1,t.t2);
-	// 	printf("\tA: 1 B: %f C: %f\n", b,c);
-	// 	printf("\tRadius2: %f\n", csg->l->shape.sphere.rad * csg->l->shape.sphere.rad);
-	// 	printf("\t(O - R⃗c)⋅(O - R⃗c): %f\n", vec_dot_product(&dist_oc, &dist_oc));
-	// 	printf("\n");
-	// }
 	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))
 		return (new_collision(obj, csg, ray, t.t2));
 	return (new_collision(obj, csg, ray, t.t1));

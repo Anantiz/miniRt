@@ -100,8 +100,8 @@ typedef struct s_csg_leave
 	t_u_shape		shape;
 
 	t_rgb			rgb;
-	// more to come
-	// Materials properties
+	float			reflect;
+	float			refract;
 }t_leave;
 
 typedef struct s_csg

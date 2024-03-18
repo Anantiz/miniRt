@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:00:17 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/17 16:30:32 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/18 10:50:59 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,31 @@ float	smallest_pos(float a, float b)
 		return (b);
 	else
 		return (a);
+}
+
+/*
+	Returns a new_vector that is passed through a rotation
+	matrix built from the given angles
+*/
+t_vector	*vec_matrix_rotate(t_vector *v, float theta[3])
+{
+	t_vector *ret;
+	float	cos[3];
+	float	sin[3];
+	float	temp[3];
+
+	ret = our_malloc(sizeof(t_vector));
+	cos[0] = cosf(theta[0]);
+	cos[1] = cosf(theta[1]);
+	cos[2] = cosf(theta[2]);
+	sin[0] = sinf(theta[0]);
+	sin[1] = sinf(theta[1]);
+	sin[2] = sinf(theta[2]);
+	temp[1] = v->y * cos[0] - v->z * sin[0];
+	temp[2] = v->y * sin[0] + v->z * cos[0];
+	temp[0] = v->x * cos[1] + temp[2] * sin[1];
+	ret->x = temp[0] * cos[2] - temp[1] * sin[2];
+	ret->y = temp[0] * sin[2] + temp[1] * cos[2];
+	ret->z = -v->x * sin[1] + temp[2] * cos[1]; // Z-axis rotation result
+	return (ret);
 }

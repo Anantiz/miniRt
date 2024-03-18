@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/17 16:44:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/18 11:16:24 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_csg	*pr_new_plane(char *color)
 	plane->l->pos = (t_vector){0, 0, 0};
 	plane->l->dir = (t_vector){0, 0, 0};
 	parse_rgb(&plane->l->rgb, color);
+	plane->l->reflect = 0;
+	plane->l->refract = 0;
 	return (plane);
 }
 

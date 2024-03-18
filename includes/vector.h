@@ -73,6 +73,10 @@ float				ft_bound_float(float value, float max, float min);
 bool				quadratic_solver(float a, float b, float c, \
 t_pair_float *t);
 
+// Rotation
+
+t_vector			*vec_matrix_rotate(t_vector *v, float theta[3]);
+
 // Others
 
 float				smallest_pos(float a, float b);
