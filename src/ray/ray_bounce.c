@@ -6,7 +6,7 @@
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:26:07 by loris             #+#    #+#             */
-/*   Updated: 2024/03/18 15:11:39 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/19 08:54:38 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ t_rgb	*trace_ray(t_ray *ray, t_scene *scene, int depth)
 
 	if (depth == 0)
 		//return black
-
 	if (!col)
 		// return background
 	colorReflechie = vec_new(0, 0, 0);
@@ -90,7 +89,7 @@ t_rgb	*trace_ray(t_ray *ray, t_scene *scene, int depth)
 			ray_flection->dir = ray_flect(ray, col->norm);
 			colorReflechie = trace_ray(ray_flection, scene, depth - 1);
 		}
-		if (col->obj->l->refract > 0)
+		if (col->csg->refract > 0)
 		{
 			ray_fraction->pos = &col->point;
 			if (ray_fract(col->norm, ray, col->obj->l->refract, ray_fraction->dir));
