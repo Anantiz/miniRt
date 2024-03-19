@@ -28,7 +28,7 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 	}
 	my_x = x;
 	my_y = y;
-	light_col = query_visible_light(collision->csg, &collision->point, ray->dir);
+	light_col = query_visible_light(collision);
 	if (!light_col) // Means the point is in the shadow
 	{
 		// mlx_put_pixel(glob->img, x, y, vector_to_color(0.25, &collision->csg->rgb));

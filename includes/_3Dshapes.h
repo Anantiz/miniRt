@@ -212,6 +212,10 @@ double	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector \
 void				collider_plane_norm(t_collision *col, t_ray *ray);
 
 t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray);
+double				cy_circle_intersection(t_vector *ray_pos, \
+t_vector *ray_dir, double r);
+double				cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, \
+double r, double h);
 void				collider_cylinder_norm(t_collision *col, t_ray *ray);
 
 /* Helpers, should kina be in vector.h ... */

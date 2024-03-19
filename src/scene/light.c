@@ -18,52 +18,30 @@ t_vector *point)
 {
 	t_collision	*obj_col;
 	t_lcol		*light_col;
-	t_ray		ray;
+	t_ray		light_ray;
 
-	ray.pos = &light->pos;
-	ray.dir = vec_sub(point, &light->pos);
-	vec_normalize(ray.dir);
-	print_allow = true;
+	light_ray.pos = &light->pos;
+	light_ray.dir = vec_sub(point, &light->pos);
+	vec_normalize(light_ray.dir);
 	// Direct light collision with the object, later, it will check for more...
-	obj_col = query_collision(g_scene, &ray);
-	print_allow = false;
+	obj_col = query_collision(g_scene, &light_ray);
 	if (!obj_col)
-	{
-		printf("Cylinder NO-LIGHT \n");
-		// debug vectors
-		printf("\tLight pos: ");
-		print_vector(&light->pos);
-		printf("\tlight dir: ");
-		print_vector(ray.dir);
-		printf("\tCollision: ");
-		print_vector(point);
-		printf("\n");
-		return (our_free(ray.dir), NULL);
-	}
+		return (our_free(light_ray.dir), NULL);
 	if (obj_col->csg != csg) // Shadows, we put in gray for now, check for transparency later
-	{
-		if (csg->type == CYLINDER)
-		{
-			printf("Cylinder blocked by: \n");
-			print_collision(obj_col);
-			printf("\n");
-		}
-		return (free2(obj_col, ray.dir), NULL);
-	}
-
+		return (free2(obj_col, light_ray.dir), NULL);
 
 	light_col = our_malloc(sizeof(t_lcol));
 	light_col->light = light; // For color and intensity
 	light_col->dist = obj_col->dist; // For light dispersion
-	light_col->cos_angle = -vec_dot_product(ray.dir, obj_col->norm); // For light incidency
+	light_col->cos_angle = -vec_dot_product(light_ray.dir, obj_col->norm); // For light incidency
 
 	if (light_col->cos_angle < 0) // The light is behind the object
 	{
 		light_col->cos_angle = 0;//light_col->cos_angle; // Cuz sometimes the normal is inverted
 	}
-	if (csg->type == CYLINDER)
+
+	if (csg->type == CYLINDER) // Cuz normal is not yet implemented
 	{
-		printf("Cylinder\n");
 		light_col->cos_angle = 1;
 	}
 	/*
@@ -73,7 +51,7 @@ t_vector *point)
 		if the light is behind it, which is not true in real life.)
 	*/
 	del_collision(obj_col);
-	return (our_free(ray.dir), light_col);
+	return (our_free(light_ray.dir), light_col);
 }
 
 static void	add_light_collision(t_lcol **root, t_lcol *collision)
@@ -92,20 +70,19 @@ static void	add_light_collision(t_lcol **root, t_lcol *collision)
 	tmp->next = collision;
 }
 
-t_lcol	*query_visible_light(t_leave *csg , t_vector *point, t_vector *ray_dir)
+t_lcol	*query_visible_light(t_collision *coll)
 {
 	t_ll_obj	*light;
-	t_lcol		*collision;
+	t_lcol		*light_collision;
 	t_lcol		*root;
 
-	(void)ray_dir; // Variable to be removed I guess
 	light = fetch_scene(NULL)->lights;
 	root = NULL;
 	while (light)
 	{
-		collision = get_light_collision(light->l, csg, point);
-		if (collision)
-			add_light_collision(&root, collision);
+		light_collision = get_light_collision(light->l, coll->csg, &coll->point);
+		if (light_collision)
+			add_light_collision(&root, light_collision);
 		light = light->next;
 	}
 	return (root);
