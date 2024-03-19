@@ -3,6 +3,7 @@
 // For faster access to the scene, pass it as a paramater later
 extern t_scene *g_scene;
 bool	print_allow = false;
+
 /*
 Cast a collison ray starting from the light point towards the point of interest
 If the returned collision is the same as the object, then the light is visible
@@ -33,6 +34,8 @@ t_vector *point)
 	light_col = our_malloc(sizeof(t_lcol));
 	light_col->light = light; // For color and intensity
 	light_col->dist = obj_col->dist; // For light dispersion
+
+	// Don't ask why it's negative
 	light_col->cos_angle = -vec_dot_product(light_ray.dir, obj_col->norm); // For light incidency
 
 	if (light_col->cos_angle < 0) // The light is behind the object

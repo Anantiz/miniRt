@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 18:22:13 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 22:04:34 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ t_csg	*pr_new_cylinder(char **params)
 static void	cy_get_theta(double theta[3], t_vector *cy_axis_a, t_vector *cy_axis_b)
 {
 	theta[0] = atan2(cy_axis_a->y + cy_axis_b->y, cy_axis_a->z + cy_axis_b->z);
-	theta[1] = atan2(cy_axis_a->x + cy_axis_b->x, cy_axis_a->z + cy_axis_b->z);
-	theta[2] = 0;//atan2(cy_axis_a->x + cy_axis_b->x, cy_axis_a->y + cy_axis_b->y);
+	theta[1] = -atan2(cy_axis_a->x + cy_axis_b->x, cy_axis_a->z + cy_axis_b->z);
+	theta[2] = 0;
 }
 
 /*
@@ -67,7 +67,7 @@ static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 	if (t < 0) // Behind the camera
 		return (false);
 	collision_z = pos->z + t * rdir_l->z;
-	if (collision_z > h || collision_z < 0) // Out of heigh bounds
+	if (collision_z > h || collision_z < -EPSILON) // Out of heigh bounds
 	{
 		// Check if the other collision is in bounds
 		//fmax is ok since the other is either Smaller and negative (so max will give the same as now)
@@ -75,7 +75,7 @@ static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 		t_col[0] = fmax(t_col[0], t_col[1]);
 		collision_z = pos->z + t_col[0] * rdir_l->z;
 		t_col[1] = collision_z;
-		if (collision_z > h + EPSILON || collision_z < -EPSILON)
+		if (collision_z > h || collision_z < -EPSILON)
 			return (false);
 	}
 	else
@@ -123,7 +123,7 @@ t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 	// Part 3: Get the closest collision
 	if (!cy_get_t(t_col, pos, rdir_l, csg->shape.cylinder.height))
 		return (free3(pos, rdir_l, tmp), NULL);
-
+	csg->shape.cylinder.z_impact = fabs(t_col[1]);
 	return (free3(pos, rdir_l, tmp), new_collision(obj, csg, ray, t_col[0]));
 }
 
@@ -148,9 +148,9 @@ void	collider_cylinder_norm(t_collision *col, t_ray *ray)
 	axis_ray_impact_plane = vec_sub(&col->point, cy_pos);
 	vec_normalize(axis_ray_impact_plane);
 
-	if (vec_dist(&col->point, cy_pos) < col->csg->shape.cylinder.rad - EPSILON)
+	if (vec_dist(&col->point, cy_pos) < col->csg->shape.cylinder.rad - EPSILON) // Cap
 		col->norm = vec_add(&col->csg->dir, &col->obj->dir);
-	else
+	else // Tube
 		col->norm = axis_ray_impact_plane;
 	free2(cy_axis, cy_pos);
 }
