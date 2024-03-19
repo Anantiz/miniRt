@@ -6,11 +6,16 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 10:15:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 13:09:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
+
+extern long my_x;
+extern long my_y;
+extern bool print_allow;
+int	sample = 0;
 
 /*
 Since all calls to this function are made by the parser, we don't need to check
@@ -33,8 +38,8 @@ t_csg	*pr_new_cylinder(char **params)
 	cylinder->l->type = CYLINDER;
 	parse_position(&cylinder->l->pos, params[0]);
 	parse_orientation_private(&cylinder->l->dir, params[1]);
-	cylinder->l->shape.cylinder.rad = parse_float(params[2]) / 2;
-	cylinder->l->shape.cylinder.height = parse_float(params[3]);
+	cylinder->l->shape.cylinder.rad = parse_double(params[2]) / 2;
+	cylinder->l->shape.cylinder.height = parse_double(params[3]);
 	parse_rgb(&cylinder->l->rgb, params[4]);
 	cylinder->l->reflect = 0;
 	cylinder->l->refract = 0;
@@ -48,12 +53,12 @@ t_csg	*pr_new_cylinder(char **params)
 	Ray-Circle intersection:
 		((ray_dir.x * t) - ray_pos)² + ((ray_dir.y * t) - ray_pos)² = r²
 */
-float	cy_circle_intersection(t_vector *ray_pos, t_vector *ray_dir, float r)
+double	cy_circle_intersection(t_vector *ray_pos, t_vector *ray_dir, double r)
 {
-	t_pair_float	t;
-	float			a;
-	float			b;
-	float			c;
+	t_pair_double	t;
+	double			a;
+	double			b;
+	double			c;
 
 	a = ray_dir->x * ray_dir->x + ray_dir->y * ray_dir->y;
 	b = 2 * (ray_dir->x * ray_pos->x + ray_dir->y * ray_pos->y);
@@ -62,12 +67,12 @@ float	cy_circle_intersection(t_vector *ray_pos, t_vector *ray_dir, float r)
 	return (smallest_pos(t.t1, t.t2));
 }
 
-float	cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, float r, float h)
+double	cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, double r, double h)
 {
 	t_vector	*cap_pos;
 	t_vector	*ray_path;
-	float		t1;
-	float		t2;
+	double		t1;
+	double		t2;
 
 	// Check height intersection
 	t1 = (0 - ray_pos->z) / ray_dir->z;
@@ -76,29 +81,25 @@ float	cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, float r, float h
 	cap_pos = vec_copy(ray_pos);
 	ray_path = vec_mult(t1, ray_dir);
 	cap_pos = vec_add_inplace(cap_pos, ray_path);
-	if (fabs(cap_pos->x) > r || fabs(cap_pos->y) > r)
+	if (cap_pos->x * cap_pos->x + cap_pos->y * cap_pos->y > r * r)
 		t1 = -1;
 	our_free(cap_pos);
 	our_free(ray_path);
 	cap_pos = vec_copy(ray_pos);
 	ray_path = vec_mult(t2, ray_dir);
 	cap_pos = vec_add_inplace(cap_pos, ray_path);
-	if (fabs(cap_pos->x) > r || fabs(cap_pos->y) > r)
+	if (cap_pos->x * cap_pos->x + cap_pos->y * cap_pos->y > r * r)
 		t2 = -1;
 	our_free(cap_pos);
 	our_free(ray_path);
 	return (smallest_pos(t1, t2));
 }
 
-void	cy_get_theta(float theta[3], t_vector *cy_axis_a, t_vector *cy_axis_b)
+void	cy_get_theta(double theta[3], t_vector *cy_axis_a, t_vector *cy_axis_b)
 {
-	t_vector	*cy_axis_g;
-
-	cy_axis_g = vec_add(cy_axis_a, cy_axis_b);
-	theta[0] = atan2(cy_axis_g->y, cy_axis_g->z);
-	theta[1] = atan2(cy_axis_g->x, cy_axis_g->z);
-	theta[2] = atan2(cy_axis_g->x, cy_axis_g->y);
-	our_free(cy_axis_g);
+	theta[0] = atan2(cy_axis_a->y + cy_axis_b->y, cy_axis_a->z + cy_axis_b->z);
+	theta[1] = atan2(cy_axis_a->x + cy_axis_b->x, cy_axis_a->z + cy_axis_b->z);
+	theta[2] = 0;//atan2(cy_axis_a->x + cy_axis_b->x, cy_axis_a->y + cy_axis_b->y);
 }
 
 
@@ -121,33 +122,84 @@ t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 	t_vector		*rdir_l;
 	t_vector		*pos;
 	t_vector		*tmp;
-	float			theta[3];
-	float			t_col[2];
+	double			theta[3];
+	double			t_col[2];
 
+	sample++;
 	//Part 1: Convert to local coordinates
 	pos = vec_add(&obj->pos, &csg->pos);
 	cy_get_theta(theta, &obj->dir, &csg->dir);
+
 	rdir_l = vec_matrix_rotate(ray->dir, theta);
+	// static int sampler = 0;
+	if (print_allow)
+	{
+		tmp = vec_matrix_rotate(&obj->dir, theta);
+		printf("\tTheta: %fx, %fy, %fz\n", theta[0], theta[1], theta[2]);
+		printf("\tBefore: ");
+		print_vector(&obj->dir);
+		printf("\tAfter: ");
+		print_vector(tmp);
+		our_free(tmp);
+		printf("\n");
+	}
+
 	tmp = vec_sub_inplace(vec_copy(ray->pos), pos);
 	pos = vec_realloc(&pos, vec_matrix_rotate(tmp, theta));
 
-	//Part 2: Get the collision
+	t_col[0] = -1; //Debug, to isolate the cap
+	t_col[1] = -1; //Debug, to isolate the cap
+	// Part 2: Get the collision
 	t_col[0] = cy_circle_intersection(pos, rdir_l, \
 		csg->shape.cylinder.rad);
-	t_col[1] = cy_cap_intersection(pos, rdir_l, \
-		csg->shape.cylinder.rad, csg->shape.cylinder.height);
+	// t_col[1] = cy_cap_intersection(pos, rdir_l, \
+	// 	csg->shape.cylinder.rad, csg->shape.cylinder.height);
 
 	// Part 3: Get the closest collision
-	t_col[0] = smallest_pos(t_col[0], t_col[1]);
-	if (t_col[0] < 0)
+	// double t = smallest_pos(t_col[0], t_col[1]);
+	double t = -69;
+	if (t_col[0] > 0 || t_col[1] > 0)
+	{
+		if (t_col[0] < 0)
+			t = t_col[1];
+		else if (t_col[1] < 0)
+			t = t_col[0];
+		else
+		{
+			t = fmin(t_col[0], t_col[1]);
+			// mlx_put_pixel(fetch_glob(NULL)->img, my_x, my_y, 0x0000FFFF);
+		}
+		if (print_allow)
+		{
+			printf("\tCOL\n");
+			printf("\tt_col[0]: %f\n", t_col[0]);
+			printf("\tt_col[1]: %f\n", t_col[1]);
+			printf("\tt: %f\n", t);
+		}
+		vec_mult_inplace(t, rdir_l);
+		if (vec_add_inplace(pos, rdir_l)->z > csg->shape.cylinder.height + EPSILON || pos->z < -EPSILON)
+		{
+			if (print_allow)
+				printf("\tOut of bounds, z=%f\n\n", pos->z);
+			return (free3(pos, rdir_l, tmp), NULL);
+		}
+	}
+	else
+	{
+		if (print_allow)
+		{
+			printf("\tNO COL\n");
+			printf("\tt_col[0]: %f\n", t_col[0]);
+			printf("\tt_col[1]: %f\n", t_col[1]);
+			printf("\tt: %f\n\n", t);
+		}
 		return (free3(pos, rdir_l, tmp), NULL);
-	vec_mult_inplace(t_col[0], rdir_l);
-	if (vec_add_inplace(pos, rdir_l)->z > csg->shape.cylinder.height || pos->z < 0)
-		return (free3(pos, rdir_l, tmp), NULL);
-	return (free3(pos, rdir_l, tmp), new_collision(obj, csg, ray, t_col[0]));
+	}
+	printf("\n");
+	return (free3(pos, rdir_l, tmp), new_collision(obj, csg, ray, t));
 }
 
-// static void	cy_check_cap(float a, float b)
+// static void	cy_check_cap(double a, double b)
 // {
 // 	if (b < 0)
 // 		return ;

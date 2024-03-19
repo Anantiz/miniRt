@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:00:17 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 13:32:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:43:39 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_vector	*vec_project(t_vector *a, t_vector *b)
 		since the dot product with the origin is always 0, we just take a
 		given vector (3D makes thing harder ...)
 */
-float	signed_dist(t_vector *a, t_vector *b, t_vector *dir)
+double	signed_dist(t_vector *a, t_vector *b, t_vector *dir)
 {
 	dir = vec_copy(dir); // We don't want to modify the original vector
 	vec_normalize(dir);
@@ -66,24 +66,27 @@ float	signed_dist(t_vector *a, t_vector *b, t_vector *dir)
 	Return the smallest positive value between a and b
 	(If both are negative, return b)
 */
-float	smallest_pos(float a, float b)
+double	smallest_pos(double a, double b)
 {
-	if (a < 0 || (b > 0 && b < a))
+	if (a < 0)
 		return (b);
-	else
+	if (b < 0)
 		return (a);
+	if (a < b)
+		return (a);
+	return (b);
 }
 
 /*
 	Returns a new_vector that is passed through a rotation
 	matrix built from the given angles
 */
-t_vector	*vec_matrix_rotate(t_vector *v, float theta[3])
+t_vector	*vec_matrix_rotate(t_vector *v, double theta[3])
 {
 	t_vector *ret;
-	float	cos[3];
-	float	sin[3];
-	float	temp[3];
+	double	cos[3];
+	double	sin[3];
+	double	temp[3];
 
 	ret = our_malloc(sizeof(t_vector));
 	cos[0] = cosf(theta[0]);

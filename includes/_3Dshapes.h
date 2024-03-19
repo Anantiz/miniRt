@@ -66,7 +66,7 @@ typedef union u_shape // Specific geometric parameters
 {
 	struct s_sphere
 	{
-		float	rad;
+		double	rad;
 	}sphere;
 
 	struct s_plane
@@ -76,8 +76,8 @@ typedef union u_shape // Specific geometric parameters
 
 	struct s_cylinder
 	{
-		float	rad;
-		float	height;
+		double	rad;
+		double	height;
 	}cylinder;
 }t_u_shape;
 
@@ -100,8 +100,8 @@ typedef struct s_csg_leave
 	t_u_shape		shape;
 
 	t_rgb			rgb;
-	float			reflect;
-	float			refract;
+	double			reflect;
+	double			refract;
 }t_leave;
 
 typedef struct s_csg
@@ -135,7 +135,7 @@ typedef struct s_object
 
 typedef struct s_collision
 {
-	float			dist;
+	double			dist;
 	t_vector		point;
 	t_leave			*csg;
 	t_object		*obj;
@@ -197,7 +197,7 @@ t_collision			*hadron_collider(t_object *obj, t_ray *ray, t_csg *csg);
 // Collision constructor
 void				collision_norm_switch(t_collision *col, t_e_prim type);
 t_collision			*new_collision(t_object *obj, t_leave *csg, t_ray *ray, \
-float t);
+double t);
 
 // Individual colliders + Norms
 
@@ -205,7 +205,7 @@ t_collision			*collider_sphere(t_object *obj, t_leave *csg, t_ray *ray);
 void				collider_sphere_norm(t_collision *col, t_ray *ray);
 
 t_collision			*collider_plane(t_object *obj, t_leave *csg, t_ray *ray);
-float	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector \
+double	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector \
 *ray_pos, t_vector *ray_dir);
 
 
@@ -216,11 +216,11 @@ void				collider_cylinder_norm(t_collision *col, t_ray *ray);
 
 /* Helpers, should kina be in vector.h ... */
 
-void				rotate_ellipse(float *rx, float *ry, float angle_x, \
-float angle_z);
-void				rotate_circle(float r, t_pair_float *sr, float angle_x, \
-float angle_z);
-bool				ellipse_intersection(t_pair_float *sr, t_vector *sc, \
+void				rotate_ellipse(double *rx, double *ry, double angle_x, \
+double angle_z);
+void				rotate_circle(double r, t_pair_double *sr, double angle_x, \
+double angle_z);
+bool				ellipse_intersection(t_pair_double *sr, t_vector *sc, \
 t_ray *ray);
 
 

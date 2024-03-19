@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 13:47:42 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:42:00 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ t_csg	*pr_new_plane(char *color)
 	return (plane);
 }
 
-float	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector *ray_pos, t_vector *ray_dir)
+double	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector *ray_pos, t_vector *ray_dir)
 {
-	float		nominator; // The relative origin of the ray to the plane
-	float		denominator; // D⃗⋅A⃗
+	double		nominator; // The relative origin of the ray to the plane
+	double		denominator; // D⃗⋅A⃗
 
 	denominator = vec_dot_product(ray_dir, plane_norm);
 	if (fabs(denominator) < EPSILON) // Ray is parallel to the plane because orthogonal to the normal
@@ -67,7 +67,7 @@ float	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector *ra
 */
 t_collision	*collider_plane(t_object *obj, t_leave *csg, t_ray *ray)
 {
-	float		t;
+	double		t;
 
 	t = plane_intersection(&obj->pos, csg->shape.plane.norm, ray->pos, ray->dir);
 	if (t < 0 || t == INFINITY)
@@ -83,8 +83,7 @@ void	collider_plane_norm(t_collision *col, t_ray *ray)
 {
 	(void)ray;
 	col->norm = vec_copy(col->csg->shape.plane.norm);
-	// Just make sure the normal is pointing towards the ray
-	// if (vec_dot_product(col->norm, ray->dir) > 0) // Most probably useless tho
-	// 	vec_negate(col->norm);
+	if (vec_dot_product(col->norm, ray->dir) > 0)
+		vec_negate(col->norm);
 	vec_normalize(col->norm);
 }

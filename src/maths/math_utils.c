@@ -6,14 +6,14 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 10:51:17 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 11:56:07 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:43:33 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
 // return true if a and b are close enough
-bool	fcmp(float a, float b)
+bool	fcmp(double a, double b)
 {
 	bool	abs_diff;
 	bool	sign_diff;
@@ -23,7 +23,7 @@ bool	fcmp(float a, float b)
 	return (abs_diff && sign_diff);
 }
 
-float	ft_bound_float(float value, float max, float min)
+double	ft_bound_double(double value, double max, double min)
 {
 	if (value > max)
 		return (max);

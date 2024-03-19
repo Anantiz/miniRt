@@ -19,11 +19,11 @@
 	Return true if the equation has a solution
 	Else return false
 
-	We use a pointer to a t_pair_float to store the solutions
+	We use a pointer to a t_pair_double to store the solutions
 */
-bool	quadratic_solver(float a, float b, float c, t_pair_float *t)
+bool	quadratic_solver(double a, double b, double c, t_pair_double *t)
 {
-	float		delta;
+	double		delta;
 
 	if (a == 0)
 	{

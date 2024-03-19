@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 13:43:27 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:54:27 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_csg	*pr_new_sphere(char **params)
 	sphere->l->type = SPHERE;
 	sphere->l->dir = (t_vector){0, 0, 0};
 	parse_position(&sphere->l->pos, params[0]);
-	sphere->l->shape.sphere.rad = parse_float(params[1]) / 2;
+	sphere->l->shape.sphere.rad = parse_double(params[1]) / 2;
 	parse_rgb(&sphere->l->rgb, params[2]);
 	sphere->l->reflect = 0;
 	sphere->l->refract = 0;
@@ -62,9 +62,9 @@ t_collision	*collider_sphere(t_object *obj, t_leave *csg, t_ray *ray)
 	// static int	sample = 0;
 
 	t_vector		dist_oc; // Distance between the ray origin and the sphere center
-	t_pair_float	t;
-	float			b;
-	float			c;
+	t_pair_double	t;
+	double			b;
+	double			c;
 
 	// Relative position of the sphere
 	dist_oc = (t_vector){\

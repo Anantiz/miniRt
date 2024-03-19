@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 03:05:37 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:40:30 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:49:04 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int					parse_map(t_glob *glob, char *path);
 
 /* Parsing : Private*/
 
-float				parse_float(char *str);
+double				parse_double(char *str);
 int					parse_int(char *str);
 
 void				parse_error_msg(int error, char *custom_str);

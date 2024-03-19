@@ -6,13 +6,13 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 07:20:27 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 14:17:53 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:56:16 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
 
-t_collision	*new_collision(t_object *obj, t_leave *csg, t_ray *ray, float t)
+t_collision	*new_collision(t_object *obj, t_leave *csg, t_ray *ray, double t)
 {
 	t_collision	*col;
 
@@ -57,3 +57,4 @@ t_collision	*hadron_collider(t_object *obj, t_ray *ray, t_csg *csg)
 	del_collision(collision[1]);
 	return (NULL);
 }
+

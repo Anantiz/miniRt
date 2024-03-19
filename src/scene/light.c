@@ -1,5 +1,8 @@
 #include "light.h"
 
+// For faster access to the scene, pass it as a paramater later
+extern t_scene *g_scene;
+bool	print_allow = false;
 /*
 Cast a collison ray starting from the light point towards the point of interest
 If the returned collision is the same as the object, then the light is visible
@@ -20,13 +23,33 @@ t_vector *point)
 	ray.pos = &light->pos;
 	ray.dir = vec_sub(point, &light->pos);
 	vec_normalize(ray.dir);
-
+	print_allow = true;
 	// Direct light collision with the object, later, it will check for more...
-	obj_col = query_collision(fetch_scene(NULL), &ray);
+	obj_col = query_collision(g_scene, &ray);
+	print_allow = false;
 	if (!obj_col)
+	{
+		printf("Cylinder NO-LIGHT \n");
+		// debug vectors
+		printf("\tLight pos: ");
+		print_vector(&light->pos);
+		printf("\tlight dir: ");
+		print_vector(ray.dir);
+		printf("\tCollision: ");
+		print_vector(point);
+		printf("\n");
 		return (our_free(ray.dir), NULL);
+	}
 	if (obj_col->csg != csg) // Shadows, we put in gray for now, check for transparency later
+	{
+		if (csg->type == CYLINDER)
+		{
+			printf("Cylinder blocked by: \n");
+			print_collision(obj_col);
+			printf("\n");
+		}
 		return (free2(obj_col, ray.dir), NULL);
+	}
 
 
 	light_col = our_malloc(sizeof(t_lcol));
@@ -37,6 +60,11 @@ t_vector *point)
 	if (light_col->cos_angle < 0) // The light is behind the object
 	{
 		light_col->cos_angle = 0;//light_col->cos_angle; // Cuz sometimes the normal is inverted
+	}
+	if (csg->type == CYLINDER)
+	{
+		printf("Cylinder\n");
+		light_col->cos_angle = 1;
 	}
 	/*
 		Add some cheat function, to put the cos_angle to zero if a
@@ -64,7 +92,7 @@ static void	add_light_collision(t_lcol **root, t_lcol *collision)
 	tmp->next = collision;
 }
 
-t_lcol	*query_visible_light(t_leave *obj , t_vector *point, t_vector *ray_dir)
+t_lcol	*query_visible_light(t_leave *csg , t_vector *point, t_vector *ray_dir)
 {
 	t_ll_obj	*light;
 	t_lcol		*collision;
@@ -75,7 +103,7 @@ t_lcol	*query_visible_light(t_leave *obj , t_vector *point, t_vector *ray_dir)
 	root = NULL;
 	while (light)
 	{
-		collision = get_light_collision(light->l, obj, point);
+		collision = get_light_collision(light->l, csg, point);
 		if (collision)
 			add_light_collision(&root, collision);
 		light = light->next;
