@@ -6,7 +6,7 @@
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:26:07 by loris             #+#    #+#             */
-/*   Updated: 2024/03/19 10:29:44 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:47:43 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ bool	ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector *
 	refract = vec_add(vec_mult(indice_refract, ray), vec_mult(indice_refract * cosi - cost, normal));
 	return (true);
 }
-t_rgb	color_combination()
+t_rgb	color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee, float refract, float reflect)
 {
+	t_rgb	*result;
 
+	
 }
 
 void	colorLocal(t_collision *collision, t_ray *ray)
