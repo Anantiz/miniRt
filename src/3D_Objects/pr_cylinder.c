@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 14:20:15 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 10:15:38 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,6 @@ void	cy_get_theta(float theta[3], t_vector *cy_axis_a, t_vector *cy_axis_b)
 	our_free(cy_axis_g);
 }
 
-// static void	cy_check_cap(float a, float b)
-// {
-// 	if (b < 0)
-// 		return ;
-// 	if (a < 0 && b > 0)
-// 		collider_cylinder_norm(NULL, NULL);
-// 	else if (b < a)
-// 		collider_cylinder_norm(NULL, NULL);
-// }
 
 /*
 	1.Convert global coordinates to local coordinates
@@ -147,7 +138,6 @@ t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 		csg->shape.cylinder.rad, csg->shape.cylinder.height);
 
 	// Part 3: Get the closest collision
-	// cy_check_cap(t_col[0], t_col[1]);
 	t_col[0] = smallest_pos(t_col[0], t_col[1]);
 	if (t_col[0] < 0)
 		return (free3(pos, rdir_l, tmp), NULL);
@@ -156,6 +146,17 @@ t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 		return (free3(pos, rdir_l, tmp), NULL);
 	return (free3(pos, rdir_l, tmp), new_collision(obj, csg, ray, t_col[0]));
 }
+
+// static void	cy_check_cap(float a, float b)
+// {
+// 	if (b < 0)
+// 		return ;
+// 	if (a < 0 && b > 0)
+// 		collider_cylinder_norm(NULL, NULL);
+// 	else if (b < a)
+// 		collider_cylinder_norm(NULL, NULL);
+// }
+
 
 /*
 
