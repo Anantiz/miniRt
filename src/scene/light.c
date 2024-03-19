@@ -40,10 +40,10 @@ t_vector *point)
 		light_col->cos_angle = 0;//light_col->cos_angle; // Cuz sometimes the normal is inverted
 	}
 
-	if (csg->type == CYLINDER) // Cuz normal is not yet implemented
-	{
-		light_col->cos_angle = 1;
-	}
+	// if (csg->type == CYLINDER) // Cuz normal is not yet implemented
+	// {
+	// 	light_col->cos_angle = 1;
+	// }
 	/*
 		Add some cheat function, to put the cos_angle to zero if a
 		plane is in between the light and the camera.

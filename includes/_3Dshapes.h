@@ -78,6 +78,7 @@ typedef union u_shape // Specific geometric parameters
 	{
 		double	rad;
 		double	height;
+		double	z_impact;
 	}cylinder;
 }t_u_shape;
 

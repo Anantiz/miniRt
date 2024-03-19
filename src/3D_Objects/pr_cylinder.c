@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 16:21:20 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 18:22:13 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ static void	cy_get_theta(double theta[3], t_vector *cy_axis_a, t_vector *cy_axis
 	theta[2] = 0;//atan2(cy_axis_a->x + cy_axis_b->x, cy_axis_a->y + cy_axis_b->y);
 }
 
-
 /*
-	Store the t of collision and the z(height) in t_col[0] and t_col[1]
+	Store the appropriate values in t_col[0]
+	and the height of the collision in t_col[1]
 */
 static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 {
@@ -86,6 +86,7 @@ static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 	return (true);
 }
 
+
 /*
 	1.Convert global coordinates to local coordinates
 	The conversion will be transformation from:
@@ -102,41 +103,54 @@ static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 */
 t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 {
-	t_collision		*coll;
 	t_vector		*rdir_l;
-	t_vector		*pos[2]; // pos[1] is a temp, but coding norm abuse ;D
+	t_vector		*pos;
+	t_vector		*tmp;
 	double			theta[3];
 	double			t_col[2];
 
 	//Part 1: Convert to local coordinates
-	pos[0] = vec_add(&obj->pos, &csg->pos);
+	pos = vec_add(&obj->pos, &csg->pos);
 	cy_get_theta(theta, &obj->dir, &csg->dir);
 	rdir_l = vec_matrix_rotate(ray->dir, theta);
-	pos[1] = vec_sub_inplace(vec_copy(ray->pos), pos[0]);
-	pos[0] = vec_realloc(&pos, vec_matrix_rotate(pos[1], theta));
-	t_col[0] = cy_circle_intersection(pos[0], rdir_l, \
+	tmp = vec_sub_inplace(vec_copy(ray->pos), pos);
+	pos = vec_realloc(&pos, vec_matrix_rotate(tmp, theta));
+	t_col[0] = cy_circle_intersection(pos, rdir_l, \
 		csg->shape.cylinder.rad);
-	t_col[1] = cy_cap_intersection(pos[0], rdir_l, \
+	t_col[1] = cy_cap_intersection(pos, rdir_l, \
 		csg->shape.cylinder.rad, csg->shape.cylinder.height);
 
 	// Part 3: Get the closest collision
 	if (!cy_get_t(t_col, pos, rdir_l, csg->shape.cylinder.height))
-		return (free3(pos, rdir_l, pos[1]), NULL);
+		return (free3(pos, rdir_l, tmp), NULL);
 
-	coll = new_collision(obj, csg, ray, t_col[0]);
-	return (free3(pos, rdir_l, pos[1]), coll);
+	return (free3(pos, rdir_l, tmp), new_collision(obj, csg, ray, t_col[0]));
 }
-/*
-	Already done
-*/
+
 void	collider_cylinder_norm(t_collision *col, t_ray *ray)
 {
-	(void)ray;
-	// If cap
-	col->norm = vec_add(&col->csg->dir, &col->obj->dir);
+	t_vector	*axis_ray_impact_plane;
+	t_vector	*cy_axis;
+	t_vector	*cy_pos;
 
-	// Put the correct normal sign (Facing the ray), kinda a cheat, cuz if
-	// You are
-	if (vec_dot_product(col->norm, ray->dir) > 0)
-		vec_negate(col->norm);
+	(void)ray;
+	cy_axis = vec_add(&col->csg->dir, &col->obj->dir);
+	cy_pos = vec_add(&col->csg->pos, &col->obj->pos);
+
+	// Now the we have a point along the cylinder axis at the same height as
+	// the collision
+	vec_mult_inplace(col->csg->shape.cylinder.z_impact, cy_axis);
+	// Add the position of the cylinder
+	vec_add_inplace(cy_pos, cy_axis);
+
+	// Susbtract the collision point to get the axis_ray_impact_plane
+	//(the normal)
+	axis_ray_impact_plane = vec_sub(&col->point, cy_pos);
+	vec_normalize(axis_ray_impact_plane);
+
+	if (vec_dist(&col->point, cy_pos) < col->csg->shape.cylinder.rad - EPSILON)
+		col->norm = vec_add(&col->csg->dir, &col->obj->dir);
+	else
+		col->norm = axis_ray_impact_plane;
+	free2(cy_axis, cy_pos);
 }
