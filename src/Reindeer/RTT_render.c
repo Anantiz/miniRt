@@ -26,7 +26,6 @@ void	rtt_render(void *glob_)
 		ft_printf("\033[32mRendering done\033[0m\n");
 		glob->update = false; // Done rendering
 		glob->tick++;
-
 	}
 }
 

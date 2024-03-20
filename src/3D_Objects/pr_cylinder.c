@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/20 12:19:56 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/20 16:57:55 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,17 @@ t_csg	*pr_new_cylinder(char **params)
 static void	cy_get_theta(double theta[3], t_vector *cy_axis)
 {
 	// Version 1: Works for orientations along a single axis
- 	theta[0] = atan2(cy_axis->y, cy_axis->z);
+	theta[0] = atan2(cy_axis->y, cy_axis->z);
 
-    // Calculate the rotation angle around the y-axis
-    theta[1] = -atan2(cy_axis->x, sqrt(cy_axis->x * cy_axis->x + cy_axis->z * cy_axis->z));
+	// Calculate the rotation angle around the y-axis
+	theta[1] = -atan2(cy_axis->x, sqrt(cy_axis->x * cy_axis->x + cy_axis->z * cy_axis->z));
 	theta[2] = 0;
 
-	// Absolute cheat and fraud, but it works -\_(x_x)_/-
+	// Absolute cheat, but it helps (still not perfect) -\_(x_x)_/-
 	if (theta[0] == 0 && theta[1] != 0)
-		theta[1] *= 2;
+	{
+		// theta[1] *= 2;
+	}
 }
 
 /*
@@ -77,7 +79,7 @@ static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 	if (t < 0) // Behind the camera
 		return (false);
 	collision_z = pos->z + t * rdir_l->z;
-	if (collision_z > h || collision_z < -EPSILON) // Out of heigh bounds
+	if (collision_z > h || collision_z < -EPSILON) // Out of height bounds
 	{
 		// Check if the other collision is in bounds
 		//fmax is ok since the other is either Smaller and negative (so max will give the same as now)
@@ -125,7 +127,7 @@ t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 	rdir_l = vec_matrix_rotate(ray->dir, theta);
 	vec_normalize(rdir_l);
 	static int		once = 0;
-	if (once < 5)
+	if (once < 3)
 	{
 		tmp = vec_add(&obj->dir, &csg->dir);
 		printf("Euler Angles   :\t %fx %fy %fz\n", theta[0], theta[1], theta[2]);
