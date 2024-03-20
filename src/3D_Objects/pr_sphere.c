@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 12:54:27 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/20 11:44:39 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_csg	*pr_new_sphere(char **params)
 */
 t_collision	*collider_sphere(t_object *obj, t_leave *csg, t_ray *ray)
 {
-	// static int	sample = 0;
-
 	t_vector		dist_oc; // Distance between the ray origin and the sphere center
 	t_pair_double	t;
 	double			b;

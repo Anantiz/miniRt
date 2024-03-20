@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 16:33:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 15:26:57 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/20 12:02:02 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ double	cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, double r, doubl
 	double		t2;
 	double		r_sqrd;
 
-	r_sqrd = r * r;
+	r_sqrd = r * r + EPSILON;
 	// Check height intersection
 	t1 = (0 - ray_pos->z) / ray_dir->z;
 	t2 = (h - ray_pos->z) / ray_dir->z;

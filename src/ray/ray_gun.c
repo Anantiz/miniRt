@@ -89,5 +89,5 @@ void	ray_tracing(t_glob *glob)
 		}
 		x++;
 	}
-	printf("Rendering done\n");
+
 }

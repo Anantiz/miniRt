@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 23:15:19 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/20 12:19:56 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ static void	cy_get_theta(double theta[3], t_vector *cy_axis)
     theta[1] = -atan2(cy_axis->x, sqrt(cy_axis->x * cy_axis->x + cy_axis->z * cy_axis->z));
 	theta[2] = 0;
 
+	// Absolute cheat and fraud, but it works -\_(x_x)_/-
+	if (theta[0] == 0 && theta[1] != 0)
+		theta[1] *= 2;
 }
 
 /*
@@ -120,16 +123,19 @@ t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 	pos = vec_add(&obj->pos, &csg->pos);
 	cy_get_theta(theta, &(t_vector){obj->dir.x + csg->dir.x, obj->dir.y + csg->dir.y, obj->dir.z + csg->dir.z});
 	rdir_l = vec_matrix_rotate(ray->dir, theta);
+	vec_normalize(rdir_l);
 	static int		once = 0;
-	if (once++ < 5)
+	if (once < 5)
 	{
 		tmp = vec_add(&obj->dir, &csg->dir);
+		printf("Euler Angles   :\t %fx %fy %fz\n", theta[0], theta[1], theta[2]);
 		printf("Before rotation:\t");
 		print_vector(tmp);
 		tmp = vec_matrix_rotate(tmp, theta);
 		printf("After rotation :\t");
 		print_vector(tmp);
 		printf("\n");
+		once++;
 	}
 	tmp = vec_sub_inplace(vec_copy(ray->pos), pos);
 	pos = vec_realloc(&pos, vec_matrix_rotate(tmp, theta));

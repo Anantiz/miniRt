@@ -4,20 +4,32 @@
 #define DEBUG
 #define SAMPLE_RATE 20000
 
+// Larger ones for final rendering
+// #define WIN_SIZE_X	2880
+// #define WIN_SIZE_Y	1620
+
+// #define WIN_SIZE_X 2560
+// #define WIN_SIZE_Y 1440
+
 // # define WIN_SIZE_X	1920
 // # define WIN_SIZE_Y	1080
 // # define WIN_SIZE_X	960
 // # define WIN_SIZE_Y	540
-# define WIN_SIZE_X	640
-# define WIN_SIZE_Y	360
-// # define WIN_SIZE_X	320
-// # define WIN_SIZE_Y	180
+
+// Small for development
+// # define WIN_SIZE_X	640
+// # define WIN_SIZE_Y	360
+# define WIN_SIZE_X	320
+# define WIN_SIZE_Y	180
+
+// Micro window for real-time rendering (we don't have GPU)
+// # define WIN_SIZE_X	80
+// # define WIN_SIZE_Y	45
 
 # define DEFAULT_LUMEN		1000
 # define DEFAULT_INTENSITY	0.6
 
 # include <math.h>
-
 # include <fcntl.h>
 # include <errno.h>
 # include <float.h>
@@ -68,6 +80,9 @@ typedef struct s_glob
 
 	t_camera		*camera;
 	t_scene			*scene;
+
+	bool			update; // The camera moved so compute a new frame
+	int				tick;	// The current frame since program start
 }t_glob;
 
 void				ray_tracing(t_glob *glob);
