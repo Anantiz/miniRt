@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:21:42 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 12:07:02 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/18 13:25:50 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // 	else if (type == SPHERE)
 // 	{
 // 		// Norm of a sphere is the vector from the center to the point
-// 		tmp = vec_add(&collision->obj->l->pos, &collision->parent_obj->pos);
+// 		tmp = vec_add(&collision->obj->l->pos, &collision->obj->pos);
 // 		norm = vec_sub(&collision->point, tmp);
 // 		vec_normalize(norm);
 // 		our_free(tmp);
@@ -35,7 +35,7 @@
 // 	{
 // 		// Norm of a cylinder is the vector from the center to the point
 // 		// Without takine the height into account
-// 		tmp = vec_add(&collision->parent_obj->pos, &collision->obj->l->pos);
+// 		tmp = vec_add(&collision->obj->pos, &collision->obj->l->pos);
 // 		norm = vec_sub(&collision->point, tmp);
 // 		norm->z -= collision->dist * (collision->ray->dir->z);
 // 		vec_normalize(norm);

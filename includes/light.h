@@ -38,7 +38,7 @@ typedef struct s_light_collision
 }t_light_collision;
 typedef t_light_collision	t_lcol;
 
-t_lcol				*query_visible_light(t_csg *obj , t_vector *point, \
+t_lcol				*query_visible_light(t_leave *obj , t_vector *point, \
 t_vector *ray_dir);
 
 void				del_light_col(t_lcol *lcol);

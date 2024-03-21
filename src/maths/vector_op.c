@@ -6,15 +6,15 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/03/12 10:12:41 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/16 14:36:05 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-t_vector    *vec_new(float x, float y, float z)
+t_vector	*vec_new(float x, float y, float z)
 {
-    t_vector	*vector;
+	t_vector	*vector;
 
 	vector = our_malloc(sizeof(t_vector));
 	vector->x = x;
@@ -27,7 +27,7 @@ t_vector    *vec_new(float x, float y, float z)
 	Shall not return NULL
 	Because we are not in the mood for error handling
 */
-t_vector	*vec_cpy(t_vector *v)
+t_vector	*vec_copy(t_vector *v)
 {
 	t_vector	*ret;
 
@@ -43,10 +43,11 @@ t_vector	*vec_cpy(t_vector *v)
 	Use this to avoid memory leaks
 	(throwing everything for the garbage collector is ugly)
 */
-void	vec_realloc(t_vector **old_addr, t_vector *new_ptr)
+t_vector	*vec_realloc(t_vector **old_addr, t_vector *new_ptr)
 {
 	our_free(*old_addr);
 	*old_addr = new_ptr;
+	return (new_ptr);
 }
 
 t_vector	*vec_cross_product(t_vector *v1, t_vector *v2)

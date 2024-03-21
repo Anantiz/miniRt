@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:46:25 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/16 18:20:29 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	init_global(t_glob *glob)
 {
 	glob->win_size = (t_pair_size){WIN_SIZE_X, WIN_SIZE_Y};
 	glob->mlx = mlx_init(glob->win_size.width, glob->win_size.height, \
-	"RTT", false);
+	"miniRtt", false);
 	if (!glob->mlx)
 		error_exit("Failed to initialize MLX");
 	glob->img = mlx_new_image(glob->mlx, glob->win_size.width , \

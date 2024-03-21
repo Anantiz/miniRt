@@ -56,7 +56,8 @@ SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 
 MATHS_PATH:=maths
 MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c vector_op4.c light_op.c \
-quadratic_solver.c get_orthogonal.c math_utils.c
+quadratic_solver.c get_orthogonal.c math_utils.c vector_op5.c vector_op2inplace.c \
+project.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene
@@ -75,12 +76,12 @@ SRC_OBJ:=			$(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o,$(SRC_FILES))
 all: $(NAME)
 
 $(BIN_LIBMLX):
-	@cmake $(LIBMLX_PATH) -B $(LIBMLX_PATH)/build && make -C $(LIBMLX_PATH)/build -j4
+	cmake $(LIBMLX_PATH) -B $(LIBMLX_PATH)/build && make -sC $(LIBMLX_PATH)/build -j4
 	@mv $(LIBMLX_PATH)/build/libmlx42.a $(BIN_LIBMLX)
 	@echo "libmlx42.a created\n\n\n"
 
 $(BIN_LIBFT):
-	@make -C $(LIBFT_PATH) all
+	@make -sC $(LIBFT_PATH) all
 	@mv $(LIBFT_PATH)/libft.a $(BIN_LIBFT)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c

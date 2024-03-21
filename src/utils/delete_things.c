@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:14:42 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 11:28:28 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/14 17:30:32 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,25 @@ void	del_light_col(t_lcol *lcol)
 	if (lcol)
 		del_light_col(lcol->next);
 	our_free(lcol);
+}
+
+void	free2(void *v1, void *v2)
+{
+	our_free(v1);
+	our_free(v2);
+}
+
+void	free3(void *v1, void *v2, void *v3)
+{
+	our_free(v1);
+	our_free(v2);
+	our_free(v3);
+}
+
+void	free4(void *v1, void *v2, void *v3,  void *v4)
+{
+	our_free(v1);
+	our_free(v2);
+	our_free(v3);
+	our_free(v4);
 }

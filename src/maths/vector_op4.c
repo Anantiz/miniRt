@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:55:09 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/13 11:27:55 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/15 16:22:08 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	Overly complicated function to get the angle between two vectors
 	But it works
 */
-float		vec2d_get_angle_rad(t_vector *v1, t_vector *v2)
+float		vec_get_angle_axis(t_vector *v1, t_vector *v2)
 {
 	t_vector	normed1;
 	t_vector	normed2;
@@ -24,13 +24,13 @@ float		vec2d_get_angle_rad(t_vector *v1, t_vector *v2)
 	float		angle;
 
 	// Step-1 Safe method to consider zero vectors
-	temp = vec_length(v1);
+	temp = vec_len(v1);
 	if (temp == 0)
 		return (0);
 	else
 		normed1 = (t_vector){v1->x / temp, v1->y / temp, v1->z / temp};
 
-	temp = vec_length(v2);
+	temp = vec_len(v2);
 	if (temp == 0)
 		return (0);
 	else

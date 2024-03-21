@@ -2,6 +2,11 @@
 	"files.associations": {
 		"light.h": "c",
 		"minirt.h": "c",
-		"vector.h": "c"
+		"vector.h": "c",
+		"stdint.h": "c",
+		"forward_declaration.h": "c",
+		"libft.h": "c",
+		"color_texture.h": "c",
+		"stdio.h": "c"
 	}
 }

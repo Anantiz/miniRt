@@ -10,7 +10,7 @@ We then create a t_light_collision struct and add it to the list
 ray collision (reverse light path, since we start from the camera to the light)
 
 */
-static t_lcol	*get_light_collision(t_spot_light *light, t_csg *csg, \
+static t_lcol	*get_light_collision(t_spot_light *light, t_leave *csg, \
 t_vector *point)
 {
 	t_collision	*obj_col;
@@ -25,18 +25,18 @@ t_vector *point)
 	obj_col = query_collision(fetch_scene(NULL), &ray);
 	if (!obj_col)
 		return (our_free(ray.dir), NULL);
-	if (obj_col->obj != csg) // Shadows, we put in gray for now, check for transparency later
-		return (our_free(obj_col), NULL);
+	if (obj_col->csg != csg) // Shadows, we put in gray for now, check for transparency later
+		return (free2(obj_col, ray.dir), NULL);
 
 
 	light_col = our_malloc(sizeof(t_lcol));
 	light_col->light = light; // For color and intensity
 	light_col->dist = obj_col->dist; // For light dispersion
 	light_col->cos_angle = -vec_dot_product(ray.dir, obj_col->norm); // For light incidency
+
 	if (light_col->cos_angle < 0) // The light is behind the object
 	{
-		// Later we will check for transparency
-		light_col->cos_angle = 0;
+		light_col->cos_angle = 0;//light_col->cos_angle; // Cuz sometimes the normal is inverted
 	}
 	/*
 		Add some cheat function, to put the cos_angle to zero if a
@@ -64,7 +64,7 @@ static void	add_light_collision(t_lcol **root, t_lcol *collision)
 	tmp->next = collision;
 }
 
-t_lcol	*query_visible_light(t_csg *obj , t_vector *point, t_vector *ray_dir)
+t_lcol	*query_visible_light(t_leave *obj , t_vector *point, t_vector *ray_dir)
 {
 	t_ll_obj	*light;
 	t_lcol		*collision;
