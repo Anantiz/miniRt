@@ -80,7 +80,7 @@ void				cptn_hook_key(mlx_key_data_t keydata, void *glob_);
 /* Rendering : Public*/
 
 void				rtt_render(void *glob_);
-void				rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray *ray);
+void				rtt_render_pixel(t_rgb *rgb, t_glob *glob, int x, int y);
 
 /* DEBUG */
 

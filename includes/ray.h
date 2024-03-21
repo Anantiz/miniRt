@@ -28,9 +28,20 @@ typedef struct s_screen
 
 }t_screen;
 
+/* RAY */
+
 t_ray		*new_ray(t_camera *camera, int x, int y);
 t_screen	*field_of_view(float fov);
 t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v);
 t_vector	*hit_point_to_color(t_collision *collision, t_ray *ray);
+
+/* RAY BOUNCE */
+
+t_vector	*ray_flect(t_ray *ray, t_vector *normal);
+bool		ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector *refract);
+t_rgb		*color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee, float refract, float reflect);
+void		colorLocal(t_collision *collision, t_ray *ray);
+t_rgb		*trace_ray(t_ray *ray, t_scene *scene, int depth);
+t_rgb		*vec_rgb(float x, float y, float z);
 
 #endif
