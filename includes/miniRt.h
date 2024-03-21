@@ -23,6 +23,8 @@
 // # define WIN_SIZE_Y	180
 
 // Micro window for real-time rendering (we don't have GPU)
+// # define WIN_SIZE_X	160
+// # define WIN_SIZE_Y	90
 // # define WIN_SIZE_X	80
 // # define WIN_SIZE_Y	45
 
