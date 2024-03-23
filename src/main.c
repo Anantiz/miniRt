@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 01:01:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/20 11:48:26 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 20:47:35 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	printf("\033[32mParsing done\033[0m\n");
 
 
-	// my_test(&glob);
+	my_test(&glob);
 	init_global(&glob);
 	mlx_image_to_window(glob.mlx, glob.img, 0, 0);
 	mlx_key_hook(glob.mlx, cptn_hook_key, &glob);

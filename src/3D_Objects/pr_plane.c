@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 12:42:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 14:23:16 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ double	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector *r
 	double		denominator; // D⃗⋅A⃗
 
 	denominator = vec_dot_product(ray_dir, plane_norm);
-	if (fabs(denominator) < EPSILON) // Ray is parallel to the plane because orthogonal to the normal
-		return (INFINITY);
+	if (denominator == 0) // Ray is parallel to the plane because orthogonal to the normal
+		return (-1);
 	nominator = vec_dot_product(&(t_vector){\
 		ray_pos->x - plane_pos->x, \
 		ray_pos->y - plane_pos->y, \
@@ -70,7 +70,7 @@ t_collision	*collider_plane(t_object *obj, t_leave *csg, t_ray *ray)
 	double		t;
 
 	t = plane_intersection(&obj->pos, csg->shape.plane.norm, ray->pos, ray->dir);
-	if (t < 0 || t == INFINITY)
+	if (t < 0)
 		return (NULL);
 	return (new_collision(obj, csg, ray, t));
 }

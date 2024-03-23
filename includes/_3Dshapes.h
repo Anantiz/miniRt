@@ -66,7 +66,8 @@ typedef union u_shape // Specific geometric parameters
 {
 	struct s_sphere
 	{
-		double	rad;
+		double	r;
+		double	r2;
 	}sphere;
 
 	struct s_plane
@@ -76,9 +77,11 @@ typedef union u_shape // Specific geometric parameters
 
 	struct s_cylinder
 	{
-		double	rad;
-		double	height;
-		double	z_impact;
+		double		r;
+		double		r2;
+		double		h;
+		int			norm_side;
+		t_vector	circle_norm; // The non-cap norm
 	}cylinder;
 }t_u_shape;
 
@@ -136,6 +139,7 @@ typedef struct s_object
 
 typedef struct s_collision
 {
+	double			t;
 	double			dist;
 	t_vector		point;
 	t_leave			*csg;

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/21 14:37:23 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 21:35:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ extern long my_x;
 extern long my_y;
 extern bool print_allow;
 int	sample = 0;
+
+#define INTER_CAP_SIDE 1
+#define INTER_CIRLCE_SIDE -1
 
 /*
 Since all calls to this function are made by the parser, we don't need to check
@@ -30,51 +33,29 @@ the parameters, they are guaranteed to be either correct or a string placeholder
 */
 t_csg	*pr_new_cylinder(char **params)
 {
-	t_csg	*cylinder;
+	t_csg	*cy;
 
-	cylinder = our_malloc(sizeof(t_csg));
-	cylinder->type = LEAVE;
-	cylinder->l = our_malloc(sizeof(t_leave));
-	cylinder->l->type = CYLINDER;
-	parse_position(&cylinder->l->pos, params[0]);
-	parse_orientation_private(&cylinder->l->dir, params[1]);
-	cylinder->l->shape.cylinder.rad = parse_double(params[2]) / 2;
-	cylinder->l->shape.cylinder.height = parse_double(params[3]);
-	parse_rgb(&cylinder->l->rgb, params[4]);
-	cylinder->l->reflect = 0;
-	cylinder->l->refract = 0;
-	return (cylinder);
+	cy = our_malloc(sizeof(t_csg));
+	cy->type = LEAVE;
+	cy->l = our_malloc(sizeof(t_leave));
+	cy->l->type = CYLINDER;
+	parse_position(&cy->l->pos, params[0]);
+	parse_orientation_private(&cy->l->dir, params[1]);
+	cy->l->shape.cylinder.r = parse_double(params[2]) / 2;
+	cy->l->shape.cylinder.h = parse_double(params[3]);
+	cy->l->shape.cylinder.r2 = cy->l->shape.cylinder.r \
+	* cy->l->shape.cylinder.r;
+	parse_rgb(&cy->l->rgb, params[4]);
+	cy->l->reflect = 0;
+	cy->l->refract = 0;
+	return (cy);
 }
-
-/*
-	Add the two given axis to get the cylinder's axis
-*/
-static void	cy_get_theta(double theta[3], t_vector *cy_axis)
-{
-	theta[0] = (M_PI / 2) - asin(cy_axis->z / sqrt(cy_axis->x * cy_axis->x + cy_axis->z * cy_axis->z));
-	theta[1] = acos (cy_axis->z / sqrt(cy_axis->y * cy_axis->y + cy_axis->z * cy_axis->z));
-	theta[2] = 0 ;
-}
-
-// Garbage, might reuse
-	// // Version 1: Works for orientations along a single axis
-	// theta[0] = atan2(cy_axis->y, cy_axis->z);
-
-	// // Calculate the rotation angle around the y-axis
-	// theta[1] = -atan2(cy_axis->x, sqrt(cy_axis->x * cy_axis->x + cy_axis->z * cy_axis->z));
-	// theta[2] = 0;
-
-	// // Absolute cheat, but it helps (still not perfect) -\_(x_x)_/-
-	// if (theta[0] == 0 && theta[1] != 0)
-	// {
-	// 	// theta[1] *= 2;
-	// }
 
 /*
 	Store the appropriate values in t_col[0]
 	and the height of the collision in t_col[1]
 */
-static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
+static bool	cy_get_t(double t_col[2], t_vector *ray_pos_l, t_vector *rdir_l, double h)
 {
 	double	t;
 	double	collision_z;
@@ -83,26 +64,43 @@ static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 	t = smallest_pos(t_col[0], t_col[1]);
 	if (t < 0) // Behind the camera
 		return (false);
-	collision_z = pos->z + t * rdir_l->z;
+	collision_z = ray_pos_l->z + t * rdir_l->z;
 	if (collision_z > h || collision_z < -EPSILON) // Out of height bounds
 	{
 		// Check if the other collision is in bounds
 		//fmax is ok since the other is either Smaller and negative (so max will give the same as now)
 		// or it is Positive and larger than the first t so it will give the larger value
 		t_col[0] = fmax(t_col[0], t_col[1]);
-		collision_z = pos->z + t_col[0] * rdir_l->z;
-		t_col[1] = collision_z;
+		collision_z = ray_pos_l->z + t_col[0] * rdir_l->z;
 		if (collision_z > h || collision_z < -EPSILON)
 			return (false);
 	}
 	else
-	{
 		t_col[0] = t;
-		t_col[1] = collision_z;
-	}
+
+	// For the norm
+	if (t_col[0] == t_col[1])
+		t_col[1] = INTER_CAP_SIDE;
+	else
+		t_col[1] = INTER_CIRLCE_SIDE;
 	return (true);
 }
 
+/*
+ray_l[0] = pos
+ray_l[1] = dir
+*/
+inline t_vector	*cy_get_norm(t_collision *col, t_vector *ray_l[2], \
+double theta[3], double theta_b[3], int type)
+{
+	t_vector	temp;
+	(void)theta_b;
+
+	if (type == INTER_CAP_SIDE)
+		return (vec_copy(&col->csg->dir));
+	temp = (t_vector){ray_l[0]->x + ray_l[1]->x * col->t, ray_l[0]->y + ray_l[1]->y * col->t, col->t};
+	return (vec_matrix_rev_rotate(&temp, theta));
+}
 
 /*
 	1.Convert global coordinates to local coordinates
@@ -120,68 +118,59 @@ static bool	cy_get_t(double t_col[2], t_vector *pos, t_vector *rdir_l, double h)
 */
 t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray)
 {
-	t_vector		*rdir_l;
-	t_vector		*pos;
-	t_vector		*tmp;
+	static int		once = 0;
+
 	double			theta[3];
+	t_collision		*col;
+	t_vector		*ray_dir_l;
+	t_vector		*ray_pos_l;
 	double			t_col[2];
 
 	//Part 1: Convert to local coordinates
-	pos = vec_add(&obj->pos, &csg->pos);
-	cy_get_theta(theta, &(t_vector){obj->dir.x + csg->dir.x, obj->dir.y + csg->dir.y, obj->dir.z + csg->dir.z});
-	rdir_l = vec_matrix_rotate(ray->dir, theta);
-	vec_normalize(rdir_l);
-	static int		once = 0;
+	absolute_cheat(&csg->dir, theta);
+
+
 	if (once < 6)
 	{
-		tmp = vec_add(&obj->dir, &csg->dir);
-		printf("Euler Angles   :\t %fx %fy %fz\n", theta[0], theta[1], theta[2]);
-		printf("Before rotation:\t");
+		t_vector	*tmp;
+
+		printf("Test %d:\n", once + 1);
+		printf("1-Euler Angles   :\t %fx %fy %fz\n", theta[0], theta[1], theta[2]);
+		printf("\t1-Before rotation:\t");
+		print_vector(&csg->dir);
+		printf("\t1-After rotation :\t");
+		tmp = vec_matrix_rotate(&csg->dir, theta);
+		vec_normalize(tmp);
 		print_vector(tmp);
-		tmp = vec_matrix_rotate(tmp, theta);
-		printf("After rotation :\t");
-		print_vector(tmp);
+
+		our_free(tmp);
+		printf("\n");
+
 		printf("\n");
 		once++;
 	}
-	tmp = vec_sub_inplace(vec_copy(ray->pos), pos);
-	pos = vec_realloc(&pos, vec_matrix_rotate(tmp, theta));
-	t_col[0] = cy_circle_intersection(pos, rdir_l, \
-		csg->shape.cylinder.rad);
-	t_col[1] = cy_cap_intersection(pos, rdir_l, \
-		csg->shape.cylinder.rad, csg->shape.cylinder.height);
+	ray_dir_l = vec_matrix_rotate(ray->dir, theta);
+
+	ray_pos_l = vec_sub(ray->pos, &csg->pos);
+	vec_realloc(&ray_pos_l, vec_matrix_rotate(ray_pos_l, theta));
+
+	t_col[0] = cy_circle_intersection(ray_pos_l, ray_dir_l, \
+		csg->shape.cylinder.r2);
+	t_col[1] = cy_cap_intersection(ray_pos_l, ray_dir_l, \
+		csg->shape.cylinder.r2, csg->shape.cylinder.h);
 
 	// Part 3: Get the closest collision
-	if (!cy_get_t(t_col, pos, rdir_l, csg->shape.cylinder.height))
-		return (free3(pos, rdir_l, tmp), NULL);
-	csg->shape.cylinder.z_impact = fabs(t_col[1]);
-	return (free3(pos, rdir_l, tmp), new_collision(obj, csg, ray, t_col[0]));
+	if (!cy_get_t(t_col, ray_pos_l, ray_dir_l, csg->shape.cylinder.h))
+		return (free2(ray_pos_l, ray_dir_l), NULL);
+	col = new_collision(obj, csg, ray, t_col[0]);
+	col->norm = cy_get_norm(col, (t_vector*[2]){ray_pos_l, ray_dir_l}, theta, theta, t_col[1]);
+	return (free2(ray_pos_l, ray_dir_l), col);
 }
 
+
+// OBSOLETE
 void	collider_cylinder_norm(t_collision *col, t_ray *ray)
 {
-	t_vector	*axis_ray_impact_plane;
-	t_vector	*cy_axis;
-	t_vector	*cy_pos;
-
 	(void)ray;
-	cy_axis = vec_add(&col->csg->dir, &col->obj->dir);
-	cy_pos = vec_add(&col->csg->pos, &col->obj->pos);
-
-	// Now the we have a point along the cylinder axis at the same height as
-	// the collision
-	vec_mult_inplace(col->csg->shape.cylinder.z_impact, cy_axis);
-	// Add the position of the cylinder
-	vec_add_inplace(cy_pos, cy_axis);
-
-	// Susbtract the collision point to get the axis_ray_impact_plane
-	//(the normal)
-	axis_ray_impact_plane = vec_sub(&col->point, cy_pos);
-	vec_normalize(axis_ray_impact_plane);
-
-	if (vec_dist(&col->point, cy_pos) < col->csg->shape.cylinder.rad - EPSILON) // Cap
-		col->norm = vec_add(&col->csg->dir, &col->obj->dir);
-	else // Tube
-		col->norm = axis_ray_impact_plane;
-	free2(cy_axis, cy_pos);
+	(void)col;
 }

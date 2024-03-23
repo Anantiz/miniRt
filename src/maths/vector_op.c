@@ -6,13 +6,13 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/03/19 12:44:15 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:47:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-t_vector	*vec_new(double x, double y, double z)
+inline t_vector	*vec_new(double x, double y, double z)
 {
 	t_vector	*vector;
 

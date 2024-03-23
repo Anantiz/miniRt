@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/20 11:44:39 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 14:34:06 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_csg	*pr_new_sphere(char **params)
 	sphere->l->type = SPHERE;
 	sphere->l->dir = (t_vector){0, 0, 0};
 	parse_position(&sphere->l->pos, params[0]);
-	sphere->l->shape.sphere.rad = parse_double(params[1]) / 2;
+	sphere->l->shape.sphere.r = parse_double(params[1]) / 2;
+	sphere->l->shape.sphere.r2 = sphere->l->shape.sphere.r * sphere->l->shape.sphere.r;
 	parse_rgb(&sphere->l->rgb, params[2]);
 	sphere->l->reflect = 0;
 	sphere->l->refract = 0;
@@ -66,13 +67,13 @@ t_collision	*collider_sphere(t_object *obj, t_leave *csg, t_ray *ray)
 
 	// Relative position of the sphere
 	dist_oc = (t_vector){\
-		ray->pos->x - (obj->pos.x + csg->pos.x), \
-		ray->pos->y - (obj->pos.y + csg->pos.y), \
-		ray->pos->z - (obj->pos.z + csg->pos.z)};
+		ray->pos->x - csg->pos.x, \
+		ray->pos->y - csg->pos.y, \
+		ray->pos->z - csg->pos.z};
 
 	// A = 1
 	b = 2 * vec_dot_product(&dist_oc, ray->dir);
-	c = vec_dot_product(&dist_oc, &dist_oc) - (csg->shape.sphere.rad * csg->shape.sphere.rad);
+	c = vec_dot_product(&dist_oc, &dist_oc) - (csg->shape.sphere.r2);
 	if (!quadratic_solver(1, b, c, &t))
 		return (NULL);
 	if (t.t1 < 0 || (t.t2 > 0 && t.t2 < t.t1))
@@ -87,8 +88,8 @@ void	collider_sphere_norm(t_collision *col, t_ray *ray)
 {
 	(void)ray;
 	col->norm = vec_new(\
-		col->point.x - (col->obj->pos.x + col->csg->pos.x), \
-		col->point.y - (col->obj->pos.y + col->csg->pos.y), \
-		col->point.z - (col->obj->pos.z + col->csg->pos.z));
+		col->point.x - col->csg->pos.x, \
+		col->point.y - col->csg->pos.y, \
+		col->point.z - col->csg->pos.z);
 	vec_normalize(col->norm);
 }

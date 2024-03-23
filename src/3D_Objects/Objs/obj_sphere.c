@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:53 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 09:20:22 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 14:34:46 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ t_csg	*obj_new_sphere(t_object *obj, char **params)
 	pr_params[3] = NULL;
 	sphere = pr_new_sphere(pr_params);
 	our_free(pr_params);
-
+	vec_add_inplace(&sphere->l->pos, &obj->pos);
 
 	printf("Sphere created\n");
-	printf("\tSphere radius:   %f\n", sphere->l->shape.sphere.rad);
+	printf("\tSphere radius:   %f\n", sphere->l->shape.sphere.r);
 	printf("\tSphere color:    ");
 	print_rgb(&sphere->l->rgb);
 	printf("\tSphere pos:  ");

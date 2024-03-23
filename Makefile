@@ -57,7 +57,7 @@ SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 MATHS_PATH:=maths
 MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c vector_op4.c light_op.c \
 quadratic_solver.c get_orthogonal.c math_utils.c vector_op5.c vector_op2inplace.c \
-project.c
+project.c matrix.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene

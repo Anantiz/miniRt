@@ -65,7 +65,8 @@ bool				vec_less_than_or_equal(t_vector *a, t_vector *b);
 bool				vec_more_than_or_equal(t_vector *a, t_vector *b);
 
 // double compare
-bool				fcmp(double a, double b);
+
+bool				ft_fcmp(double a, double b);
 double				ft_bound_double(double value, double max, double min);
 
 // Just math
@@ -76,6 +77,10 @@ t_pair_double *t);
 // Rotation
 
 t_vector			*vec_matrix_rotate(t_vector *v, double theta[3]);
+t_vector			*vec_matrix_rev_rotate(t_vector *v, double theta[3]);
+void				vec_allign_zaxis(double theta[3], t_vector *v);
+
+
 
 // Others
 

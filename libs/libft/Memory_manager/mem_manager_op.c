@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:11:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/01/29 10:10:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:52:54 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ void	mem_manager_del_node(t_mem_mng **root, void *address)
 		prev = node;
 		node = node->next;
 	}
-	if (prev && node != NULL)
-		prev->next = node->next;
+	if (prev)
+	{
+		if (node)
+			prev->next = node->next;
+		else
+			prev->next = NULL;
+	}
 	if (node == *root)
 		*root = (*root)->next;
 	if (node != NULL)

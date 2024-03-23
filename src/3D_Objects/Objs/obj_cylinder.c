@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:10:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/10 18:39:12 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 14:38:58 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,14 @@ t_csg	*obj_new_cylinder(t_object *obj, char **params)
 	pr_params[5] = NULL;
 	cylinder = pr_new_cylinder(pr_params);
 	our_free(pr_params);
+	
+	vec_add_inplace(&cylinder->l->pos, &obj->pos);
+	// Later on, use a matrix rotation instead of adding the vectors (cuz it's wrong)
+	vec_add_inplace(&cylinder->l->dir, &obj->dir);
 
 	printf("Cylinder created\n");
-	printf("\tCylinder radius:   %f\n", cylinder->l->shape.cylinder.rad);
-	printf("\tCylinder height:   %f\n", cylinder->l->shape.cylinder.height);
+	printf("\tCylinder radius:   %f\n", cylinder->l->shape.cylinder.r);
+	printf("\tCylinder height:   %f\n", cylinder->l->shape.cylinder.h);
 	printf("\tCylinder color:    ");
 	print_rgb(&cylinder->l->rgb);
 	printf("\tCylinder pos:  ");

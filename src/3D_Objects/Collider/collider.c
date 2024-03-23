@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 07:20:27 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 12:56:16 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 15:18:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_collision	*new_collision(t_object *obj, t_leave *csg, t_ray *ray, double t)
 	col->csg = csg;
 	col->ray = ray;
 	col->dist = t;
+	col->t = t;
 	col->point.x = ray->pos->x + ray->dir->x * t;
 	col->point.y = ray->pos->y + ray->dir->y * t;
 	col->point.z = ray->pos->z + ray->dir->z * t;

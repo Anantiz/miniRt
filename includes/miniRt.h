@@ -17,10 +17,10 @@
 // # define WIN_SIZE_Y	540
 
 // Small for development
-# define WIN_SIZE_X	640
-# define WIN_SIZE_Y	360
-// # define WIN_SIZE_X	320
-// # define WIN_SIZE_Y	180
+// # define WIN_SIZE_X	640
+// # define WIN_SIZE_Y	360
+# define WIN_SIZE_X	320
+# define WIN_SIZE_Y	180
 
 // Micro window for real-time rendering (we don't have GPU)
 // # define WIN_SIZE_X	160

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:51:00 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 12:44:45 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 21:13:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	vec_normalize(t_vector *vector)
 
 bool	vec_cmp(t_vector *v1, t_vector *v2)
 {
-	if (fcmp(v1->x, v2->x) && fcmp(v1->y, v2->y) && fcmp(v1->z, v2->z))
-		return (false);
-	return (true);
+	if (ft_fcmp(v1->x, v2->x) && ft_fcmp(v1->y, v2->y) && ft_fcmp(v1->z, v2->z))
+		return (true);
+	return (false);
 }

@@ -18,6 +18,8 @@ void	rtt_render(void *glob_)
 		ft_printf("\033[94mRendering new frame: \033[0m");
 		if (glob->tick == 0)
 			ft_printf("\n");
+
+
 		if (glob->tick != 0)
 			ft_printf("\033[31m(wait)...\033[0m");
 		ray_tracing(glob);
