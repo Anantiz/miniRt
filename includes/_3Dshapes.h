@@ -18,11 +18,20 @@
 The CSG tree (Constructive Solid Geometry)
 
 	It is a binary tree that represents the object. The leaves are the basic
-	primitives objects (sphere, plane, cylinder) and the nodes are operations
+	primitives objects (sphere, plane, cylinder etc...) and the nodes are operations
 	(union, intersection, difference) between the left and right children.
 		Union: Both objects are visible
 		Intersection: Only the common part is visible
 		Difference: Only the left object is visible
+
+Note about Directions/Orientation vectors:
+	Curretly we define the orientation of an object as a normalized vector
+	pointing is a direction.
+	There is a triplet of Eulers angles associated with said vector.
+	e.i. Vector(0,0,1) means we will rotate the object's default orientation
+	such that it points in the direction of the vector.
+	If the object defaults orientation is (1,0,0), then we will make a 90°
+	rotation around the Y axis to make it point in the direction of the vector.
 */
 
 # include "libft.h"
@@ -35,14 +44,14 @@ The CSG tree (Constructive Solid Geometry)
 
 typedef struct s_ray t_ray;
 
-// Shapes
+// Objects
 typedef enum e_objtype
 {
-	P_SPHERE,
-	P_PLANE,
-	P_CYLINDER,
-	P_FIGHTER_JET,
-	P_PENGUIN
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER,
+	OBJ_FIGHTER_JET,
+	OBJ_PENGUIN
 }t_e_objt;
 
 // Shapes
@@ -51,12 +60,13 @@ typedef enum e_primitive
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CUBOID,
 }t_e_prim;
 
 // Operations
 typedef enum e_ndtype
 {
-	LEAVE,
+	LEAF,
 	UNION,
 	INTER,
 	DIFF,
@@ -72,7 +82,7 @@ typedef union u_shape // Specific geometric parameters
 
 	struct s_plane
 	{
-		t_vector	*norm; // Do not free
+		t_vector	norm; // Do not free
 	}plane;
 
 	struct s_cylinder
@@ -83,6 +93,16 @@ typedef union u_shape // Specific geometric parameters
 		int			norm_side;
 		t_vector	circle_norm; // The non-cap norm
 	}cylinder;
+
+	struct s_cuboid
+	{
+		double		h;
+		double		w;
+		double		d;
+		t_vector	norm_h;
+		t_vector	norm_w; // The norm of the width is the overall direction
+		t_vector	norm_d;
+	}cuboid;
 }t_u_shape;
 
 /*
@@ -95,7 +115,7 @@ To come:
 	- Material properties
 	- Having the object component being independant light sources
 */
-typedef struct s_csg_leave
+typedef struct s_csg_leaf
 {
 	t_vector		pos;
 	t_vector		dir;
@@ -106,13 +126,13 @@ typedef struct s_csg_leave
 	t_rgb			rgb;
 	double			reflect;
 	double			refract;
-}t_leave;
+}t_leaf;
 
 typedef struct s_csg
 {
 	t_e_ndtype		type;
 
-	t_leave			*l;
+	t_leaf			*l;
 	struct s_csg	*left;
 	struct s_csg	*right;
 }t_csg;
@@ -140,12 +160,11 @@ typedef struct s_object
 typedef struct s_collision
 {
 	double			t;
-	double			dist;
 	t_vector		point;
-	t_leave			*csg;
+	t_leaf			*csg;
 	t_object		*obj;
 	t_ray			*ray;
-	t_vector		*norm;
+	t_vector		norm;
 }t_collision;
 
 
@@ -170,16 +189,17 @@ t_csg				*new_csg(char **params);
 //5 parameters
 // in a function, so I'll have to use a second function to add
 //the texture and bump etc...
-t_csg				*new_csg_leave(t_e_prim type, t_vector *pos, \
-t_vector *ori, t_rgb color);
-void				csg_leave_add(t_csg *csg, char **params); // to come
+t_csg				*csg_new_union(void);
+t_csg				*csg_new_inter(void);
+t_csg				*csg_new_diff(void);
+
 
 // Primitive constructors : Private
 // Return a single leaf
 
-t_csg				*pr_new_sphere(char **params);
+t_csg				*pr_new_sphere(t_vector coordinates[2], char **params);
 t_csg				*pr_new_plane(char *color); // Special case ... idk how to handle it cleanly, i guess just a Null shape
-t_csg				*pr_new_cylinder(char **params);
+t_csg				*pr_new_cylinder(t_vector coordinates[2], char **params);
 
 // CSG constructors : Public
 // Return the root of the CSG tree
@@ -196,27 +216,28 @@ t_csg				*obj_new_penguin(t_object *obj, char **params);
 
 t_collision			*collider_union(t_collision **collision);
 t_collision			*collider_inter(t_collision **collision);
+t_collision			*collider_diff(t_collision **collision);
 t_collision			*collider_switch(t_object *obj, t_ray *ray, t_csg *csg);
 t_collision			*hadron_collider(t_object *obj, t_ray *ray, t_csg *csg);
 
 // Collision constructor
 void				collision_norm_switch(t_collision *col, t_e_prim type);
-t_collision			*new_collision(t_object *obj, t_leave *csg, t_ray *ray, \
+t_collision			*new_collision(t_object *obj, t_leaf *csg, t_ray *ray, \
 double t);
 
 // Individual colliders + Norms
 
-t_collision			*collider_sphere(t_object *obj, t_leave *csg, t_ray *ray);
+t_collision			*collider_sphere(t_object *obj, t_leaf *csg, t_ray *ray);
 void				collider_sphere_norm(t_collision *col, t_ray *ray);
 
-t_collision			*collider_plane(t_object *obj, t_leave *csg, t_ray *ray);
+t_collision			*collider_plane(t_object *obj, t_leaf *csg, t_ray *ray);
 double	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector \
 *ray_pos, t_vector *ray_dir);
 
 
 void				collider_plane_norm(t_collision *col, t_ray *ray);
 
-t_collision			*collider_cylinder(t_object *obj, t_leave *csg, t_ray *ray);
+t_collision			*collider_cylinder(t_object *obj, t_leaf *csg, t_ray *ray);
 double				cy_circle_intersection(t_vector *ray_pos, \
 t_vector *ray_dir, double r);
 double				cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, \

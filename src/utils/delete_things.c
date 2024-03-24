@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:14:42 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/14 17:30:32 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 20:27:52 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 /*
 	If we somehow add new things we can free them here
 */
-void	del_collision(t_collision *col)
+inline void	del_collision(t_collision *col)
 {
 	// May delete the ray, depends on what we do later
-	our_free(col->norm);
 	our_free(col);
 }
 
@@ -32,20 +31,20 @@ void	del_light_col(t_lcol *lcol)
 	our_free(lcol);
 }
 
-void	free2(void *v1, void *v2)
+inline void	free2(void *v1, void *v2)
 {
 	our_free(v1);
 	our_free(v2);
 }
 
-void	free3(void *v1, void *v2, void *v3)
+inline void	free3(void *v1, void *v2, void *v3)
 {
 	our_free(v1);
 	our_free(v2);
 	our_free(v3);
 }
 
-void	free4(void *v1, void *v2, void *v3,  void *v4)
+inline void	free4(void *v1, void *v2, void *v3,  void *v4)
 {
 	our_free(v1);
 	our_free(v2);

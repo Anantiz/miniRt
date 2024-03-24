@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:36 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/23 14:23:16 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 22:16:10 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ t_csg	*pr_new_plane(char *color)
 	t_csg	*plane;
 
 	plane = our_malloc(sizeof(t_csg));
-	plane->type = LEAVE;
-	plane->l = our_malloc(sizeof(t_leave));
+	plane->type = LEAF;
+	plane->l = our_malloc(sizeof(t_leaf));
 	plane->l->type = PLANE;
 	//planes are never relative to the object
 	plane->l->pos = (t_vector){0, 0, 0};
 	plane->l->dir = (t_vector){0, 0, 0};
-	parse_rgb(&plane->l->rgb, color);
+	if (!parse_rgb(&plane->l->rgb, color))
+		return (NULL);
 	plane->l->reflect = 0;
 	plane->l->refract = 0;
 	return (plane);
@@ -65,11 +66,11 @@ double	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector *r
 		Pointer to a collision struct if there is a collision
 		NULL if no parallel or intersection is opposite to the ray direction
 */
-t_collision	*collider_plane(t_object *obj, t_leave *csg, t_ray *ray)
+t_collision	*collider_plane(t_object *obj, t_leaf *csg, t_ray *ray)
 {
 	double		t;
 
-	t = plane_intersection(&obj->pos, csg->shape.plane.norm, ray->pos, ray->dir);
+	t = plane_intersection(&obj->pos, &csg->shape.plane.norm, ray->pos, ray->dir);
 	if (t < 0)
 		return (NULL);
 	return (new_collision(obj, csg, ray, t));
@@ -82,8 +83,8 @@ t_collision	*collider_plane(t_object *obj, t_leave *csg, t_ray *ray)
 void	collider_plane_norm(t_collision *col, t_ray *ray)
 {
 	(void)ray;
-	col->norm = vec_copy(col->csg->shape.plane.norm);
-	if (vec_dot_product(col->norm, ray->dir) > 0)
-		vec_negate(col->norm);
-	vec_normalize(col->norm);
+	col->norm = col->csg->shape.plane.norm;
+	if (vec_dot_product(&col->norm, ray->dir) > 0)
+		vec_negate(&col->norm);
+	vec_normalize(&col->norm);
 }

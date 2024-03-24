@@ -6,11 +6,23 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:08:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:57:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 22:11:21 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
+
+static void	debug_new_pl(t_leaf *pl)
+{
+	printf("Plane created\n");
+	printf("\tPlane pos:  ");
+	print_vector(&pl->pos);
+	printf("\tPlane dir:  ");
+	print_vector(&pl->dir);
+	printf("\tPlane color:  ");
+	print_rgb(&pl->rgb);
+	printf("\n\n");
+}
 
 /*
 MEMO:
@@ -33,25 +45,17 @@ params[0] is the color
 */
 t_csg	*obj_new_plane(t_object *obj, char **params)
 {
-	t_csg	*plane;
+	t_csg		*plane;
+	t_vector	*norm;
 
 	if (ft_tablen(params) != 1)
-		error_exit("Plane: wrong number of parameters");
-	// Will only parse the color, the rest is already done
-	// It's just more consistent to have the same function signature
+		return (NULL);
 	plane = pr_new_plane(params[0]);
-	plane->l->shape.plane.norm = vec_get_ortho(&obj->dir);
-
-	// Debug
-	printf("Plane created\n");
-	printf("\tPlane position:    ");
-	print_vector(&obj->pos);
-	printf("\tPlane Orientation: ");
-	print_vector(&obj->dir);
-	printf("\tPlane Normal:      ");
-	print_vector(plane->l->shape.plane.norm);
-	printf("\tPlane color:       ");
-	print_rgb(&plane->l->rgb);
-	printf("\n\n");
+	if (!plane)
+		return (NULL);
+	norm = vec_get_ortho(&obj->dir);
+	plane->l->shape.plane.norm = *norm;
+	our_free(norm);
+	debug_new_pl(plane->l);
 	return (plane);
 }

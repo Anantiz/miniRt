@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/05 16:46:01 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 22:21:47 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ Thirdly:
 t_object	*new_object(char **params)
 {
 	static const char		*types[] = {"sp", "pl", "cy", "csg_fj", "csg_peng", NULL};
-	static const t_e_objt	stypes[] = {P_SPHERE, P_PLANE, P_CYLINDER,P_FIGHTER_JET, P_PENGUIN};
+	static const t_e_objt	stypes[] = {OBJ_SPHERE, OBJ_PLANE, OBJ_CYLINDER,OBJ_FIGHTER_JET, OBJ_PENGUIN};
 	t_object				*obj;
 	int						i;
 
@@ -63,18 +63,18 @@ t_object	*new_object(char **params)
 	{
 		if (!ft_strcmp(types[i], params[0]))
 		{
-			obj = our_malloc(sizeof(t_object));
+			obj = our_malloc(sizeof(*obj));
 			obj->type = stypes[i];
-			parse_position(&obj->pos, params[1]); // Handles if no params is given (exit with error)
-			if (stypes[i] == P_SPHERE)
-			{
+			if (!parse_position(&obj->pos, (params++)[1]))
+				return (NULL);
+			if (stypes[i] == OBJ_SPHERE) // Sphere doesn't have a direction
 				obj->dir = (t_vector){0, 0, 0};
-				obj->csg = new_csg_tree(obj, stypes[i], params + 2);
+			else
+				if (!parse_orientation(&obj->dir, (params++)[1]))
+					return (NULL);
+			obj->csg = new_csg_tree(obj, stypes[i], params + 1);
+			if (obj->csg)
 				return (obj);
-			}
-			parse_orientation(&obj->dir, params[2]); // Same
-			obj->csg = new_csg_tree(obj, stypes[i], params + 3);
-			return (obj);
 		}
 	}
 	return (NULL);

@@ -14,7 +14,7 @@ We then create a t_light_collision struct and add it to the list
 ray collision (reverse light path, since we start from the camera to the light)
 
 */
-static t_lcol	*get_light_collision(t_spot_light *light, t_leave *csg, \
+static t_lcol	*get_light_collision(t_spot_light *light, t_leaf *csg, \
 t_vector *point)
 {
 	t_collision	*obj_col;
@@ -33,20 +33,15 @@ t_vector *point)
 
 	light_col = our_malloc(sizeof(t_lcol));
 	light_col->light = light; // For color and intensity
-	light_col->dist = obj_col->dist; // For light dispersion
+	light_col->dist = obj_col->t; // For light dispersion
 
 	// Don't ask why it's negative
-	light_col->cos_angle = -vec_dot_product(light_ray.dir, obj_col->norm); // For light incidency
+	light_col->cos_angle = -vec_dot_product(light_ray.dir, &obj_col->norm); // For light incidency
 
 	if (light_col->cos_angle < 0) // The light is behind the object
 	{
 		light_col->cos_angle = 0;//light_col->cos_angle; // Cuz sometimes the normal is inverted
 	}
-
-	// if (csg->type == CYLINDER) // Cuz normal is not yet implemented
-	// {
-	// 	light_col->cos_angle = 1;
-	// }
 	/*
 		Add some cheat function, to put the cos_angle to zero if a
 		plane is in between the light and the camera.

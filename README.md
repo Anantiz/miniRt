@@ -24,3 +24,9 @@ CAMERA:
 	And ROLL.
 
 	Make A plane gameplay
+
+
+NORM:
+	CSG trees:
+		When I remove Things, The norm stays the sames as for the full objects.
+		So it renders weird

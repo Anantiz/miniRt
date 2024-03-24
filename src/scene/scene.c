@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 12:42:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 20:18:35 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static t_collision	*get_closest_collision(t_collision **collisions, int count)
 	{
 		if (collisions[i])
 		{
-			if (collisions[i]->dist < closest_dist)
+			if (collisions[i]->t < closest_dist)
 			{
-				closest_dist = collisions[i]->dist;
+				closest_dist = collisions[i]->t;
 				closest_collision = collisions[i];
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:16:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/20 11:54:17 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 19:41:11 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,9 @@ static void	cptn_hook_key2(t_glob *glob, mlx_key_data_t keydata)
 		rotate_camera(glob, glob->camera->dir, glob->camera->up, -1);
 	else if (keydata.key == MLX_KEY_DOWN)
 		rotate_camera(glob, glob->camera->dir, glob->camera->up, 1);
+	// Rotate roll
+	else if (keydata.key == MLX_KEY_Q)
+		rotate_camera(glob, glob->camera->right, glob->camera->dir, -1);
+	else if (keydata.key == MLX_KEY_E)
+		rotate_camera(glob, glob->camera->right, glob->camera->dir, 1);
 }

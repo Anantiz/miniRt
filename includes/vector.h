@@ -8,8 +8,9 @@
 # include "forward_declaration.h"
 
 # define M_PI		3.14159265358979323846
+# define M_PI_2		1.57079632679489661923
+# define M_PI_4		0.78539816339744830962
 # define EPSILON	0.0001
-
 
 // Cuz doubles are faster than doubles
 typedef	struct	s_vector
@@ -76,16 +77,26 @@ t_pair_double *t);
 
 // Rotation
 
+t_vector			mtx_rotate_x(t_vector *v, float angle);
+t_vector			mtx_rotate_y(t_vector *v, float angle);
+t_vector			mtx_rotate_z(t_vector *v, float angle);
+
+// Shitty onces
 t_vector			*vec_matrix_rotate(t_vector *v, double theta[3]);
 t_vector			*vec_matrix_rev_rotate(t_vector *v, double theta[3]);
 void				vec_allign_zaxis(double theta[3], t_vector *v);
-
-
 
 // Others
 
 double				smallest_pos(double a, double b);
 void				print_vector(t_vector *vector);
+
+// By copy
+
+t_vector			vadd(t_vector *v1, t_vector *v2);
+t_vector			vsub(t_vector *v1, t_vector *v2);
+t_vector			vmult(t_vector *v1, double k);
+t_vector			vdiv(t_vector *v1, double k);
 
 // To free multiple vectors at once, cleaner than multiple calls to free
 void				free2(void *v1, void *v2);

@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 14:53:49 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/19 14:31:06 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 20:14:50 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_collision(t_collision *collision)
 	{
 		printf("Collision Object: ");
 		printf("%s\n", shape_names[collision->csg->type]);
-		printf("Collision detected at distance: %8.5f\n", collision->dist);
+		printf("Collision detected at distance: %8.5f\n", collision->t);
 		printf("Collision point: ");
 		print_vector(&collision->point);
 	}
