@@ -1,6 +1,6 @@
 CC:=cc
 INCLUDE_PATH=./includes
-CFLAGS:=-Wall -Wextra -g3 -I$(INCLUDE_PATH) -fsanitize=address
+CFLAGS:=-Wall -Wextra -O3 -pg -I$(INCLUDE_PATH) #-fsanitize=address
 RM:=rm -rf
 
 NAME:=miniRt
@@ -27,7 +27,7 @@ UTILS_FILES:=colors.c print_shit.c delete_things.c fetch_things.c
 SRC_FILES+=			$(addprefix $(UTILS_PATH)/,$(UTILS_FILES))
 
 COLLIDER_PATH:=3D_Objects/Collider
-COLLIDER_FILES:=collider2.c collider.c collision_norm.c
+COLLIDER_FILES:=collider2.c collider.c collision_norm.c csg_utils.c
 SRC_FILES+=			$(addprefix $(COLLIDER_PATH)/,$(COLLIDER_FILES))
 
 _OBJS_PATH:=3D_Objects/Objs
@@ -39,7 +39,8 @@ SRC_FILES+=			$(addprefix $(_OBJS_PATH)/,$(_OBJS_FILES))
 SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
 
 PARSE_PATH:=Parsing
-PARSE_FILES:=parsing.c parsing_utils.c parsing_upper.c
+PARSE_FILES:=parsing.c parsing_utils.c parsing_upper.c parsing_utils2.c\
+parsing_camera.c
 SRC_FILES+=			$(addprefix $(PARSE_PATH)/,$(PARSE_FILES))
 
 HOOK_PATH:=Hooks
@@ -57,7 +58,7 @@ SRC_FILES+=			$(addprefix $(RENDER_PATH)/,$(RENDER_FILES))
 MATHS_PATH:=maths
 MATHS_FILES:=vector_op.c vector_op2.c vector_op3.c vector_op4.c light_op.c \
 quadratic_solver.c get_orthogonal.c math_utils.c vector_op5.c vector_op2inplace.c \
-project.c
+project.c matrix.c matrix2.c vector_op22.c
 SRC_FILES+=			$(addprefix $(MATHS_PATH)/,$(MATHS_FILES))
 
 SCENE_PATH:=scene
@@ -107,3 +108,4 @@ re: fclean all
 redo: clean all
 
 .PHONY: all clean fclean re cldo
+

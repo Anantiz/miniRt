@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:33:58 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 11:15:24 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 22:04:51 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 
 #include "miniRt.h"
 
-typedef void	(*t_parse_token)(t_glob *, char **);
+typedef bool	(*t_parse_token)(t_glob *, char **);
 
 // Calls sub-functions to handle
-static int	parse_line(t_glob *glob, const char *line)
+static bool	parse_line(t_glob *glob, const char *line)
 {
 	static const char			*token_types[] = {"A", "C", "L", NULL}; // Only non-object tokens
 	static const t_parse_token	parsing_func[] = \
@@ -37,15 +37,18 @@ static int	parse_line(t_glob *glob, const char *line)
 	tokens = ft_split_spaces(line);
 	if (!tokens || !*tokens)
 		return (SUCCESS);
+
+	// Parse *Non-Objects*
 	i = -1;
 	while (token_types[++i])
 	{
 		if (!ft_strcmp(*tokens, token_types[i]))
-			return ((parsing_func[i])(glob, tokens), SUCCESS);
+			return ((parsing_func[i])(glob, tokens));
 	}
+	// Parse Objects
 	obj = new_object(tokens);
 	if (!obj)
-		return (GO_FUCK_YOURSELF);
+		return (FAILURE);
 	scene_add_object(glob->scene, obj);
 	return (SUCCESS);
 }
@@ -70,12 +73,6 @@ static int	open_file(char *path)
 
 static int	validate_parsing(t_glob *glob)
 {
-	if (glob->scene->amb_intensity < 0)
-	{
-		printf("\033[32mAmbiant light not set, make sure it is intentional"\
-		" do so.\033[0m\n");
-		glob->scene->amb_intensity = 0.0f;
-	}
 	if (glob->camera == NULL)
 	{
 		printf("\033[101mCamera not set, please do so.\033[0m\n");
@@ -104,7 +101,7 @@ int	parse_map(t_glob *glob, char *path)
 			break ;
 		if (*line == '#' || ft_is_blank_str(line))
 			continue ;
-		if (parse_line(glob, line) == GO_FUCK_YOURSELF)
+		if (parse_line(glob, line) == FAILURE)
 			error_exit(ft_strjoin("Invalid parameter found on line ", \
 			ft_itoa(line_count)));
 	}

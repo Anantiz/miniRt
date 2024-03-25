@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:21:13 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/03 09:44:44 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/21 16:04:13 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 ssize_t	ft_putnbr_fd(int n, int fd)
 {
+	int		w;
 	char	c;
 
 	if (n < 0 && n > -10)
-		write(fd, "-", 1);
+		w = write(fd, "-", 1);
+	else
+		w = 0;
 	if (n < 0)
 		c = ((10 - (n % 10)) % 10) + '0';
 	else
@@ -25,5 +28,5 @@ ssize_t	ft_putnbr_fd(int n, int fd)
 	n = n / 10;
 	if (n != 0)
 		ft_putnbr_fd(n, fd);
-	return (write(fd, &c, 1));
+	return (write(fd, &c, 1) + w);
 }

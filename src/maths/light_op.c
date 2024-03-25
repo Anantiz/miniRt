@@ -9,7 +9,7 @@ Formula:
 Return:
 	The new lumen intensity at the colision point
 */
-float	update_lumen_distance(float distance, float lumen)
+double	update_lumen_distance(double distance, double lumen)
 {
 	return (lumen = (1 / (distance * distance)));
 }

@@ -6,13 +6,13 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:44:04 by loris             #+#    #+#             */
-/*   Updated: 2024/03/16 14:36:05 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:47:53 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-t_vector	*vec_new(float x, float y, float z)
+inline t_vector	*vec_new(double x, double y, double z)
 {
 	t_vector	*vector;
 
@@ -69,7 +69,7 @@ Using a trigonometric circle to think about it:
 	Following: cos(1) = 0,
 		a dot product of 1 means the vectors are on the same axis (parallel)
 */
-float	vec_dot_product(t_vector *v1, t_vector *v2)
+double	vec_dot_product(t_vector *v1, t_vector *v2)
 {
 	return (((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z)));
 }

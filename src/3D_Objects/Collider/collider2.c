@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 16:43:19 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 13:42:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 22:08:39 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_e_prim
 */
 
 // For cleaner code
-typedef t_collision	*(*t_collider)(t_object *,t_leave *, t_ray *);
+typedef t_collision	*(*t_collider)(t_object *,t_leaf *, t_ray *);
 
 /*
 	Pretty warper to get the right collider
@@ -56,7 +56,7 @@ t_collision	*collider_union(t_collision **collision)
 	if (collision[0])
 	{
 		// Returns the closest collision out of the two
-		if (collision[1] && collision[0]->dist < collision[1]->dist)
+		if (collision[1] && collision[0]->t < collision[1]->t)
 			return (del_collision(collision[1]), collision[0]);
 		// Either returns the closer collision or NULL
 		return (del_collision(collision[0]), collision[1]);
@@ -87,10 +87,24 @@ t_collision	*collider_inter(t_collision **collision)
 	if (collision[0] && collision[1])
 	{
 		// If both collisions are valid, return the closest one
-		if (collision[0]->dist < collision[1]->dist)
+		if (collision[0]->t < collision[1]->t)
 			return (del_collision(collision[1]), collision[0]);
 		return (del_collision(collision[0]), collision[1]);
 	}
+	del_collision(collision[0]);
+	del_collision(collision[1]);
+	return (NULL);
+}
+
+/*
+	Returns the left node collisions IF:
+		- The left node is valid
+		- The right node is NULL
+*/
+t_collision	*collider_diff(t_collision **collision)
+{
+	if (collision[0] && !collision[1])
+		return (collision[0]);
 	del_collision(collision[0]);
 	del_collision(collision[1]);
 	return (NULL);

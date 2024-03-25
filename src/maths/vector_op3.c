@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:51:00 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/16 16:16:45 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/23 21:13:03 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_vector	*vec_negate(t_vector *v)
 	return (v);
 }
 
-float	vec_len(t_vector *vector)
+double	vec_len(t_vector *vector)
 {
 	return (sqrtf((vector->x * vector->x) \
 			+ (vector->y * vector->y) \
@@ -36,7 +36,7 @@ float	vec_len(t_vector *vector)
 
 void	vec_normalize(t_vector *vector)
 {
-	float	length;
+	double	length;
 
 	length = vec_len(vector);
 	if (length == 0)
@@ -48,7 +48,7 @@ void	vec_normalize(t_vector *vector)
 
 bool	vec_cmp(t_vector *v1, t_vector *v2)
 {
-	if (fcmp(v1->x, v2->x) && fcmp(v1->y, v2->y) && fcmp(v1->z, v2->z))
-		return (false);
-	return (true);
+	if (ft_fcmp(v1->x, v2->x) && ft_fcmp(v1->y, v2->y) && ft_fcmp(v1->z, v2->z))
+		return (true);
+	return (false);
 }

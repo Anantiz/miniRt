@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:55:09 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/15 16:22:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:44:54 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 	Overly complicated function to get the angle between two vectors
 	But it works
 */
-float		vec_get_angle_axis(t_vector *v1, t_vector *v2)
+double		vec_get_angle_axis(t_vector *v1, t_vector *v2)
 {
 	t_vector	normed1;
 	t_vector	normed2;
-	float		temp;
-	float		angle;
+	double		temp;
+	double		angle;
 
 	// Step-1 Safe method to consider zero vectors
 	temp = vec_len(v1);
@@ -41,6 +41,6 @@ float		vec_get_angle_axis(t_vector *v1, t_vector *v2)
 	// If the dot product is 0, the vectors are perpendicular
 	if (temp == 0)
 		return (M_PI / 2);
-	angle = ft_bound_float(vec_dot_product(v1, v2), 1, -1) / temp;
+	angle = ft_bound_double(vec_dot_product(v1, v2), 1, -1) / temp;
 	return (acosf(angle));
 }

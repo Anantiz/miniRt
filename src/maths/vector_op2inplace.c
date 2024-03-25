@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:25:59 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/13 15:27:54 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:44:30 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_vector	*vec_sub_inplace(t_vector *v1, t_vector *v2)
 	return (v1);
 }
 
-t_vector	*vec_mult_inplace(float k, t_vector *v1)
+t_vector	*vec_mult_inplace(double k, t_vector *v1)
 {
 	v1->x *= k;
 	v1->y *= k;
@@ -36,7 +36,7 @@ t_vector	*vec_mult_inplace(float k, t_vector *v1)
 	return(v1);
 }
 
-t_vector	*vec_div_inplace(float k, t_vector *v1)
+t_vector	*vec_div_inplace(double k, t_vector *v1)
 {
 	v1->x /= k;
 	v1->y /= k;

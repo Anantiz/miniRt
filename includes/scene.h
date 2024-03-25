@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:16 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/11 10:43:43 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:46:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_scene
 	int				lights_count;
 
 	t_rgb			ambiant_rgb;
-	float			amb_intensity;
+	double			amb_intensity;
 }t_scene;
 
 
@@ -81,7 +81,7 @@ void				scene_add_light(t_scene *scene, t_spot_light *light);
 // t_object			*scene_new_object(t_glob *glob);
 // void				scene_add_object(t_scene *scene, t_object *object);
 // void				scene_add_light(t_scene *scene, t_spot_light *light);
-float				update_lumen_distance(float distance, float lumen);
+double				update_lumen_distance(double distance, double lumen);
 
 /* Trash : private */
 

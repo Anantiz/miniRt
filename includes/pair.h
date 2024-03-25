@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:03:56 by aurban            #+#    #+#             */
-/*   Updated: 2024/02/27 14:19:19 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/19 12:40:33 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ typedef struct s_pair_float
 	float	t1;
 	float	t2;
 }t_pair_float;
+
+typedef struct s_pair_double
+{
+	double	t1;
+	double	t2;
+}t_pair_double;
 
 void			pair_mfree(void *pair);
 t_pair_char		*pair_char_strtok(char *str, char sep);

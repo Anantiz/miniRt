@@ -19,8 +19,8 @@ typedef struct s_spot_light
 {
 	t_vector		pos;
 	t_rgb			rgb;
-	float			intensity_ratio;
-	float			lumen;
+	double			intensity_ratio;
+	double			lumen;
 }t_spot_light;
 typedef t_spot_light		t_slight;
 
@@ -31,15 +31,14 @@ given in radian.
 typedef struct s_light_collision
 {
 	t_spot_light				*light;
-	float						dist;
-	float						cos_angle;
+	double						dist;
+	double						cos_angle;
 
 	struct s_light_collision	*next;
 }t_light_collision;
 typedef t_light_collision	t_lcol;
 
-t_lcol				*query_visible_light(t_leave *obj , t_vector *point, \
-t_vector *ray_dir);
+t_lcol				*query_visible_light(t_collision *collision);
 
 void				del_light_col(t_lcol *lcol);
 

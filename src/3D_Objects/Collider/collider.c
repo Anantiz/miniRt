@@ -6,13 +6,13 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 07:20:27 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 14:17:53 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 22:16:10 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
 
-t_collision	*new_collision(t_object *obj, t_leave *csg, t_ray *ray, float t)
+t_collision	*new_collision(t_object *obj, t_leaf *csg, t_ray *ray, double t)
 {
 	t_collision	*col;
 
@@ -20,7 +20,7 @@ t_collision	*new_collision(t_object *obj, t_leave *csg, t_ray *ray, float t)
 	col->obj = obj;
 	col->csg = csg;
 	col->ray = ray;
-	col->dist = t;
+	col->t = t;
 	col->point.x = ray->pos->x + ray->dir->x * t;
 	col->point.y = ray->pos->y + ray->dir->y * t;
 	col->point.z = ray->pos->z + ray->dir->z * t;
@@ -36,24 +36,20 @@ t_collision	*new_collision(t_object *obj, t_leave *csg, t_ray *ray, float t)
 */
 t_collision	*hadron_collider(t_object *obj, t_ray *ray, t_csg *csg)
 {
-	t_collision	*collision[2];
+	t_collision	*collisions[2];
 
 	if (!csg) // Should never happen, since leaves are the terminal nodes, but just in case
 		return (NULL);
-	if (csg->type == LEAVE)
+	if (csg->type == LEAF)
 		return (collider_switch(obj, ray, csg));
-	collision[0] = hadron_collider(obj, ray, csg->left);
-	collision[1] = hadron_collider(obj, ray, csg->right);
+	collisions[0] = hadron_collider(obj, ray, csg->left);
+	collisions[1] = hadron_collider(obj, ray, csg->right);
 	if (csg->type == UNION)
-		return (collider_union(collision));
+		return (collider_union(collisions));
 	else if (csg->type == INTER)
-		return (collider_inter(collision));
+		return (collider_inter(collisions));
 	else if (csg->type == DIFF)
-	{
-		if (collision[0] && !collision[1])
-			return (del_collision(collision[1]), collision[0]);
-	}
-	del_collision(collision[0]);
-	del_collision(collision[1]);
+		return (collider_diff(collisions));
 	return (NULL);
 }
+

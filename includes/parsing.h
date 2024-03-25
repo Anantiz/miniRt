@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 03:05:37 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/07 13:40:30 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 21:54:42 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ int					parse_map(t_glob *glob, char *path);
 
 /* Parsing : Private*/
 
-float				parse_float(char *str);
-int					parse_int(char *str);
+bool				parse_double(char *str, double *res);
+bool				parse_int(char *str, int *res);
 
 void				parse_error_msg(int error, char *custom_str);
-void				parse_rgb(t_rgb *color, char *str_color);
-void				parse_position(t_vector *vector, char *str_pos);
-void				parse_orientation(t_vector *vector, char *str_rot);
+bool				parse_rgb(t_rgb *color, char *str_color);
+bool				parse_position(t_vector *vector, char *str_pos);
+bool				parse_orientation(t_vector *vector, char *str_rot);
 // This one don't raise an error for 0,0,0 vectors (used for relative orientation in objects)
-void				parse_orientation_private(t_vector *vector, char *dir_str);
+bool				parse_orientation_null_allowed(t_vector *vector, char *dir_str);
 
 
-void				parse_ambiant(t_glob *glob, char **line_tokens);
-void				parse_camera(t_glob *glob, char **line_tokens);
-void				parse_light(t_glob *glob, char **line_tokens);
+bool				parse_ambiant(t_glob *glob, char **line_tokens);
+bool				parse_camera(t_glob *glob, char **line_tokens);
+bool				parse_light(t_glob *glob, char **line_tokens);
 
 #endif
