@@ -160,6 +160,7 @@ typedef struct s_object
 typedef struct s_collision
 {
 	double			t;
+	t_rgb			rgb;
 	t_vector		point;
 	t_leaf			*csg;
 	t_object		*obj;

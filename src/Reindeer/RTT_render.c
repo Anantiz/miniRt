@@ -42,8 +42,6 @@ void	rtt_render(void *glob_)
 	}
 }
 
-
-
 void	rtt_render_pixel(t_rgb *rgb, t_glob *glob, int x, int y)
 {
 	mlx_put_pixel(glob->img, x, y, vector_to_color(1, rgb));

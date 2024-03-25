@@ -51,14 +51,14 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 
 void	new_ray(t_camera *camera, int x, int y, t_ray *ray)
 {
-	static t_screen	*screen = NULL;
+	t_screen	*screen;
 	float			u;
 	float			v;
 
-	if (!screen)
-		screen = field_of_view(camera->fov);
+	screen = field_of_view(camera->fov);
 	normalize_coordinates(&u, &v, x, y);
 	ray->dir = ray_dir(camera, screen, u, v);
+	our_free(screen);
 }
 
 void	ray_tracing(t_glob *glob)
@@ -76,7 +76,7 @@ void	ray_tracing(t_glob *glob)
 		{
 			ray.pos = glob->camera->pos;
 			new_ray(glob->camera, x, y, &ray);
-			rgb = trace_ray(&ray, glob->scene, 3);
+			rgb = trace_ray(&ray, glob->scene, 10);
 			rtt_render_pixel(&rgb, glob, x, y);
 			our_free(ray.dir);
 		}
