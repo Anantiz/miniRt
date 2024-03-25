@@ -124,9 +124,17 @@ typedef struct s_csg_leaf
 	t_u_shape		shape;
 
 	t_rgb			rgb;
+<<<<<<< HEAD
 	double			reflect;
 	double			refract;
 }t_leaf;
+=======
+	float			reflect;
+	float			refract;
+	// more to come
+	// Materials properties
+}t_leave;
+>>>>>>> loris
 
 typedef struct s_csg
 {

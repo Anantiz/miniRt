@@ -42,6 +42,7 @@ void	rtt_render(void *glob_)
 	}
 }
 
+<<<<<<< HEAD
 long my_x = 0;
 long my_y = 0;
 
@@ -69,5 +70,11 @@ void	rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray 
 	mlx_put_pixel(glob->img, x, y, vector_to_color(light_col->cos_angle, &collision->csg->rgb));
 	del_light_col(light_col);
 	del_collision(collision);
-}
+=======
 
+
+void	rtt_render_pixel(t_rgb *rgb, t_glob *glob, int x, int y)
+{
+	mlx_put_pixel(glob->img, x, y, vector_to_color(1, rgb));
+>>>>>>> loris
+}

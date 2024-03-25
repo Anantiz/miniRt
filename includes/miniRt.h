@@ -15,18 +15,24 @@
 // # define WIN_SIZE_Y	1080
 // # define WIN_SIZE_X	960
 // # define WIN_SIZE_Y	540
+<<<<<<< HEAD
 
 // Small for development
+=======
+>>>>>>> loris
 // # define WIN_SIZE_X	640
 // # define WIN_SIZE_Y	360
 # define WIN_SIZE_X	320
 # define WIN_SIZE_Y	180
+<<<<<<< HEAD
 
 // Micro window for real-time rendering (we don't have GPU)
 // # define WIN_SIZE_X	160
 // # define WIN_SIZE_Y	90
 // # define WIN_SIZE_X	80
 // # define WIN_SIZE_Y	45
+=======
+>>>>>>> loris
 
 # define DEFAULT_LUMEN		1000
 # define DEFAULT_INTENSITY	0.6
@@ -97,7 +103,7 @@ void				cptn_hook_key(mlx_key_data_t keydata, void *glob_);
 /* Rendering : Public*/
 
 void				rtt_render(void *glob_);
-void				rtt_render_pixel(t_glob *glob, t_collision *collision, int x, int y, t_ray *ray);
+void				rtt_render_pixel(t_rgb *rgb, t_glob *glob, int x, int y);
 
 /* DEBUG */
 

@@ -48,7 +48,7 @@ HOOK_FILES:=CaptainHook.c
 SRC_FILES+=			$(addprefix $(HOOK_PATH)/,$(HOOK_FILES))
 
 RAY_PATH:=ray
-RAY_FILES:=ray_gun.c
+RAY_FILES:=ray_gun.c ray_bounce.c
 SRC_FILES+=			$(addprefix $(RAY_PATH)/,$(RAY_FILES))
 
 RENDER_PATH:=Reindeer
