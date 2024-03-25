@@ -124,17 +124,9 @@ typedef struct s_csg_leaf
 	t_u_shape		shape;
 
 	t_rgb			rgb;
-<<<<<<< HEAD
 	double			reflect;
 	double			refract;
 }t_leaf;
-=======
-	float			reflect;
-	float			refract;
-	// more to come
-	// Materials properties
-}t_leave;
->>>>>>> loris
 
 typedef struct s_csg
 {
@@ -251,16 +243,6 @@ t_vector *ray_dir, double r);
 double				cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, \
 double r, double h);
 void				collider_cylinder_norm(t_collision *col, t_ray *ray);
-
-/* Helpers, should kina be in vector.h ... */
-
-void				rotate_ellipse(double *rx, double *ry, double angle_x, \
-double angle_z);
-void				rotate_circle(double r, t_pair_double *sr, double angle_x, \
-double angle_z);
-bool				ellipse_intersection(t_pair_double *sr, t_vector *sc, \
-t_ray *ray);
-
 
 /* Trash */
 

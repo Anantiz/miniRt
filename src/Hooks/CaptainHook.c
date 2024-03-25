@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:16:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/25 01:04:36 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 11:35:33 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void rotate_camera(t_glob *g, t_vector *camera_dir, t_vector *dir, int di
 
 static void roll_camera(t_glob *g, t_camera *cam, int dir_sign)
 {
+	(void)cam;
+	(void)dir_sign;
 	if (g->update == true) // We don't want to move the camera while rendering
 		return ;
 	g->update = true;

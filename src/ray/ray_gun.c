@@ -20,25 +20,6 @@ void	normalize_coordinates(float *u, float *v, int x, int y)
 	// *v = (tmp * sin(angle) + (*v) * cos(angle))  * (aspect_ratio_x);
 }
 
-t_ray	*new_ray(t_camera *camera, int x, int y)
-{
-	static t_screen	*screen;
-	static bool		init = false;
-	t_ray			*ray;
-	float			u, v;
-
-	if (!init)
-	{
-		screen = field_of_view(camera->fov);
-		init = true;
-	}
-	normalize_coordinates(&u, &v, x, y);
-	ray = our_malloc(sizeof(t_ray));
-	ray->pos = camera->pos;
-	ray->dir = ray_dir(camera, screen, u, v);
-	return (ray);
-}
-
 t_screen	*field_of_view(float fov)
 {
 	static const float	aspect_ratio = (float)WIN_SIZE_X / (float)WIN_SIZE_Y;
@@ -54,40 +35,50 @@ t_screen	*field_of_view(float fov)
 
 t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 {
-	t_vector	*ray_direction;
-	t_vector	*fov_factor;
+	t_vector	ray_direction;
+	t_vector	fov_factor;
+	t_vector	tmp;
 
 	// We want to have the ray go farther/closer depending on the fov
-	fov_factor = vec_add(vec_mult(screen->width_factor * u, camera->right), \
-							vec_mult(screen->height_factor * v, camera->up));
+	fov_factor = vmult(camera->right, screen->width_factor * u);
+	tmp = vmult(camera->up, screen->height_factor * v);
+	vec_add_inplace(&fov_factor, &tmp);
 
-	ray_direction = vec_add(camera->dir, fov_factor);
-	our_free(fov_factor);
-	vec_normalize(ray_direction);
-	return (ray_direction);
+	ray_direction = vadd(camera->dir, &fov_factor);
+	vec_normalize(&ray_direction);
+	return (vec_copy(&ray_direction));
+}
+
+void	new_ray(t_camera *camera, int x, int y, t_ray *ray)
+{
+	static t_screen	*screen = NULL;
+	float			u;
+	float			v;
+
+	if (!screen)
+		screen = field_of_view(camera->fov);
+	normalize_coordinates(&u, &v, x, y);
+	ray->dir = ray_dir(camera, screen, u, v);
 }
 
 void	ray_tracing(t_glob *glob)
 {
-	t_ray		*ray;
-	t_rgb		rgb;
-	int			x;
-	int			y;
+	t_ray	ray;
+	t_rgb	rgb;
+	int		x;
+	int		y;
 
-	x = 0;
-	while (x < WIN_SIZE_X)
+	x = -1;
+	while (++x < WIN_SIZE_X)
 	{
-		y = 0;
-		while (y < WIN_SIZE_Y)
+		y = -1;
+		while (++y < WIN_SIZE_Y)
 		{
-			ray = new_ray(glob->camera, x, y);
-			rgb = trace_ray(ray, glob->scene, 1);
+			ray.pos = glob->camera->pos;
+			new_ray(glob->camera, x, y, &ray);
+			rgb = trace_ray(&ray, glob->scene, 3);
 			rtt_render_pixel(&rgb, glob, x, y);
-			our_free(ray->dir);
-			our_free(ray);
-			y++;
+			our_free(ray.dir);
 		}
-		x++;
 	}
-
 }
