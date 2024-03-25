@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:26:07 by loris             #+#    #+#             */
-/*   Updated: 2024/03/25 11:18:38 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 11:22:08 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,12 @@ t_rgb	color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee
 	result = vec_rgb(rgb->r + colorReflechie->r + colorRefractee->r, \
 		rgb->g + colorReflechie->g + colorRefractee->g, \
 		rgb->b + colorReflechie->b + colorRefractee->b);
-
+	if (result.r > 255)
+		result.r = 255;
+	if (result.g > 255)
+		result.g = 255;
+	if (result.b > 255)
+		result.b = 255;
 	return (result);
 }
 
