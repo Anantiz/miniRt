@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 16:23:33 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/25 11:34:45 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 12:21:23 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,7 @@ static t_collision	*get_closest_collision(t_collision **collisions, int count)
 }
 
 /*
-Note:
-	This function does update the `lumen' field of the ray
-	based on the distance between the ray's origin and the colision point
-	and returns a NULL colision if the lumen is 0 (too far)...
-Return:
-	No collision found
-		-> NULL
-	Collision found
-		-> t_colision
+
 */
 t_collision	*query_collision(t_scene *scene, t_ray *ray)
 {
