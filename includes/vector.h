@@ -81,7 +81,7 @@ t_vector			mtx_rotate_x(t_vector *v, float angle);
 t_vector			mtx_rotate_y(t_vector *v, float angle);
 t_vector			mtx_rotate_z(t_vector *v, float angle);
 
-// Shitty onces
+// Shitty ones
 t_vector			*vec_matrix_rotate(t_vector *v, double theta[3]);
 t_vector			*vec_matrix_rev_rotate(t_vector *v, double theta[3]);
 void				vec_allign_zaxis(double theta[3], t_vector *v);

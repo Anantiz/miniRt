@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:53 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/24 22:11:37 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 23:31:30 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_csg	*obj_new_sphere(t_object *obj, char **params)
 		return (NULL);
 	pr_params[0] = params[0]; // size
 	pr_params[1] = params[1]; // color
-	pr_params[3] = NULL;
+	pr_params[2] = NULL;
 	sphere = pr_new_sphere((t_vector[2]){obj->pos, obj->dir}, pr_params);
 	our_free(pr_params);
 	if (!sphere)

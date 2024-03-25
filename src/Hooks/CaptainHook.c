@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:16:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/24 19:41:11 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 01:04:36 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ static void rotate_camera(t_glob *g, t_vector *camera_dir, t_vector *dir, int di
 	// TO DO: Update the right and up vectors
 	// camera_update_right_up(g->camera);
 }
+
+static void roll_camera(t_glob *g, t_camera *cam, int dir_sign)
+{
+	if (g->update == true) // We don't want to move the camera while rendering
+		return ;
+	g->update = true;
+
+	// TO DO:MAKE A FUNCTION TO ROTATE A VECTOR AROUND ANOTHER VECTOR
+	// cam->up = vec_matrix_rotate(cam->up, cam->dir, dir_sign * M_PI_4);
+	// cam->right = vec_matrix_rotate(cam->right, cam->dir, dir_sign * M_PI_4);
+}
+
 
 static void	cptn_hook_key2(t_glob *glob, mlx_key_data_t keydata);
 
@@ -86,7 +98,7 @@ static void	cptn_hook_key2(t_glob *glob, mlx_key_data_t keydata)
 		rotate_camera(glob, glob->camera->dir, glob->camera->up, 1);
 	// Rotate roll
 	else if (keydata.key == MLX_KEY_Q)
-		rotate_camera(glob, glob->camera->right, glob->camera->dir, -1);
+		roll_camera(glob, glob->camera, -1);
 	else if (keydata.key == MLX_KEY_E)
-		rotate_camera(glob, glob->camera->right, glob->camera->dir, 1);
+		roll_camera(glob, glob->camera, 1);
 }

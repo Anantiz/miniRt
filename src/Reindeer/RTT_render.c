@@ -28,6 +28,17 @@ void	rtt_render(void *glob_)
 		ft_printf("\033[32mRendering done\033[0m\n");
 		glob->update = false; // Done rendering
 		glob->tick++;
+
+			printf("Camera:\n");
+			printf("\tPos:        ");
+			print_vector(glob->camera->pos);
+			printf("\tDir:        ");
+			print_vector(glob->camera->dir);
+			printf("\tRight_normal: ");
+			print_vector(glob->camera->right);
+			printf("\tUp_normal:    ");
+			print_vector(glob->camera->up);
+			printf("\n");
 	}
 }
 

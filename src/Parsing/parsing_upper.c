@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:28:30 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/24 23:14:49 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/24 23:26:42 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ bool	parse_camera(t_glob *glob, char **line_tokens)
 	camera->dir = our_malloc(sizeof(t_vector));
 	if (!parse_position(camera->pos, line_tokens[1]))
 		return (parse_error_msg(ERROR_PARSE_POS, NULL), FAILURE);
-	if (!parse_orientation(camera->dir, line_tokens[2]))
-		return (parse_error_msg(ERROR_PARSE_ROT, NULL), FAILURE);
-	if (camera->dir->x == 0 && camera->dir->y == 0 \
-	&& camera->dir->z == 0)
-		return (parse_error_msg(ERROR_PARSE_ROT, NULL), FAILURE);
-	vec_normalize(camera->dir);
 	if (!parse_int(line_tokens[3], &camera->fov) || camera->fov <= 0 || camera->fov > 180)
 		return (parse_error_msg(ERROR_PARSE_FOV, NULL), FAILURE);
+
+	if (!parse_orientation(camera->dir, line_tokens[2]))
+		return (parse_error_msg(ERROR_PARSE_ROT, NULL), FAILURE);
+	vec_normalize(camera->dir);
+	if (vec_cmp(camera->dir, &(t_vector){0, 0, 0}))
+		return (parse_error_msg(ERROR_PARSE_ROT, NULL), FAILURE);
 	parse_camera_vectors(camera);
 
 
