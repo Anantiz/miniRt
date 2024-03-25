@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/24 23:04:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:26:02 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_csg	*pr_new_cylinder(t_vector coordinates[2], char **params)
 	* cy->l->shape.cylinder.r;
 	if (!parse_rgb(&cy->l->rgb, params[2]))
 		return (NULL);
-	cy->l->reflect = 0;
+	cy->l->reflect = 1.5;
 	cy->l->refract = 0;
 	return (cy);
 }

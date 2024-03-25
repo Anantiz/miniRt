@@ -23,18 +23,10 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 
 uint32_t vector_to_color(float k, t_rgb *color)
 {
-	// Increase the brightness, for debug purposes
-	// if (k != 0)
-	// {
-	// 	k += k/4.0f;
-	// 	if (k > 1.0f)
-	// 		k = 1.0f;
-	// }
 	// k = 1.0f; // Because angle with cylwinder is not working yet
 	uint8_t r = (uint8_t)(color->r * k);
 	uint8_t g = (uint8_t)(color->g * k);
 	uint8_t b = (uint8_t)(color->b * k);
-	// uint8_t a = 255.0f * k;
 	uint8_t a = 255;
 
 	uint32_t color_ = (r << 24) | (g << 16) | (b << 8) | a;

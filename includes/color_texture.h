@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:06:52 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/25 14:49:00 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:17:34 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@
 
 typedef struct s_rgb
 {
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
 }t_rgb;
 
 /*

@@ -9,11 +9,12 @@ static inline void	del_ray(t_ray *ray)
 t_vector	*ray_flect(t_ray *ray, t_vector *normal)
 {
 	float		dot;
-	t_vector	*new_ray;
+	t_vector	*reflect;
 
 	dot = vec_dot_product(ray->dir, normal);
-	new_ray = vec_sub(ray->dir, vec_mult((2 * dot), normal));
-	return (new_ray);
+	reflect = vec_sub(ray->dir, vec_mult((2 * dot), normal));
+	vec_normalize(reflect);
+	return (reflect);
 }
 
 bool	ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector **refract)
@@ -24,7 +25,7 @@ bool	ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector *
 
 	vec_normalize(ray);
 	vec_normalize(normal);
-	cosi = vec_dot_product(ray, normal);
+	cosi = -vec_dot_product(ray, normal);
 	if (cosi < -1.0)
 		cosi = -1.0;
 	else if (cosi > 1.0)
@@ -37,8 +38,9 @@ bool	ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector *
 	}
 	cost = sqrt(1.0 - sin2t);
 	t_vector	*tmp = vec_mult(indice_refract * cosi - cost, normal);
-	*refract = vec_add_inplace(vec_mult(indice_refract, ray), tmp);
-	our_free(tmp);
+	t_vector	tmp2 = vmult(ray, indice_refract);
+	*refract = vec_add_inplace(tmp, &tmp2);
+	vec_normalize(*refract);
 	return (true);
 }
 
@@ -48,29 +50,18 @@ t_rgb	color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee
 	t_rgb	reflectColor;
 	t_rgb	refractColor;
 
-	(void)refract;
 	reflectColor = vec_rgb(\
 		colorReflechie->r * reflect, \
 		colorReflechie->g * reflect, \
 		colorReflechie->b * reflect);
-
 	refractColor = vec_rgb(\
-		colorRefractee->r * reflect, \
-		colorRefractee->g * reflect, \
+		colorRefractee->r * refract, \
+		colorRefractee->g * refract, \
 		colorRefractee->b * refract);
-
 	result = vec_rgb(\
 		rgb->r + reflectColor.r + refractColor.r, \
 		rgb->g + reflectColor.g + refractColor.g, \
 		rgb->b + reflectColor.b + refractColor.b);
-
-	// Cap the color to 255
-	if (result.r > 255)
-		result.r = 255;
-	if (result.g > 255)
-		result.g = 255;
-	if (result.b > 255)
-		result.b = 255;
 	return (result);
 }
 t_rgb	rgb_mult(t_rgb *rgb, float mult)
@@ -96,6 +87,7 @@ void	colorLocal(t_collision *collision, t_ray *ray)
 	}
 	else
 	{
+		// light_col->cos_angle = 1;
 		rgb = rgb_mult(&collision->csg->rgb, light_col->cos_angle);
 		del_light_col(light_col);
 	}
@@ -126,24 +118,22 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth)
 		return (vec_rgb(0, 0, 0));
 	col = query_collision(scene, ray);
 	if (!col)
-		return (vec_rgb(35, 35, 35));
+		return (vec_rgb(10, 10, 10));
 	ray_flection = our_malloc(sizeof(t_ray));
 	ray_fraction = our_malloc(sizeof(t_ray));
 	colorReflechie = vec_rgb(0, 0, 0);
 	colorRefractee = vec_rgb(0, 0, 0);
 	colorLocal(col, ray);
 
-	col->csg->reflect = 1;
-	col->csg->refract = 1;
 
-	if (col->csg->reflect > 0 && depth > 0)
+	if (depth > 0)
 	{
 		ray_flection->pos = vec_copy(&col->point);
 		ray_flection->dir = ray_flect(ray, &col->norm);
 		colorReflechie = trace_ray(ray_flection, scene, depth - 1);
 	}
 
-	if (col->csg->refract > 0 && depth > 0)
+	if (depth > 0)
 	{
 		ray_fraction->pos = vec_copy(&col->point);
 		if (ray_fract(&col->norm, ray->dir, col->csg->refract, &ray_fraction->dir))

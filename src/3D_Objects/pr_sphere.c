@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:58:04 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/24 22:16:10 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:25:55 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_csg	*pr_new_sphere(t_vector coordinates[2], char **params)
 	if (!parse_rgb(&sphere->l->rgb, params[1]))
 		return (NULL);
 	sphere->l->reflect = 0;
-	sphere->l->refract = 0;
+	sphere->l->refract = 1.5;
 	return (sphere);
 }
 
