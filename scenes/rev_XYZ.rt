@@ -11,12 +11,12 @@ A 0.2 255,255,255
 # Stands for Camera, param[origin, direction, fov]
 C 0,0,250 0,0,-1 30
 # Stands for spot light, param[origin, intensity, color]
-L 30,5,170 1.0 255,255,255
+L 30,0,270 1.0 255,255,255
 
 # Format : [object, origin, *orientation, {Appropriately : [diameter, height, width]}, color]
 # *orientation is not given for sphere
 
-pl 0,0,-45 1,1,0 60,200,0
+# pl 0,0,-45 1,1,0 60,200,0
 
 sp -100,0,0 15 255,0,0
 sp 100,0,0 15 255,0,0
