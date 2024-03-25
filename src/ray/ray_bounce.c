@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:26:07 by loris             #+#    #+#             */
-/*   Updated: 2024/03/25 11:22:08 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 11:26:06 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,10 @@ void	colorLocal(t_collision *collision, t_ray *ray)
 
 	light_col = query_visible_light(collision->csg, &collision->point, ray->dir);
 	if (!light_col)
-		rgb = vec_rgb(10,10,10);
+		rgb = vec_rgb(10,100,10);
 	else
 	{
-		rgb = vec_rgb(\
-			light_col->cos_angle * collision->csg->rgb.r, \
-			light_col->cos_angle * collision->csg->rgb.g, \
-			light_col->cos_angle * collision->csg->rgb.b);
+		rgb = collision->csg->rgb;
 	}
 	collision->csg->rgb = rgb;
 }
