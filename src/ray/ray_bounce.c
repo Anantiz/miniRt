@@ -6,7 +6,7 @@
 /*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 15:26:07 by loris             #+#    #+#             */
-/*   Updated: 2024/03/21 12:31:16 by lkary-po         ###   ########.fr       */
+/*   Updated: 2024/03/25 10:23:11 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector *
 		cosi = 1.0;
 	sin2t = indice_refract * indice_refract * (1.0 - cosi * cosi);
 	if (sin2t > 1.0)
-		return (false); // reflection toale interne
+		return (false); // reflection totale interne
 	cost = sqrt(1.0 - sin2t);
 	refract = vec_add(vec_mult(indice_refract, ray), vec_mult(indice_refract * cosi - cost, normal));
 	return (true);
@@ -91,9 +91,9 @@ t_rgb	*trace_ray(t_ray *ray, t_scene *scene, int depth)
 	t_rgb		*colorRefractee;
 	t_rgb		*ret;
 
-	ret = NULL;
+	ray_flection = our_malloc(sizeof(t_ray));
+	ray_fraction = our_malloc(sizeof(t_ray));
 	col = query_collision(scene, ray);
-
 	if (depth == 0)
 		return (vec_rgb(0, 0, 0));
 	if (!col)
@@ -103,20 +103,20 @@ t_rgb	*trace_ray(t_ray *ray, t_scene *scene, int depth)
 	colorLocal(col, ray);
 	if (col)
 	{
-		if (col->csg->reflect > 0)
+		col->csg->reflect = 1;
+		col->csg->refract = 1;
+		if (col->csg->reflect > 0 && depth > 0)
 		{
-			ray_flection = NULL;
-			ray_flection->pos = &col->point;
+			ray_flection->pos = vec_copy(&col->point);
 			ray_flection->dir = ray_flect(ray, col->norm);
 			colorReflechie = trace_ray(ray_flection, scene, depth - 1);
 		}
-		if (col->csg->refract > 0)
+		if (col->csg->refract > 0 && depth > 0)
 		{
-			ray_fraction = NULL;
-			ray_fraction->pos = &col->point;
+			ray_fraction->pos = vec_copy(&col->point);
 			if (ray_fract(col->norm, ray->dir, col->csg->refract, ray_fraction->dir))
 			{
-				ray_fraction->pos = &col->point;
+				ray_fraction->pos = vec_copy(&col->point);
 				colorRefractee = trace_ray(ray_fraction, scene, depth - 1);
 			}
 		}

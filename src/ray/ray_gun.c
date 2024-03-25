@@ -81,7 +81,7 @@ void	ray_tracing(t_glob *glob)
 		while (y < WIN_SIZE_Y)
 		{
 			ray = new_ray(glob->camera, x, y);
-			rgb = trace_ray(ray, glob->scene, 5);
+			rgb = trace_ray(ray, glob->scene, 1);
 			rtt_render_pixel(rgb, glob, x, y);
 			our_free(ray->dir);
 			our_free(ray);
