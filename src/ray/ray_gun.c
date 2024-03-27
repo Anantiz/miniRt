@@ -76,7 +76,7 @@ void	ray_tracing(t_glob *glob)
 		{
 			ray.pos = glob->camera->pos;
 			new_ray(glob->camera, x, y, &ray);
-			rgb = trace_ray(&ray, glob->scene, 10);
+			rgb = trace_ray(&ray, glob->scene, 6);
 			rtt_render_pixel(&rgb, glob, x, y);
 			our_free(ray.dir);
 		}

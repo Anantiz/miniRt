@@ -1,6 +1,6 @@
 CC:=cc
 INCLUDE_PATH=./includes
-CFLAGS:=-Wall -Wextra -O3 -pg -I$(INCLUDE_PATH) #-fsanitize=address
+CFLAGS:=-Wall -Wextra -O3 -pg -I$(INCLUDE_PATH) -fsanitize=address -g3
 RM:=rm -rf
 
 NAME:=miniRt

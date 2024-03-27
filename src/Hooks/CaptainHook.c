@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CaptainHook.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkary-po <lkary-po@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:16:39 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/25 11:35:33 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/25 15:26:36 by lkary-po         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void rotate_camera(t_glob *g, t_vector *camera_dir, t_vector *dir, int di
 	camera_dir->x += (dir->x * dir_sign) * CAM_ROTATE_SPEED;
 	camera_dir->y += (dir->y * dir_sign) * CAM_ROTATE_SPEED;
 	camera_dir->z += (dir->z * dir_sign) * CAM_ROTATE_SPEED;
+	vec_normalize(camera_dir);
 	// TO DO: Update the right and up vectors
 	// camera_update_right_up(g->camera);
 }

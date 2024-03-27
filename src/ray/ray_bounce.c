@@ -13,6 +13,7 @@ t_vector	*ray_flect(t_ray *ray, t_vector *normal)
 
 	dot = vec_dot_product(ray->dir, normal);
 	new_ray = vec_sub(ray->dir, vec_mult((2 * dot), normal));
+	// vec_normalize(new_ray);
 	return (new_ray);
 }
 
@@ -24,7 +25,7 @@ bool	ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector *
 
 	vec_normalize(ray);
 	vec_normalize(normal);
-	cosi = vec_dot_product(ray, normal);
+	cosi = -vec_dot_product(ray, normal);
 	if (cosi < -1.0)
 		cosi = -1.0;
 	else if (cosi > 1.0)
@@ -37,7 +38,9 @@ bool	ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector *
 	}
 	cost = sqrt(1.0 - sin2t);
 	t_vector	*tmp = vec_mult(indice_refract * cosi - cost, normal);
-	*refract = vec_add_inplace(vec_mult(indice_refract, ray), tmp);
+	t_vector	*tmp2 = vec_mult(indice_refract, ray);
+	*refract = vec_add_inplace(tmp2, tmp);
+	vec_normalize(*refract);
 	our_free(tmp);
 	return (true);
 }
@@ -48,15 +51,14 @@ t_rgb	color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee
 	t_rgb	reflectColor;
 	t_rgb	refractColor;
 
-	(void)refract;
 	reflectColor = vec_rgb(\
 		colorReflechie->r * reflect, \
 		colorReflechie->g * reflect, \
 		colorReflechie->b * reflect);
 
 	refractColor = vec_rgb(\
-		colorRefractee->r * reflect, \
-		colorRefractee->g * reflect, \
+		colorRefractee->r * refract, \
+		colorRefractee->g * refract, \
 		colorRefractee->b * refract);
 
 	result = vec_rgb(\
@@ -134,7 +136,7 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth)
 	colorLocal(col, ray);
 
 	col->csg->reflect = 1;
-	col->csg->refract = 1;
+	col->csg->refract = 1.5;
 
 	if (col->csg->reflect > 0 && depth > 0)
 	{
