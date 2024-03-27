@@ -43,5 +43,7 @@ t_rgb		color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefracte
 void		colorLocal(t_collision *collision, t_ray *ray);
 t_rgb		trace_ray(t_ray *ray, t_scene *scene, int depth);
 t_rgb		vec_rgb(int32_t x, int32_t y, int32_t z);
+t_rgb		traceray_ret_condition(int	depth);
+void		traceray_init(t_ray **ray_fraction, t_ray **ray_flection, t_rgb *colorReflect, t_rgb *colorRefract);
 
 #endif
