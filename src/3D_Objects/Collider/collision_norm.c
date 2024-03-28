@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:21:42 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/18 13:25:50 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/28 12:25:14 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ typedef void	(*t_collider_norm)(t_collision *, t_ray *);
 void	collision_norm_switch(t_collision *col, t_e_prim type)
 {
 	static const t_collider_norm	map[] = {collider_sphere_norm, \
-	collider_plane_norm, collider_cylinder_norm, NULL};
+	collider_plane_norm, collider_cylinder_norm, collider_cone_norm, NULL};
 	map[type](col, col->ray);
 }

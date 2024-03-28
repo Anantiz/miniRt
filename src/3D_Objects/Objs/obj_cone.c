@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   obj_cylinder.c                                     :+:      :+:    :+:   */
+/*   obj_cone.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 02:10:35 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/28 12:04:08 by aurban           ###   ########.fr       */
+/*   Created: 2024/03/28 12:04:12 by aurban            #+#    #+#             */
+/*   Updated: 2024/03/28 12:36:44 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_3Dshapes.h"
 
-static void	debug_new_cy(t_leaf *cy)
+static void	debug_new_cn(t_leaf *cy)
 {
-	printf("Cylinder created\n");
-	printf("\tCylinder pos:  ");
+	printf("Cone created\n");
+	printf("\nCone pos:  ");
 	print_vector((&cy->pos));
-	printf("\tCylinder dir:  ");
+	printf("\tCone dir:  ");
 	print_vector((&cy->dir));
-	printf("\tCylinder radius:   %f\n", cy->shape.cylinder.r);
-	printf("\tCylinder height:   %f\n", cy->shape.cylinder.h);
-	printf("\tCylinder color:    ");
+	printf("\tCone radius:   %f\n", cy->shape.cylinder.r);
+	printf("\tCone height:   %f\n", cy->shape.cylinder.h);
+	printf("\tCone color:    ");
 	print_rgb(&cy->rgb);
+
 	printf("\n\n");
 }
 
 /*
-pos"x,y,z", dir"x,y,z" (OPTIONALL)
 Format:  "diameter", "height", rgb
 */
-t_csg	*obj_new_cylinder(t_object *obj, char **params)
+t_csg	*obj_new_cone(t_object *obj, char **params)
 {
-	t_csg	*cylinder;
+	t_csg	*cone;
 	char	**pr_params;
 
 	if (ft_strslen(params) != 3)
@@ -42,10 +42,13 @@ t_csg	*obj_new_cylinder(t_object *obj, char **params)
 	pr_params[1] = params[1];// height
 	pr_params[2] = params[2];// color
 	pr_params[3] = NULL;
-	cylinder = pr_new_cylinder((t_vector[2]){obj->pos, obj->dir}, pr_params);
+	cone = pr_new_cone((t_vector[2]){obj->pos, obj->dir}, pr_params);
 	our_free(pr_params);
-	if (!cylinder)
+	static const char		*shape_names[] = {"Sphere", "Plane", "Cylinder", "Cone"};
+	printf("Collision Object: ");
+	printf("%s\n", shape_names[cone->type]);
+	if (!cone)
 		return (NULL);
-	debug_new_cy(cylinder->l);
-	return (cylinder);
+	debug_new_cn(cone->l);
+	return (cone);
 }

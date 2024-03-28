@@ -62,6 +62,7 @@ t_rgb	color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee
 		rgb->r + reflectColor.r + refractColor.r, \
 		rgb->g + reflectColor.g + refractColor.g, \
 		rgb->b + reflectColor.b + refractColor.b);
+
 	return (result);
 }
 t_rgb	rgb_mult(t_rgb *rgb, float mult)
@@ -118,20 +119,16 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth)
 		return (vec_rgb(0, 0, 0));
 	col = query_collision(scene, ray);
 	if (!col)
-		return (vec_rgb(10, 10, 10));
+		return (vec_rgb(0, 0, 0));
 	ray_flection = our_malloc(sizeof(t_ray));
 	ray_fraction = our_malloc(sizeof(t_ray));
 	colorReflechie = vec_rgb(0, 0, 0);
 	colorRefractee = vec_rgb(0, 0, 0);
 	colorLocal(col, ray);
 
-
-	if (depth > 0)
-	{
 		ray_flection->pos = vec_copy(&col->point);
 		ray_flection->dir = ray_flect(ray, &col->norm);
 		colorReflechie = trace_ray(ray_flection, scene, depth - 1);
-	}
 
 	if (depth > 0)
 	{

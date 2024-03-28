@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 08:25:57 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/25 16:26:02 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/28 12:34:32 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ extern bool print_allow;
 int	sample = 0;
 
 #define INTER_CAP_SIDE 1
-#define INTER_CIRLCE_SIDE -1
+#define INTER_CIRCLE_SIDE -1
 
 /*
 Since all calls to this function are made by the parser, we don't need to check
@@ -46,8 +46,7 @@ t_csg	*pr_new_cylinder(t_vector coordinates[2], char **params)
 	cy->l->shape.cylinder.r /= 2;
 	if (!parse_double(params[1], &cy->l->shape.cylinder.h))
 		return (NULL);
-	cy->l->shape.cylinder.r2 = cy->l->shape.cylinder.r \
-	* cy->l->shape.cylinder.r;
+	cy->l->shape.cylinder.r2 = pow(cy->l->shape.cylinder.r, 2);
 	if (!parse_rgb(&cy->l->rgb, params[2]))
 		return (NULL);
 	cy->l->reflect = 1.5;
@@ -86,7 +85,7 @@ static bool	cy_get_t(double t_col[2], t_vector *ray_pos_l, t_vector *rdir_l, dou
 	if (t_col[0] == t_col[1])
 		t_col[1] = INTER_CAP_SIDE;
 	else
-		t_col[1] = INTER_CIRLCE_SIDE;
+		t_col[1] = INTER_CIRCLE_SIDE;
 	return (true);
 }
 
@@ -143,20 +142,6 @@ t_collision			*collider_cylinder(t_object *obj, t_leaf *csg, t_ray *ray)
 	tmp = mtx_rotate_y(&tmp, theta[1]);
 	// Now we have the angles to rotate the cylinder to the z-axis
 
-
-	//Part 1: Convert to local coordinates
-	// if (once < 6)
-	// {
-	// 	t_vector	debug;
-
-	// 	printf("Initial dir:\t %8.2f %8.2f %8.2f\n", csg->dir.x, csg->dir.y, csg->dir.z);
-	// 	printf("\tAngles : %8.2f %8.2f %8.2f\n", theta[0], theta[1], theta[2]);
-	// 	debug = mtx_rotate_x(&csg->dir, theta[0]);
-	// 	printf("\tRx: dir: %8.2f %8.2f %8.2f\n", debug.x, debug.y, debug.z);
-	// 	debug = mtx_rotate_y(&debug, theta[1]);
-	// 	printf("\tRy: dir: %8.2f %8.2f %8.2f\n\n", debug.x, debug.y, debug.z);
-	// 	once++;
-	// }
 	ray_dir_l = mtx_rotate_x(ray->dir, theta[0]);
 	ray_dir_l = mtx_rotate_y(&ray_dir_l, theta[1]);
 

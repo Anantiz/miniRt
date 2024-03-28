@@ -50,8 +50,9 @@ typedef enum e_objtype
 	OBJ_SPHERE,
 	OBJ_PLANE,
 	OBJ_CYLINDER,
+	OBJ_CONE,
 	OBJ_FIGHTER_JET,
-	OBJ_PENGUIN
+	OBJ_PENGUIN,
 }t_e_objt;
 
 // Shapes
@@ -60,6 +61,7 @@ typedef enum e_primitive
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CONE,
 	CUBOID,
 }t_e_prim;
 
@@ -103,6 +105,17 @@ typedef union u_shape // Specific geometric parameters
 		t_vector	norm_w; // The norm of the width is the overall direction
 		t_vector	norm_d;
 	}cuboid;
+
+	struct s_sone
+	{
+		double		r;
+		double		r2;
+		double		h;
+		double		h2;
+		int			norm_side;
+		t_vector	circle_norm; // The non-cap norm
+	}cone;
+
 }t_u_shape;
 
 /*
@@ -201,6 +214,8 @@ t_csg				*csg_new_diff(void);
 t_csg				*pr_new_sphere(t_vector coordinates[2], char **params);
 t_csg				*pr_new_plane(char *color); // Special case ... idk how to handle it cleanly, i guess just a Null shape
 t_csg				*pr_new_cylinder(t_vector coordinates[2], char **params);
+t_csg				*pr_new_cone(t_vector coordinates[2], char **params);
+
 
 // CSG constructors : Public
 // Return the root of the CSG tree
@@ -210,6 +225,7 @@ t_csg				*obj_new_plane(t_object *obj, char **params); // Special case ... idk h
 t_csg				*obj_new_cylinder(t_object *obj, char **params);
 t_csg				*obj_new_fighter_jet(t_object *obj, char **params);
 t_csg				*obj_new_penguin(t_object *obj, char **params);
+t_csg				*obj_new_cone(t_object *obj, char **params);
 
 /* Coliders : Private */
 
@@ -228,22 +244,24 @@ double t);
 
 // Individual colliders + Norms
 
+// SPHERE
 t_collision			*collider_sphere(t_object *obj, t_leaf *csg, t_ray *ray);
 void				collider_sphere_norm(t_collision *col, t_ray *ray);
-
+// PLANE
 t_collision			*collider_plane(t_object *obj, t_leaf *csg, t_ray *ray);
 double	plane_intersection(t_vector *plane_pos, t_vector *plane_norm, t_vector \
 *ray_pos, t_vector *ray_dir);
-
-
 void				collider_plane_norm(t_collision *col, t_ray *ray);
-
+// CYLINDER
 t_collision			*collider_cylinder(t_object *obj, t_leaf *csg, t_ray *ray);
 double				cy_circle_intersection(t_vector *ray_pos, \
-t_vector *ray_dir, double r);
+t_vector *ray_dir, double r2);
 double				cy_cap_intersection(t_vector *ray_pos, t_vector *ray_dir, \
-double r, double h);
+double r2, double h);
 void				collider_cylinder_norm(t_collision *col, t_ray *ray);
+// CONE
+t_collision			*collider_cone(t_object *obj, t_leaf *csg, t_ray *ray);
+void				collider_cone_norm(t_collision *col, t_ray *ray);
 
 /* Trash */
 

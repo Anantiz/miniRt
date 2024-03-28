@@ -45,15 +45,7 @@ void	rtt_render(void *glob_)
 void	rtt_render_pixel(t_rgb *rgb, t_glob *glob, int x, int y)
 {
 	// Scale `rgb' to be in the range [0, 255]
-	int32_t	largest;
 
-	largest = ft_max(rgb->r, ft_max(rgb->g, rgb->b));
-	if (largest > 255)
-	{
-		rgb->r = (rgb->r * 255) / largest;
-		rgb->g = (rgb->g * 255) / largest;
-		rgb->b = (rgb->b * 255) / largest;
-	}
 
 
 

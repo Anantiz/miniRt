@@ -31,11 +31,13 @@ COLLIDER_FILES:=collider2.c collider.c collision_norm.c csg_utils.c
 SRC_FILES+=			$(addprefix $(COLLIDER_PATH)/,$(COLLIDER_FILES))
 
 _OBJS_PATH:=3D_Objects/Objs
-_OBJS_FILES:=obj_sphere.c obj_plane.c obj_cylinder.c obj_penguin.c obj_fighter_jet.c
+_OBJS_FILES:=obj_sphere.c obj_plane.c obj_cylinder.c obj_penguin.c obj_fighter_jet.c\
+obj_cone.c
 SRC_FILES+=			$(addprefix $(_OBJS_PATH)/,$(_OBJS_FILES))
 
 3D_OBJ_PATH:=3D_Objects
-3D_OBJ_FILES:=_3Dobj.c pr_sphere.c pr_plane.c pr_cylinder.c pr_2D_helpers.c
+3D_OBJ_FILES:=_3Dobj.c pr_sphere.c pr_plane.c pr_cylinder.c pr_helpers.c \
+pr_cone.c
 SRC_FILES+=			$(addprefix $(3D_OBJ_PATH)/,$(3D_OBJ_FILES))
 
 PARSE_PATH:=Parsing

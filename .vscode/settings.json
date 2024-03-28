@@ -9,6 +9,7 @@
 		"color_texture.h": "c",
 		"stdio.h": "c",
 		"_3dshapes.h": "c",
-		"*.tcc": "c"
+		"*.tcc": "c",
+		"random": "c"
 	}
 }

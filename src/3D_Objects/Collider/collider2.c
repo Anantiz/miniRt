@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 16:43:19 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/24 22:08:39 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/28 12:08:08 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef t_collision	*(*t_collider)(t_object *,t_leaf *, t_ray *);
 t_collision	*collider_switch(t_object *obj, t_ray *ray, t_csg *csg)
 {
 	static const t_collider	map[] = {collider_sphere, collider_plane, \
-	collider_cylinder, NULL};
+	collider_cylinder, collider_cone, NULL};
 	return (map[csg->l->type](obj, csg->l, ray));
 }
 

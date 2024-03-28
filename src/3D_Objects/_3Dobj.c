@@ -6,7 +6,7 @@
 /*   By: aurban <aurban@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 02:01:03 by aurban            #+#    #+#             */
-/*   Updated: 2024/03/24 22:21:47 by aurban           ###   ########.fr       */
+/*   Updated: 2024/03/28 12:38:55 by aurban           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef t_csg	*(*t_constructor)(t_object *obj, char **params);
 static t_csg	*new_csg_tree(t_object *obj, t_e_objt stypes, char **params)
 {
 	static const t_constructor	constructors[] = {obj_new_sphere, obj_new_plane, \
-	obj_new_cylinder, obj_new_fighter_jet, obj_new_penguin};
+	obj_new_cylinder, obj_new_cone, obj_new_fighter_jet, obj_new_penguin};
 
 	return (constructors[stypes](obj, params));
 }
@@ -53,8 +53,8 @@ Thirdly:
 */
 t_object	*new_object(char **params)
 {
-	static const char		*types[] = {"sp", "pl", "cy", "csg_fj", "csg_peng", NULL};
-	static const t_e_objt	stypes[] = {OBJ_SPHERE, OBJ_PLANE, OBJ_CYLINDER,OBJ_FIGHTER_JET, OBJ_PENGUIN};
+	static const char		*types[] = {"sp", "pl", "cy", "cn", "csg_fj", "csg_peng", NULL};
+	static const t_e_objt	stypes[] = {OBJ_SPHERE, OBJ_PLANE, OBJ_CYLINDER, OBJ_CONE, OBJ_FIGHTER_JET, OBJ_PENGUIN};
 	t_object				*obj;
 	int						i;
 
