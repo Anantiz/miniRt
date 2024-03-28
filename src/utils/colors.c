@@ -23,10 +23,11 @@ uint32_t	rgb_to_uint(t_rgb *rgb)
 
 uint32_t vector_to_color(float k, t_rgb *color)
 {
+
 	int32_t	largest;
 
 	largest = ft_max(color->r, ft_max(color->g, color->b));
-	if (largest > 255)
+	if(largest > 255)
 	{
 		color->r = (color->r * 255) / largest;
 		color->g = (color->g * 255) / largest;

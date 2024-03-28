@@ -1,6 +1,6 @@
 CC:=cc
 INCLUDE_PATH=./includes
-CFLAGS:=-Wall -Wextra -O3 -pg -I$(INCLUDE_PATH) #-fsanitize=address
+CFLAGS:=-Wall -Wextra -O3 -pg -I$(INCLUDE_PATH) #-fsanitize=address -g3
 RM:=rm -rf
 
 NAME:=miniRt
@@ -50,7 +50,7 @@ HOOK_FILES:=CaptainHook.c
 SRC_FILES+=			$(addprefix $(HOOK_PATH)/,$(HOOK_FILES))
 
 RAY_PATH:=ray
-RAY_FILES:=ray_gun.c ray_bounce.c
+RAY_FILES:=ray_gun.c ray_bounce.c  ray_bounce_utils.c ray_bounce_utils2.c
 SRC_FILES+=			$(addprefix $(RAY_PATH)/,$(RAY_FILES))
 
 RENDER_PATH:=Reindeer

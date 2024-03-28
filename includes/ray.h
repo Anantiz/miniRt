@@ -38,11 +38,14 @@ t_vector	*hit_point_to_color(t_collision *collision, t_ray *ray);
 /* RAY BOUNCE */
 
 t_vector	*ray_flect(t_ray *ray, t_vector *normal);
-bool		ray_fract(t_vector *normal, t_vector *ray, float indice_refract, t_vector **refract);
+bool		ray_fract(t_collision *col, t_vector *ray, float indice_refract, t_ray *refract);
 t_rgb		color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee, float refract, float reflect);
-void		colorLocal(t_collision *collision, t_ray *ray);
-t_rgb trace_ray(t_ray *ray, t_scene *scene, int depth);
-void NewFunction(t_collision *col);
-t_rgb vec_rgb(int32_t x, int32_t y, int32_t z);
+void		colorlocal(t_collision *collision, t_ray *ray);
+t_rgb		trace_ray(t_ray *ray, t_scene *scene, int depth, t_rgb ret);
+t_rgb		vec_rgb(int32_t x, int32_t y, int32_t z);
+t_rgb		traceray_ret_condition(int	depth);
+void		traceray_init(t_ray **ray_fraction, t_ray **ray_flection, t_rgb *colorReflect, t_rgb *colorRefract);
+bool		reflect_ray(int depth, t_ray *ray_flection, t_collision *col, t_ray *ray);
+t_vector	*refract_calculation(t_vector *tmp, float indice_refract, t_vector *ray);
 
 #endif
