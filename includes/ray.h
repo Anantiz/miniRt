@@ -45,5 +45,6 @@ t_rgb		trace_ray(t_ray *ray, t_scene *scene, int depth);
 t_rgb		vec_rgb(int32_t x, int32_t y, int32_t z);
 t_rgb		traceray_ret_condition(int	depth);
 void		traceray_init(t_ray **ray_fraction, t_ray **ray_flection, t_rgb *colorReflect, t_rgb *colorRefract);
+bool		reflect_ray(int depth, t_ray *ray_flection, t_collision *col, t_ray *ray);
 
 #endif

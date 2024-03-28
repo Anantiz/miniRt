@@ -70,13 +70,6 @@ t_rgb	color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee
 		rgb->g + reflectColor.g + refractColor.g, \
 		rgb->b + reflectColor.b + refractColor.b);
 
-	// Cap the color to 255
-	if (result.r > 255)
-		result.r = 255;
-	if (result.g > 255)
-		result.g = 255;
-	if (result.b > 255)
-		result.b = 255;
 	return (result);
 }
 
@@ -133,23 +126,33 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth)
 	colorLocal(col, ray);
 	col->csg->reflect = 1;
 	col->csg->refract = 0.2;
-	if (col->csg->reflect > 0 && depth > 0)
-	{
-		ray_flection->pos = vec_copy(&col->point);
-		ray_flection->dir = ray_flect(ray, &col->norm);
+	if (col->csg->reflect > 0 && reflect_ray(depth, ray_flection, col, ray))
 		colorReflect = trace_ray(ray_flection, scene, depth - 1);
-	}
 	if (col->csg->refract > 0 && depth > 0)
 	{
-		ray_fraction->pos = vec_copy(&col->point);
 		if (ray_fract(&col->norm, ray->dir, col->csg->refract, &ray_fraction->dir))
+		{
+			ray_fraction->pos = vec_copy(&col->point);
 			colorRefract = trace_ray(ray_fraction, scene, depth - 1);
+		}
 	}
 	ret = color_combination(&col->rgb, &colorReflect, &colorRefract, col->csg->reflect, col->csg->refract);
 	del_ray(ray_flection);
 	del_ray(ray_fraction);
 	del_collision(col);
 	return (ret);
+}
+
+
+bool	reflect_ray(int depth, t_ray *ray_flection, t_collision *col, t_ray *ray)
+{
+	if (depth > 0)
+	{
+		ray_flection->pos = vec_copy(&col->point);
+		ray_flection->dir = ray_flect(ray, &col->norm);
+		return (true);
+	}
+	return (false);
 }
 
 t_rgb	traceray_ret_condition(int	depth)

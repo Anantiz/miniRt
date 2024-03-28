@@ -9,7 +9,7 @@
 # Stands for Ambiant light, param[intensity, color]
 A 0.2 255,255,255
 
-C 0,0,150 0,0,-1 35
+C 0,0,80 0,0,-1 35
 L 0,0,450 1.0 255,255,255
 
 # C 450,0,0 -1,0,0 35
