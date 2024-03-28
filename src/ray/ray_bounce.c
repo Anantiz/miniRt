@@ -122,7 +122,6 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth)
 	t_collision	*col;
 	t_ray		*ray_fraction;
 	t_ray		*ray_flection;
-
 	t_rgb		colorReflect;
 	t_rgb		colorRefract;
 	t_rgb		ret;
@@ -132,24 +131,19 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth)
 		return (traceray_ret_condition(depth));
 	traceray_init(&ray_fraction, &ray_flection, &colorReflect, &colorRefract);
 	colorLocal(col, ray);
-
 	col->csg->reflect = 1;
 	col->csg->refract = 0.2;
-
 	if (col->csg->reflect > 0 && depth > 0)
 	{
 		ray_flection->pos = vec_copy(&col->point);
 		ray_flection->dir = ray_flect(ray, &col->norm);
 		colorReflect = trace_ray(ray_flection, scene, depth - 1);
 	}
-
 	if (col->csg->refract > 0 && depth > 0)
 	{
 		ray_fraction->pos = vec_copy(&col->point);
 		if (ray_fract(&col->norm, ray->dir, col->csg->refract, &ray_fraction->dir))
-		{
 			colorRefract = trace_ray(ray_fraction, scene, depth - 1);
-		}
 	}
 	ret = color_combination(&col->rgb, &colorReflect, &colorRefract, col->csg->reflect, col->csg->refract);
 	del_ray(ray_flection);
