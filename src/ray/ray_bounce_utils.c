@@ -14,6 +14,14 @@ t_rgb	color_combination(t_rgb *rgb, t_rgb *color_reflechie, t_rgb *color_refract
 		color_refractee->r * refract, \
 		color_refractee->g * refract, \
 		color_refractee->b * refract);
+	// if (reflect == 1)
+	// {
+	// 	result = vec_rgb(\
+	// 	reflect_color.r + refract_color.r, \
+	// 	reflect_color.g + refract_color.g, \
+	// 	reflect_color.b + refract_color.b);
+	// 	return (result);
+	// }
 	result = vec_rgb(\
 		rgb->r + reflect_color.r + refract_color.r, \
 		rgb->g + reflect_color.g + refract_color.g, \

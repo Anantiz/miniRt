@@ -27,9 +27,12 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth, t_rgb ret)
 					col->csg->refract, ray_fraction))
 		color_refract = trace_ray(ray_fraction, scene, depth - 1, (t_rgb) {0, 0, 0});
 	ret = color_combination(&col->rgb, &color_reflect, &color_refract, \
-					col->csg->reflect, col->csg->refract);
+					col->csg->refract, col->csg->reflect);
 	del_ray(ray_flection);
 	del_ray(ray_fraction);
 	del_collision(col);
 	return (ret);
 }
+
+// if reflection == 1 dont calculate wiht colorlocale
+//	add the distance factor to the color combination
