@@ -11,5 +11,5 @@ Return:
 */
 double	update_lumen_distance(double distance, double lumen)
 {
-	return (lumen = (1 / (distance * distance)));
+	return (lumen *= (1 / (distance * distance)));
 }

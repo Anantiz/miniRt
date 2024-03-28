@@ -9,6 +9,7 @@ t_vector	*ray_flect(t_ray *ray, t_vector *normal)
 	dot = vec_dot_product(ray->dir, normal);
 	tmp = vec_mult((2 * dot), normal);
 	new_ray = vec_sub(ray->dir, tmp);
+	our_free(tmp);
 	return (new_ray);
 }
 
@@ -53,7 +54,7 @@ t_rgb	traceray_ret_condition(int depth)
 {
 	if (depth == 0)
 		return (vec_rgb(0, 0, 0));
-	return (vec_rgb(35, 35, 35));
+	return (vec_rgb(0, 0, 0));
 }
 
 void	traceray_init(t_ray **ray_fraction, t_ray **ray_flection, \

@@ -17,10 +17,10 @@ t_rgb	trace_ray(t_ray *ray, t_scene *scene, int depth, t_rgb ret)
 	col = query_collision(scene, ray);
 	if (!depth || !col)
 		return (traceray_ret_condition(depth));
-	traceray_init(&ray_fraction, &ray_flection, &color_reflect, &color_refract);
-	colorlocal(col, ray);
 	col->csg->reflect = 1;
 	col->csg->refract = 0.2;
+	traceray_init(&ray_fraction, &ray_flection, &color_reflect, &color_refract);
+	colorlocal(col, ray);
 	if (col->csg->reflect > 0 && reflect_ray(depth, ray_flection, col, ray))
 		color_reflect = trace_ray(ray_flection, scene, depth - 1, (t_rgb) {0, 0, 0});
 	if (col->csg->refract > 0 && depth > 0 && ray_fract(col, ray->dir, \
