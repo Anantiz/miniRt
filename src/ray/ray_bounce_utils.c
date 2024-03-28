@@ -1,27 +1,23 @@
 #include "../../includes/miniRt.h"
 
-
-t_rgb	color_combination(t_rgb *rgb, t_rgb *colorReflechie, t_rgb *colorRefractee, float refract, float reflect)
+t_rgb	color_combination(t_rgb *rgb, t_rgb *color_reflechie, t_rgb *color_refractee, float refract, float reflect)
 {
 	t_rgb	result;
-	t_rgb	reflectColor;
-	t_rgb	refractColor;
+	t_rgb	reflect_color;
+	t_rgb	refract_color;
 
-	reflectColor = vec_rgb(\
-		colorReflechie->r * reflect, \
-		colorReflechie->g * reflect, \
-		colorReflechie->b * reflect);
-
-	refractColor = vec_rgb(\
-		colorRefractee->r * refract, \
-		colorRefractee->g * refract, \
-		colorRefractee->b * refract);
-
+	reflect_color = vec_rgb(\
+		color_reflechie->r * reflect, \
+		color_reflechie->g * reflect, \
+		color_reflechie->b * reflect);
+	refract_color = vec_rgb(\
+		color_refractee->r * refract, \
+		color_refractee->g * refract, \
+		color_refractee->b * refract);
 	result = vec_rgb(\
-		rgb->r + reflectColor.r + refractColor.r, \
-		rgb->g + reflectColor.g + refractColor.g, \
-		rgb->b + reflectColor.b + refractColor.b);
-
+		rgb->r + reflect_color.r + refract_color.r, \
+		rgb->g + reflect_color.g + refract_color.g, \
+		rgb->b + reflect_color.b + refract_color.b);
 	return (result);
 }
 
@@ -35,7 +31,7 @@ t_rgb	rgb_mult(t_rgb *rgb, float mult)
 	return (result);
 }
 
-void	colorLocal(t_collision *collision, t_ray *ray)
+void	colorlocal(t_collision *collision, t_ray *ray)
 {
 	t_lcol	*light_col;
 	t_rgb	rgb;
@@ -43,7 +39,7 @@ void	colorLocal(t_collision *collision, t_ray *ray)
 	(void)ray;
 	light_col = query_visible_light(collision);
 	if (!light_col)
-		rgb = (t_rgb){0,0,0};
+		rgb = (t_rgb){0, 0, 0};
 	else
 	{
 		rgb = rgb_mult(&collision->csg->rgb, light_col->cos_angle);
@@ -62,7 +58,8 @@ t_rgb	vec_rgb(int32_t x, int32_t y, int32_t z)
 	return (rgb);
 }
 
-t_vector	*refract_calculation(t_vector *tmp, float indice_refract, t_vector *ray)
+t_vector	*refract_calculation(t_vector *tmp, float indice_refract, \
+	t_vector *ray)
 {
 	t_vector	*tmp2;
 	t_vector	*refract;

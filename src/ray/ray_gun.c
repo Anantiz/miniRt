@@ -2,22 +2,9 @@
 
 void	normalize_coordinates(float *u, float *v, int x, int y)
 {
-	// Normalize the screen coordinates to camera coordinates -1 to 1
 	*u = (2 * ((x + 0.5) / WIN_SIZE_X) - 1);
 	*v = 1 - (2 * ((y + 0.5) / WIN_SIZE_Y));
 	*v = -(*v);
-
-//Rotate the camera if we ever need to
-	// static const float aspect_ratio_x = (float)WIN_SIZE_X / (float)WIN_SIZE_Y;
-	// static const float aspect_ratio_y = (float)WIN_SIZE_Y / (float)WIN_SIZE_X;
-	// float	tmp;
-	// float	angle;
-
-	// Adjust the rotation of the camera
-	// tmp = *u;
-	// angle = M_PI / 2;
-	// *u = ((*u) * cos(angle) - (*v) * sin(angle)) * (aspect_ratio_y);
-	// *v = (tmp * sin(angle) + (*v) * cos(angle))  * (aspect_ratio_x);
 }
 
 t_screen	*field_of_view(float fov)
@@ -39,11 +26,9 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 	t_vector	fov_factor;
 	t_vector	tmp;
 
-	// We want to have the ray go farther/closer depending on the fov
 	fov_factor = vmult(camera->right, screen->width_factor * u);
 	tmp = vmult(camera->up, screen->height_factor * v);
 	vec_add_inplace(&fov_factor, &tmp);
-
 	ray_direction = vadd(camera->dir, &fov_factor);
 	vec_normalize(&ray_direction);
 	return (vec_copy(&ray_direction));
@@ -51,7 +36,7 @@ t_vector	*ray_dir(t_camera *camera, t_screen *screen, float u, float v)
 
 void	new_ray(t_camera *camera, int x, int y, t_ray *ray)
 {
-	t_screen	*screen;
+	t_screen		*screen;
 	float			u;
 	float			v;
 
@@ -76,7 +61,7 @@ void	ray_tracing(t_glob *glob)
 		{
 			ray.pos = glob->camera->pos;
 			new_ray(glob->camera, x, y, &ray);
-			rgb = trace_ray(&ray, glob->scene, 3);
+			rgb = trace_ray(&ray, glob->scene, 3, (t_rgb) {0, 0, 0});
 			rtt_render_pixel(&rgb, glob, x, y);
 			our_free(ray.dir);
 		}
